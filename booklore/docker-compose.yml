@@ -1,0 +1,61 @@
+services:
+  mariadb:
+    image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
+    container_name: BookLore-DB
+    security_opt:
+      - no-new-privileges:true
+    hostname: booklore-db
+    environment:
+
+      MARIADB_DATABASE: booklore
+      MARIADB_USER: bookloreuser
+      MARIADB_PASSWORD: booklorepass
+      MARIADB_ROOT_PASSWORD: rootpass
+      TZ: Europe/Dublin
+    # ADD THIS HEALTHCHECK BLOCK:
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - booklore_db_data:/var/lib/mysql # CHANGED: Now using a Named Volume managed by Docker
+      # - /volume2/FastSSD/docker/booklore/db:/var/lib/mysql:rw
+    restart: on-failure:5
+    
+  booklore:
+    image: ghcr.io/booklore-app/booklore:latest
+    container_name: BookLore
+    mem_limit: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 6060 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    environment:
+      USER_ID: 1000
+      GROUP_ID: 10
+      TZ: Europe/Dublin
+      DATABASE_URL: jdbc:mariadb://BookLore-DB:3306/booklore #Or jdbc:mariadb://booklore-db:3306/booklore if you Experience Connection Issues.
+      DATABASE_USERNAME: root
+      DATABASE_PASSWORD: rootpass
+      JAVA_OPTS: -Xmx768m # 2. ADDED JAVA_OPTS HERE (indented to match the other variables)
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - 6060:6060
+    volumes:
+      # KEEPING THESE AS BIND MOUNTS (Easier for you to access/backup)
+      - /volume2/FastSSD/docker/booklore/data:/app/data:rw
+      # CHANGE THIS LINE: Add ':ro' at the end
+      - /volume1/SlowHDD/books:/books:ro
+      # THIS LINE MUST BE PRESENT AND ':rw':
+      - /volume2/FastSSD/docker/booklore/bookdrop:/bookdrop:rw #Files inside the bookdrop folder are automatically detected.
+    restart: on-failure:5
+
+# NEW SECTION: Define the volume
+volumes:
+  booklore_db_data:

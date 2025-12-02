@@ -1,0 +1,28 @@
+services:
+  duplicati:
+    image: ghcr.io/linuxserver/duplicati:latest
+    container_name: duplicati
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:unconfined
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8200 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    ports:
+      - 8200:8200
+    volumes:
+      - /volume2/FastSSD/docker/duplicati/config:/config:rw
+      - /volume2/FastSSD/docker/duplicati/backups:/backups:rw
+      - /volume1/SlowHDD:/source:rw
+    environment:
+      - TZ=Europe/Dublin
+      - PUID=1000
+      - PGID=10
+      - CUSTOM_USER=marius
+      - PASSWORD=mariushosting
+      - SETTINGS_ENCRYPTION_KEY=PMqbYY9bhVlTEY9e3tAat2UQQ8jZg4E6QMaO9WoLekKaTabRrAgvJiQErvW2oApF
+      - DUPLICATI__WEBSERVICE_PASSWORD=barrybackup
+    restart: on-failure:5

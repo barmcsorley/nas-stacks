@@ -1,0 +1,98 @@
+services:
+  open-archiver:
+    image: logiclabshq/open-archiver:latest
+    container_name: OpenArchiver-WEB
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    environment:
+      NODE_ENV: production
+      STORAGE_TYPE: local
+      REDIS_HOST: valkey
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: redispass
+      POSTGRES_DB: openarchiver
+      POSTGRES_USER: openuser
+      POSTGRES_PASSWORD: openpass
+      DATABASE_URL: postgresql://openuser:openpass@openarchiver-db:5432/openarchiver
+      MEILI_MASTER_KEY: FSMYIROrVMLhkaLhvKErCJAtVGXhtcIfuSjXhHRhlWZZKRyDbrutLlvZOLXYpmPH
+      JWT_SECRET: c8e9e6308f651bc6a249d794b90fe41def9627c899664433de38e5e5e1aa017d
+      JWT_EXPIRES_IN: 7d
+      ENCRYPTION_KEY: WFWifMiyWwydkqJcBaOsDBjAWYolTPaopxILJYuYYzWZHjYsTSxdSjmilccwejUE
+      MEILI_HOST: http://meilisearch:7700
+      TIKA_URL: http://tika:9998
+      STORAGE_LOCAL_ROOT_PATH: /var/data/open-archiver
+      PORT_BACKEND: 4000
+      PORT_FRONTEND: 3000
+      SYNC_FREQUENCY: "0 0 */2 * * *"
+    ports:
+       - 3212:3000
+    volumes:
+       # NAMED VOLUME 1: The document storage
+       - openarchiver_storage:/var/data/open-archiver:rw
+    depends_on:
+       - db
+       - valkey
+       - meilisearch
+    restart: on-failure:5
+
+  db:
+    image: postgres:17-alpine
+    container_name: OpenArchiver-DB
+    hostname: openarchiver-db
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "openarchiver", "-U", "openuser"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    environment:
+       POSTGRES_DB: openarchiver
+       POSTGRES_USER: openuser
+       POSTGRES_PASSWORD: openpass
+    volumes:
+       # NAMED VOLUME 2: The Database (Fixes the crash)
+       - openarchiver_postgres:/var/lib/postgresql/data
+    restart: on-failure:5
+
+  valkey:
+    image: valkey/valkey:8-alpine
+    container_name: OpenArchiver-REDIS
+    healthcheck:
+     test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+    command: valkey-server --requirepass redispass
+    volumes:
+      # NAMED VOLUME 3: Redis/Valkey Data
+      - openarchiver_valkey:/data
+    restart: on-failure:5
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.15
+    container_name: OpenArchiver-MEILI
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    environment:
+      MEILI_MASTER_KEY: FSMYIROrVMLhkaLhvKErCJAtVGXhtcIfuSjXhHRhlWZZKRyDbrutLlvZOLXYpmPH
+    volumes:
+      # NAMED VOLUME 4: Search Index
+      - openarchiver_meili:/meili_data
+    restart: on-failure:5
+
+  tika:
+      image: apache/tika:3.2.2.0-full
+      container_name: Open-Archiver-TIKA
+      restart: on-failure:5
+
+# DEFINE ALL VOLUMES HERE
+volumes:
+  openarchiver_storage:
+  openarchiver_postgres:
+  openarchiver_valkey:
+  openarchiver_meili:

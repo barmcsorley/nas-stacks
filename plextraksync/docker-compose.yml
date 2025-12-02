@@ -1,0 +1,13 @@
+services:
+  plextraktsync:
+    image: ghcr.io/taxel/plextraktsync:latest
+    container_name: PlexTraktSync
+    # This tells it to stay running and sync periodically
+    command: watch
+    volumes:
+      - /volume2/FastSSD/docker/PlexTraktSync/config:/app/config
+    environment:
+      - PUID=1000
+      - PGID=10
+      - TZ=Europe/Dublin
+# vim:ts=2:sw=2:et

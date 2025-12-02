@@ -1,0 +1,23 @@
+services:
+  audiobookshelf:
+    container_name: Audiobookshelf
+    image: advplyr/audiobookshelf
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 80 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    mem_limit: 4g
+    cpu_shares: 768
+    environment:
+      JWT_SECRET_KEY: dDSmIrhRxrbFTExGqWXSExrXEzZyZameCtpBgvmCHymgBwiYKycDMteHRWhEoCStp
+    ports:
+      - 13378:80
+    volumes:
+      - /volume2/FastSSD/docker/audiobookshelf:/config:rw
+      - /volume1/SlowHDD/books/Audiobooks:/audiobooks:rw
+      - /volume2/FastSSD/docker/audiobookshelf/metadata:/metadata:rw
+    restart: on-failure:5

@@ -1,0 +1,18 @@
+services:
+  libreoffice:
+    container_name: LibreOffice
+    image:  ghcr.io/linuxserver/libreoffice:latest
+    mem_limit: 8g
+    cpu_shares: 2048
+    security_opt:
+      - no-new-privileges:true
+    ports:
+      - 3445:3000
+      - 3446:3001
+    volumes:
+      - /volume2/FastSSD/docker/libreoffice:/config:rw
+    environment:
+     TZ: Europe/Bucharest
+     PUID: 1000
+     PGID: 10
+    restart: on-failure:5

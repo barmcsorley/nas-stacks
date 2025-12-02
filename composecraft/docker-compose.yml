@@ -1,0 +1,40 @@
+services:
+  db:
+    image: mongo:4.4
+    container_name: Compose-Craft-DB
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=barry
+      - MONGO_INITDB_ROOT_PASSWORD=RT@f9hRF!P3Styn
+    ports:
+      - 27017:27017
+    volumes:
+      # CHANGED: Added /db-data to keep DB files separate from config
+      # - /volume2/FastSSD/docker/composecraft/db-data:/data/db:rw
+      - mongo_data:/data/db  # <--- Updates to use the named volume
+
+  composecraft:
+    image: composecraft/composecraft:latest
+    container_name: Compose-Craft
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3000|| exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    ports:
+      - 3784:3000
+    environment:
+      - CORE_ONLY=true
+      - URL=http://localhost:3000
+      - SECRET_KEY=KxzzfzJVbWRkjJLGrHTcBwCTKFbKZsrHEBvohvRykYEOEJGWcYqXksuqarhkttDa
+      - MONGODB_URI=mongodb://barry:RT@f9hRF!P3Styn@db
+    depends_on:
+      - db
+  
+volumes:
+  mongo_data:  # <--- Docker will create this in its own safe zone

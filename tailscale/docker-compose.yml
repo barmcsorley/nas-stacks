@@ -1,0 +1,22 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest
+    container_name: Tailscale
+    hostname: ugreen-nas # This is the name that will appear in your Tailscale admin panel
+    network_mode: host  # <--- CRITICAL ADDITION
+    privileged: true  # <--- ADD THIS LINE
+    environment:
+      - TS_AUTHKEY=tskey-auth-kXScT5WyHy11CNTRL-U2j4Uf1isoDpvxAp7yYvoDxiDQ1Q1ct9j
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_USERSPACE=true # <--- CHANGED TO FALSE (Uses the /dev/net/tun device properly)
+      - TS_ROUTES=192.168.68.0/24 # REPLACE with your home subnet (allows access to other devices on LAN)
+      - TS_EXTRA_ARGS=--advertise-exit-node  # For exit mode to route all traffic in/out through NAS when on public wifi
+    volumes:
+      - /volume2/FastSSD/docker/tailscale/state:/var/lib/tailscale
+
+    devices:
+      - /dev/net/tun:/dev/net/tun # Required for "tun" mode
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: unless-stopped
