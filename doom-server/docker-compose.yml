@@ -1,19 +1,13 @@
 version: "3"
 services:
   doom-server:
-    image: debian:bookworm-slim
+    build: .
     container_name: chocolate_doom_server
     restart: unless-stopped
     ports:
       - "2342:2342/udp"
     volumes:
-      # GitOps Config: The repo handles the logic
-      # NAS Storage: The NAS handles the heavy assets
-      # You must manually place DOOM.WAD in /volume1/docker/doom-assets on the NAS
       - /volume1/docker/doom-assets:/data
-    entrypoint: >
-      /bin/sh -c "
-        apt-get update && \
-        apt-get install -y chocolate-doom && \
-        chocolate-server -iwad /data/DOOM.WAD -privateserver -deathmatch -skill 4 -warp 1 1
-      "
+    # DOOM 1 CONFIGURATION
+    # -warp 1 1 = Episode 1, Map 1 (Hangar)
+    command: "-iwad /data/DOOM.WAD -privateserver -deathmatch -skill 4 -warp 1 1"
