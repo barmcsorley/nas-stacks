@@ -1,12 +1,15 @@
 version: "3"
 services:
   doom-server:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: chocolate_doom_server
     restart: unless-stopped
     ports:
       - "2342:2342/udp"
+    # We can keep the volume, but the server won't use the WAD file logic.
     volumes:
       - /volume1/docker/doom-assets:/data
-    # NOTICE: 'entrypoint' is GONE. We only send the game arguments now.
-    command: "-iwad /data/DOOM.WAD -privateserver -deathmatch -skill 4 -warp 1 1"
+    # THE FIX: Run a blank server. No WAD, no Map, no Skill args.
+    command: "-privateserver"
