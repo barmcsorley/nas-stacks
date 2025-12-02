@@ -8,6 +8,5 @@ services:
       - "2342:2342/udp"
     volumes:
       - /volume1/docker/doom-assets:/data
-    # DOOM 1 CONFIGURATION
-    # -warp 1 1 = Episode 1, Map 1 (Hangar)
+    # NOTICE: 'entrypoint' is GONE. We only send the game arguments now.
     command: "-iwad /data/DOOM.WAD -privateserver -deathmatch -skill 4 -warp 1 1"
