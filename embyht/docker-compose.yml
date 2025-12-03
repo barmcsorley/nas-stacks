@@ -3,12 +3,6 @@ services:
     image: emby/embyserver:latest
     container_name: Emby
     environment:
-      TZ: Europe/Dublin
-      UID: services:
-  emby:
-    image: emby/embyserver:latest
-    container_name: Emby
-    environment:
       - TZ=Europe/Dublin
       - UID=${PUID}
       - GID=${PGID}
@@ -26,18 +20,3 @@ services:
     # ports:  <-- Ignored when using 'host' network mode
     #   - 8096:8096
     #   - 8920:8920
-      GID: 10
-      GIDLIST: 44, 105
-    ports:
-      - 8096:8096
-      - 8920:8920
-    volumes:
-      - /volume1/docker/embyht/config:/config:rw
-      - /volume1/SlowHDD/tvseries:/tvshows:rw
-      - /volume1/SlowHDD/music:/music:rw
-      - /volume1/SlowHDD/movies:/movies:rw
-    devices:
-      - /dev/dri/renderD128:/dev/dri/renderD128
-      - /dev/dri/card0:/dev/dri/card0
-    restart: on-failure:5
-    network_mode: host
