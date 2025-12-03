@@ -15,7 +15,7 @@ services:
        #HARDCOVER_TOKEN: API_KEY  #https://docs.hardcover.app/api/getting-started/
     volumes:
       - /volume2/FastSSD/docker/autocalibreweb/config:/config:rw
-      - /volume2/FastSSD/docker/autocalibreweb/ingest:/cwa-book-ingest:rw
+      - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
       - /volume2/FastSSD/docker/autocalibreweb/plugins:/config/.config/calibre/plugins:rw
     ports:
