@@ -5,14 +5,14 @@ services:
     hostname: frigate
     restart: on-failure:5
     security_opt:
-     - apparmor=unconfined
-     - systempaths=unconfined
+      - apparmor=unconfined
+      - systempaths=unconfined
     shm_size: 512mb
     environment:
-     TZ: Europe/Dublin
-     FRIGATE_RTSP_PASSWORD: barrytemp
+      - TZ=Europe/Dublin
+      - FRIGATE_RTSP_PASSWORD=${RTSP_PASS}
     devices:
-      - /dev/dri/renderD128 # for NAS with an Intel Hardware Accelerator
+      - /dev/dri/renderD128 # Excellent for your Intel N100 (OpenVINO/HW Accel)
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /volume2/FastSSD/docker/frigate/config:/config:rw
@@ -20,9 +20,9 @@ services:
       - type: tmpfs
         target: /tmp/cache
         tmpfs:
-          size: 1000000000
+          size: 1000000000 # 1GB Cache
     ports:
-      - 5563:5000 #Web UI Interface Port
-      - 8554:8554 # RTSP feeds
-      - 8555:8555/tcp # WebRTC over tcp
-      - 8555:8555/udp # WebRTC over udp
+      - 5563:5000      # Web UI
+      - 8554:8554      # RTSP feeds
+      - 8555:8555/tcp  # WebRTC
+      - 8555:8555/udp  # WebRTC
