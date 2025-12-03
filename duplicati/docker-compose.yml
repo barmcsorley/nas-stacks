@@ -21,8 +21,8 @@ services:
       - TZ=Europe/Dublin
       - PUID=1000
       - PGID=10
-      - CUSTOM_USER=marius
-      - PASSWORD=mariushosting
-      - SETTINGS_ENCRYPTION_KEY=PMqbYY9bhVlTEY9e3tAat2UQQ8jZg4E6QMaO9WoLekKaTabRrAgvJiQErvW2oApF
-      - DUPLICATI__WEBSERVICE_PASSWORD=barrybackup
+      - CUSTOM_USER=${APP_USER}
+      - PASSWORD=${APP_PASS}
+      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_KEY}
+      - DUPLICATI__WEBSERVICE_PASSWORD=${WEB_PASS}
     restart: on-failure:5
