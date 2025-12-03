@@ -8,14 +8,12 @@ services:
       timeout: 10s
       retries: 5
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=barry
-      - MONGO_INITDB_ROOT_PASSWORD=RT@f9hRF!P3Styn
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
     ports:
       - 27017:27017
     volumes:
-      # CHANGED: Added /db-data to keep DB files separate from config
-      # - /volume2/FastSSD/docker/composecraft/db-data:/data/db:rw
-      - mongo_data:/data/db  # <--- Updates to use the named volume
+      - mongo_data:/data/db
 
   composecraft:
     image: composecraft/composecraft:latest
@@ -31,10 +29,11 @@ services:
     environment:
       - CORE_ONLY=true
       - URL=http://localhost:3000
-      - SECRET_KEY=KxzzfzJVbWRkjJLGrHTcBwCTKFbKZsrHEBvohvRykYEOEJGWcYqXksuqarhkttDa
-      - MONGODB_URI=mongodb://barry:RT@f9hRF!P3Styn@db
+      - SECRET_KEY=${APP_SECRET}
+      # Using a separate variable for URI to handle the special character encoding
+      - MONGODB_URI=${MONGO_CONNECTION_STRING}
     depends_on:
       - db
-  
+
 volumes:
-  mongo_data:  # <--- Docker will create this in its own safe zone
+  mongo_data:
