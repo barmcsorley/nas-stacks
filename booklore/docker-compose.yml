@@ -1,6 +1,6 @@
 services:
   mariadb:
-    image: mariadb:11.4-noble #LTS Long Time Support Until May 29, 2029.
+    image: mariadb:11.4-noble
     container_name: BookLore-DB
     security_opt:
       - no-new-privileges:true
@@ -10,8 +10,7 @@ services:
       - MARIADB_USER=${DB_USER}
       - MARIADB_PASSWORD=${DB_PASS}
       - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASS}
-      TZ: Europe/Dublin
-    # ADD THIS HEALTHCHECK BLOCK:
+      - TZ=Europe/Dublin  # FIXED: Changed from 'TZ: ...' to '- TZ=...'
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -19,8 +18,7 @@ services:
       retries: 5
       start_period: 30s
     volumes:
-      - booklore_db_data:/var/lib/mysql # CHANGED: Now using a Named Volume managed by Docker
-      # - /volume2/FastSSD/docker/booklore/db:/var/lib/mysql:rw
+      - booklore_db_data:/var/lib/mysql
     restart: on-failure:5
     
   booklore:
@@ -34,28 +32,24 @@ services:
       retries: 3
       start_period: 90s
     environment:
-      USER_ID: 1000
-      GROUP_ID: 10
-      TZ: Europe/Dublin
-      DATABASE_URL: jdbc:mariadb://BookLore-DB:3306/booklore #Or jdbc:mariadb://booklore-db:3306/booklore if you Experience Connection Issues.
-      # SECURE VARIABLES BELOW:
+      # FIXED: Converted ALL lines below to use '- KEY=VALUE' syntax
+      - USER_ID=1000
+      - GROUP_ID=10
+      - TZ=Europe/Dublin
+      - DATABASE_URL=jdbc:mariadb://BookLore-DB:3306/booklore
       - DATABASE_USERNAME=${DB_USER}
       - DATABASE_PASSWORD=${DB_PASS}
-      JAVA_OPTS: -Xmx768m # 2. ADDED JAVA_OPTS HERE (indented to match the other variables)
+      - JAVA_OPTS=-Xmx768m
     depends_on:
       mariadb:
         condition: service_healthy
     ports:
       - 6060:6060
     volumes:
-      # KEEPING THESE AS BIND MOUNTS (Easier for you to access/backup)
       - /volume2/FastSSD/docker/booklore/data:/app/data:rw
-      # CHANGE THIS LINE: Add ':ro' at the end
       - /volume1/SlowHDD/books:/books:ro
-      # THIS LINE MUST BE PRESENT AND ':rw':
-      - /volume2/FastSSD/docker/booklore/bookdrop:/bookdrop:rw #Files inside the bookdrop folder are automatically detected.
+      - /volume2/FastSSD/docker/booklore/bookdrop:/bookdrop:rw
     restart: on-failure:5
 
-# NEW SECTION: Define the volume
 volumes:
   booklore_db_data:
