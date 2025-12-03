@@ -6,11 +6,10 @@ services:
       - no-new-privileges:true
     hostname: booklore-db
     environment:
-
-      MARIADB_DATABASE: booklore
-      MARIADB_USER: bookloreuser
-      MARIADB_PASSWORD: booklorepass
-      MARIADB_ROOT_PASSWORD: rootpass
+      - MARIADB_DATABASE=booklore
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASS}
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASS}
       TZ: Europe/Dublin
     # ADD THIS HEALTHCHECK BLOCK:
     healthcheck:
@@ -39,8 +38,9 @@ services:
       GROUP_ID: 10
       TZ: Europe/Dublin
       DATABASE_URL: jdbc:mariadb://BookLore-DB:3306/booklore #Or jdbc:mariadb://booklore-db:3306/booklore if you Experience Connection Issues.
-      DATABASE_USERNAME: root
-      DATABASE_PASSWORD: rootpass
+      # SECURE VARIABLES BELOW:
+      - DATABASE_USERNAME=${DB_USER}
+      - DATABASE_PASSWORD=${DB_PASS}
       JAVA_OPTS: -Xmx768m # 2. ADDED JAVA_OPTS HERE (indented to match the other variables)
     depends_on:
       mariadb:
