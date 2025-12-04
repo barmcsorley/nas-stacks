@@ -21,7 +21,7 @@ services:
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "immich", "-U", "immichuser"]
+      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -30,10 +30,9 @@ services:
       - /volume2/FastSSD/docker/immich/db:/var/lib/postgresql/data:rw
     environment:
       - TZ=Europe/Dublin
-      - POSTGRES_DB=immich
-      - POSTGRES_USER=immichuser
-      - POSTGRES_PASSWORD=immichpw
-      #- DB_STORAGE_TYPE=HDD #Remove the red # in front of the – DB_STORAGE_TYPE=HDD if your database isn’t stored on SSDs.
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
     restart: on-failure:5
 
   immich-server:
@@ -43,21 +42,36 @@ services:
     user: 1000:10
     security_opt:
       - no-new-privileges:true
-    #mem_limit: 3g # Set container limit to 3GB
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
       - /dev/dri:/dev/dri
-    env_file:
-      - stack.env
     environment:
-      #- NODE_OPTIONS=--max-old-space-size=2000 # Add this line to limit Node.js heap to 2GB
+      # --- General Settings (From stack.env) ---
       - TZ=Europe/Dublin
+      - NODE_ENV=production
+      - LOG_LEVEL=log
+      - DISABLE_REVERSE_GEOCODING=false
+      - REVERSE_GEOCODING_PRECISION=3
+      
+      # --- Secrets (Mapped to Portainer) ---
+      - JWT_SECRET=${JWT_SECRET}
+      
+      # --- Database Connection ---
+      - DB_HOSTNAME=immich-db
+      - DB_USERNAME=${DB_USER}
+      - DB_PASSWORD=${DB_PASS}
+      - DB_DATABASE_NAME=${DB_NAME}
+      - REDIS_HOSTNAME=immich-redis
+      
+      # --- Internal Networking ---
+      # Tells the server where to find the ML container
+      - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
     ports:
       - 8212:2283
     volumes:
       - /volume2/FastSSD/docker/immich/upload:/data:rw
-      - /volume1/SlowHDD/photos/Barry_Photos:/mnt/nas-photos:ro # Mount the external library
+      - /volume1/SlowHDD/photos/Barry_Photos:/mnt/nas-photos:ro
     restart: on-failure:5
     depends_on:
       immich-redis:
@@ -69,16 +83,12 @@ services:
     image: ghcr.io/immich-app/immich-machine-learning:release-openvino
     container_name: Immich-LEARNING
     hostname: immich-machine-learning
-    #user: 1000:10   # commented this out on advice from Gemini to allow other DB user processes to run
     security_opt:
       - no-new-privileges:true
-    #mem_limit: 2g # Set container limit to 2GB
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
       - /dev/dri:/dev/dri
-    env_file:
-      - stack.env
     volumes:
       - /volume2/FastSSD/docker/immich/upload:/data:rw
       - /volume2/FastSSD/docker/immich/cache:/cache:rw
@@ -87,6 +97,7 @@ services:
       - /volume2/FastSSD/docker/immich/matplotlib:/matplotlib:rw
     environment: 
       - MPLCONFIGDIR=/matplotlib
+      - TZ=Europe/Dublin
     restart: on-failure:5
     depends_on:
       immich-db:
