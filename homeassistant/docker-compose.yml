@@ -1,18 +1,16 @@
 services:
-  homarr:
-    container_name: Homarr
-    image: ghcr.io/homarr-labs/homarr:latest
+  homeassistant:
+    image: homeassistant/home-assistant
+    container_name: Home-Assistant
+    mem_limit: 8g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
     healthcheck:
-      test: ["CMD-SHELL", "nc -z 127.0.0.1 7575 || exit 1"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
-      start_period: 90s
+     test: curl -f http://localhost:8123/ || exit 1
+    network_mode: host
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /volume1/docker/homarr:/appdata:rw
+      - /volume2/FastSSD/docker/homeassistant:/config:rw
     environment:
-       SECRET_ENCRYPTION_KEY=${HOMEASSISTANT_SECRET_KEY}
-    ports:
-      - 7575:7575
+      TZ: Europe/Dublin
     restart: on-failure:5
