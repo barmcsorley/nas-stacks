@@ -12,7 +12,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /volume1/docker/homarr:/appdata:rw
     environment:
-       SECRET_ENCRYPTION_KEY: 01FE0A6113112C8FD7A21CB18F1CAA89F2E0A5ACCF79ED3D3636DCE2AC6238D0
+       SECRET_ENCRYPTION_KEY=${HOMEASSISTANT_SECRET_KEY}
     ports:
       - 7575:7575
     restart: on-failure:5
