@@ -7,17 +7,22 @@ services:
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:32400/web
+      test: wget --no-verbose --tries=1 --spider http://localhost:32400/web || exit 1
+      interval: 1m
+      timeout: 3s
+      retries: 3
     volumes:
       - /volume2/FastSSD/docker/plexhw:/config:rw
+      # NOTE: Mapping the root of SlowHDD to /movies means 
+      # inside Plex you will see subfolders like /movies/tvseries, /movies/music, etc.
       - /volume1/SlowHDD:/movies:ro
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
     environment:
-      TZ: Europe/Dublin
-      PUID: 1000
-      PGID: 10
-      VERSION: public
-      PLEX_CLAIM: claim-tsJQyoFmWxHYxvmFzM6z # STEP 4
+      - TZ=Europe/Dublin
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - VERSION=public
+      - PLEX_CLAIM=${PLEX_CLAIM}
     restart: on-failure:5
