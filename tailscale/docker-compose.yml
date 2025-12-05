@@ -9,7 +9,7 @@ services:
       - TS_AUTHKEY=${TS_AUTHKEY}
       - TS_STATE_DIR=/var/lib/tailscale
       # Recommendation: Set TS_USERSPACE=false if you want better performance and exit nodes
-      - TS_USERSPACE=false
+      - TS_USERSPACE=true
       - TS_ROUTES=192.168.68.0/24  # Your home subnet
       - TS_EXTRA_ARGS=--advertise-exit-node
     volumes:
