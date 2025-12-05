@@ -5,7 +5,7 @@ networks:
   macvlan_net:
     driver: macvlan
     driver_opts:
-      parent: eth0 # Ensure this is correct! (Run 'ifconfig' on NAS if unsure)
+      parent: eth0 # Make sure this matches your NAS!
     ipam:
       config:
         - subnet: 192.168.68.0/24
@@ -18,7 +18,8 @@ services:
     container_name: Pi-Hole
     networks:
       macvlan_net:
-        ipv4_address: ${PIHOLE_IP}
+        # FIXED: Hardcoded IP to bypass Portainer validation error
+        ipv4_address: 192.168.68.150
     security_opt:
       - no-new-privileges:false
     restart: on-failure:5
