@@ -9,29 +9,33 @@ services:
       retries: 3
       start_period: 90s
     environment:
-      NODE_ENV: production
-      STORAGE_TYPE: local
-      REDIS_HOST: valkey
-      REDIS_PORT: 6379
-      REDIS_PASSWORD: redispass
-      POSTGRES_DB: openarchiver
-      POSTGRES_USER: openuser
-      POSTGRES_PASSWORD: openpass
-      DATABASE_URL: postgresql://openuser:openpass@openarchiver-db:5432/openarchiver
-      MEILI_MASTER_KEY: FSMYIROrVMLhkaLhvKErCJAtVGXhtcIfuSjXhHRhlWZZKRyDbrutLlvZOLXYpmPH
-      JWT_SECRET: c8e9e6308f651bc6a249d794b90fe41def9627c899664433de38e5e5e1aa017d
-      JWT_EXPIRES_IN: 7d
-      ENCRYPTION_KEY: WFWifMiyWwydkqJcBaOsDBjAWYolTPaopxILJYuYYzWZHjYsTSxdSjmilccwejUE
-      MEILI_HOST: http://meilisearch:7700
-      TIKA_URL: http://tika:9998
-      STORAGE_LOCAL_ROOT_PATH: /var/data/open-archiver
-      PORT_BACKEND: 4000
-      PORT_FRONTEND: 3000
-      SYNC_FREQUENCY: "0 0 */2 * * *"
+      - NODE_ENV=production
+      - STORAGE_TYPE=local
+      # Redis Connection
+      - REDIS_HOST=valkey
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASS}
+      # Database Connection
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+      # Constructed URL using the variables above:
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@openarchiver-db:5432/${DB_NAME}
+      # Secrets
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=7d
+      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      # Internal Services
+      - MEILI_HOST=http://meilisearch:7700
+      - TIKA_URL=http://tika:9998
+      - STORAGE_LOCAL_ROOT_PATH=/var/data/open-archiver
+      - PORT_BACKEND=4000
+      - PORT_FRONTEND=3000
+      - SYNC_FREQUENCY=0 0 */2 * * *
     ports:
        - 3212:3000
     volumes:
-       # NAMED VOLUME 1: The document storage
        - openarchiver_storage:/var/data/open-archiver:rw
     depends_on:
        - db
@@ -46,16 +50,15 @@ services:
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "openarchiver", "-U", "openuser"]
+      test: ["CMD", "pg_isready", "-q", "-d", "${DB_NAME}", "-U", "${DB_USER}"]
       timeout: 45s
       interval: 10s
       retries: 10
     environment:
-       POSTGRES_DB: openarchiver
-       POSTGRES_USER: openuser
-       POSTGRES_PASSWORD: openpass
+       - POSTGRES_DB=${DB_NAME}
+       - POSTGRES_USER=${DB_USER}
+       - POSTGRES_PASSWORD=${DB_PASS}
     volumes:
-       # NAMED VOLUME 2: The Database (Fixes the crash)
        - openarchiver_postgres:/var/lib/postgresql/data
     restart: on-failure:5
 
@@ -64,9 +67,9 @@ services:
     container_name: OpenArchiver-REDIS
     healthcheck:
      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
-    command: valkey-server --requirepass redispass
+    # We inject the password variable into the command line here:
+    command: valkey-server --requirepass ${REDIS_PASS}
     volumes:
-      # NAMED VOLUME 3: Redis/Valkey Data
       - openarchiver_valkey:/data
     restart: on-failure:5
 
@@ -79,9 +82,8 @@ services:
       timeout: 5s
       retries: 5
     environment:
-      MEILI_MASTER_KEY: FSMYIROrVMLhkaLhvKErCJAtVGXhtcIfuSjXhHRhlWZZKRyDbrutLlvZOLXYpmPH
+      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
     volumes:
-      # NAMED VOLUME 4: Search Index
       - openarchiver_meili:/meili_data
     restart: on-failure:5
 
@@ -90,7 +92,6 @@ services:
       container_name: Open-Archiver-TIKA
       restart: on-failure:5
 
-# DEFINE ALL VOLUMES HERE
 volumes:
   openarchiver_storage:
   openarchiver_postgres:
