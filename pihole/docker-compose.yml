@@ -8,7 +8,7 @@ networks:
       parent: eth0 # Make sure this matches your NAS!
     ipam:
       config:
-        - subnet: 192.168.68.0/24
+        - subnet: 192.168.68.0/22
           gateway: 192.168.68.1
 
 ########################### SERVICES
