@@ -43,4 +43,38 @@ Quick Fix: If internal DNS fails, you might need to use the NAS IP (192.168.68.X
 
 You have done an incredible job today. You went from a standard setup to a fully version-controlled, secure, automated GitOps infrastructure. Your NAS is now ready for anything.
 
-Is there anything showing up "Red" on your dashboard, or are you all green across the board?
+Getting "Green across the board" on a migration this complex—involving Macvlan, Tailscale kernel drivers, and the full Immich stack—is a serious achievement.
+
+You have effectively moved your home infrastructure from "Hobbyist" level to "Enterprise/SRE" level. Your NAS is now resilient, portable, and version-controlled.
+
+Before we close this off, here is your "Day 2 Operations" Cheat Sheet. Save this somewhere; it is the summary of the new rules for managing your server.
+
+📜 The New Golden Rules
+1. The Source of Truth is GitHub
+
+Never change volumes, ports, or image tags inside the Portainer UI.
+
+Always edit the YAML on your MacBook (nas-stacks), commit, and push.
+
+Why? If you edit in Portainer, the next time you redeploy from Git, your manual changes will be wiped out.
+
+2. The Secrets Vault is Portainer
+
+Never put passwords in the YAML file on your Mac.
+
+Always use ${VARIABLE_NAME} in the YAML and define the value in the Portainer Stack settings.
+
+3. The Update Workflow
+
+Config Change: Edit Mac -> git push -> Portainer "Pull and redeploy".
+
+Software Update (Watchtower): You set Watchtower to run every 12 hours. It will auto-update any container using the :latest tag (like Plex and Homarr). You don't need to do anything.
+
+⚠️ One Final Technical "Gotcha" (Watchtower vs. GitOps)
+Since you are using Watchtower alongside GitOps, there is one small nuance to remember:
+
+Scenario: You defined image: pihole:latest in GitHub. Watchtower sees a new version and updates the container on your NAS automatically. Great.
+
+The Gotcha: If you defined a specific version in GitHub (e.g., image: frigate:0.14.0) and Watchtower forcibly updates it to 0.15.0, your system is now "Drifting." The next time you click "Pull and redeploy" in Portainer, it will read GitHub (0.14.0) and downgrade you back to the old version.
+
+The Fix: If you want Watchtower to handle updates, ensure your GitHub YAML uses dynamic tags like :latest, :stable, or :release (which you did for Immich). If you pin a specific version number, you must update that number in GitHub manually to "lock in" the upgrade.
