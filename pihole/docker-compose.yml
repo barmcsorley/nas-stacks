@@ -1,14 +1,16 @@
+version: "3"
+
 ########################### NETWORKS
 networks:
   macvlan_net:
     driver: macvlan
     driver_opts:
-      parent: eth0 # In my case is eth0 check your own parent using ifconfig.
+      parent: eth0 # Ensure this is correct! (Run 'ifconfig' on NAS if unsure)
     ipam:
       config:
-        - subnet: 192.168.68.0/24  #Replace with your desired subnet.
-          gateway: 192.168.68.1 #On your UGREEN NAS, go to Control Panel / Network / General Tab / Check your Default Gateway.
- 
+        - subnet: 192.168.68.0/24
+          gateway: 192.168.68.1
+
 ########################### SERVICES
 services:
   pihole:
@@ -16,7 +18,7 @@ services:
     container_name: Pi-Hole
     networks:
       macvlan_net:
-        ipv4_address: 192.168.68.150  #Assign a static IP within subnet to avoid conflicts.
+        ipv4_address: ${PIHOLE_IP}
     security_opt:
       - no-new-privileges:false
     restart: on-failure:5
@@ -24,13 +26,13 @@ services:
       - /volume1/docker/pihole/dnsmasq.d:/etc/dnsmasq.d:rw
       - /volume1/docker/pihole/pihole:/etc/pihole:rw
     environment:
-      FTLCONF_webserver_api_password: Barrypihole@4
-      FTLCONF_webserver_port: 8080
-      FTLCONF_dns_listeningMode: all
-      TZ: Europe/Dublin
-      DNSMASQ_USER: pihole #or root NOT recommended to use root.
-      PIHOLE_UID: 1000
-      PIHOLE_GID: 10
+      - TZ=Europe/Dublin
+      - FTLCONF_webserver_api_password=${WEBPASSWORD}
+      - FTLCONF_webserver_port=8080
+      - FTLCONF_dns_listeningMode=all
+      - DNSMASQ_USER=pihole
+      - PIHOLE_UID=1000
+      - PIHOLE_GID=10
     cap_add:
       - SYS_TIME
       - SYS_NICE
