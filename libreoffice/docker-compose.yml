@@ -12,7 +12,7 @@ services:
     volumes:
       - /volume2/FastSSD/docker/libreoffice:/config:rw
     environment:
-     TZ: Europe/Bucharest
+     TZ: Europe/Dublin
      PUID: 1000
      PGID: 10
     restart: on-failure:5
