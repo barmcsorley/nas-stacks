@@ -26,9 +26,9 @@ Verification: Audibookshelf container ame back with all your books and progress 
 Verify that your "Control Center" on the Mac is working.
 
 Action: On your Mac, edit watchtower/docker-compose.yml. Change WATCHTOWER_SCHEDULE slightly (e.g., to 0 0 */24 * * *).
-Command: git add ., git commit -m "Test change", git push.
+Command: git add . then git commit -m "Test change" then git push.
 Action: Go to Portainer -> Watchtower Stack -> Click "Pull and redeploy".
-Verification: Check the container details/logs. Did the schedule change?
+Verification: Checked the container logs and the schedule did change so all good
 
 3. The "Communication" Test (DNS)
 Since you moved to GitOps, Docker creates new internal networks for each stack. We need to ensure containers can still talk to each other (e.g., Homarr talking to Plex).
