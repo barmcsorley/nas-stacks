@@ -4,7 +4,7 @@ services:
     image: arianrhodsandlot/retroassembly
     container_name: retroassembly
     ports:
-        - 8000:8000
+        - 8010:8010
     volumes:
         - /volume1/SlowHDD/games:/app/data
     restart: unless-stopped
