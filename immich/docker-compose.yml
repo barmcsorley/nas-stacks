@@ -70,7 +70,7 @@ services:
     ports:
       - 8212:2283
     volumes:
-      - /volume2/FastSSD/docker/immich/upload:/data:rw
+      - /volume1/SlowHDD/photos/immich:/data:rw
       - /volume1/SlowHDD/photos/Barry_Photos:/mnt/nas-photos:ro
     restart: on-failure:5
     depends_on:
@@ -90,7 +90,7 @@ services:
       - /dev/dri/card0:/dev/dri/card0
       - /dev/dri:/dev/dri
     volumes:
-      - /volume2/FastSSD/docker/immich/upload:/data:rw
+      - /volume1/SlowHDD/photos/immich:/data:rw
       - /volume2/FastSSD/docker/immich/cache:/cache:rw
       - /volume2/FastSSD/docker/immich/cache:/.cache:rw
       - /volume2/FastSSD/docker/immich/cache:/.config:rw
