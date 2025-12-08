@@ -1,0 +1,59 @@
+services:
+  db:
+    image: postgres:17
+    container_name: RomM-DB
+    hostname: romm-db
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "romm", "-U", "rommuser"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      - /volume1/docker/romm/db:/var/lib/postgresql/data:rw
+    environment:
+      POSTGRES_DB: romm
+      POSTGRES_USER: rommuser
+      POSTGRES_PASSWORD: rommpass
+    restart: on-failure:5
+
+  romm:
+    image: rommapp/romm:latest
+    container_name: RomM
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    environment:
+      ROMM_DB_DRIVER: postgresql
+      DB_HOST: romm-db
+      DB_NAME: romm
+      DB_USER: rommuser
+      DB_PASSWD: rommpass
+      DB_PORT: 5432
+      ROMM_AUTH_SECRET_KEY: 9c9e5aabb2bd7171615b94c8cd29dd6196ea6492364f5705715d16b54cc9ec45
+      #SCREENSCRAPER_USER: These are the recommended metadata providers
+      #SCREENSCRAPER_PASSWORD: https://docs.romm.app/latest/Getting-Started/Metadata-Providers/#screenscraper
+      IGDB_CLIENT_ID: rxo6lxu142n09c8q9vt9k9m02nv2w1
+      IGDB_CLIENT_SECRET: xeen56g4qv67nusyfbg6xpj0mm86l6
+      #MOBYGAMES_API_KEY: https://www.mobygames.com/info/api/
+      #STEAMGRIDDB_API_KEY: https://docs.romm.app/latest/Getting-Started/Metadata-Providers/#steamgriddb
+      #RETROACHIEVEMENTS_API_KEY: https://api-docs.retroachievements.org/
+      #HASHEOUS_API_ENABLED: true # https://docs.romm.app/latest/Getting-Started/Metadata-Providers/#hasheous
+      #FLASHPOINT_API_ENABLED: true #Automated search of the Flashpoint Project database for over 180,000+ flash and browser-based games
+      #HLTB_API_ENABLED: true #howlongtobeat.com is a website that provides game completion times for over 84,000+ games
+    volumes:
+      - /volume1/docker/romm/resources:/romm/resources:rw
+      - /volume1/docker/romm/redis:/redis-data:rw
+      - /volume1/docker/romm/games/library:/romm/library:rw
+      - /volume1/docker/romm/games/assets:/romm/assets:rw
+      - /volume1/docker/romm/games/config:/romm/config:rw
+    ports:
+      - 7676:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure:10
