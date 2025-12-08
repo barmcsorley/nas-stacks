@@ -5,4 +5,4 @@ services:
     restart: unless-stopped
     command: tunnel run
     environment:
-      - TUNNEL_TOKEN=eyJhIjoiNjlmZDJjZTYyY2YxNzFjODQ1MjRjOWI2NTk2NTY1NWEiLCJ0IjoiODhkNjMyMGQtZjQ0ZC00NGExLWE4ZTUtYTE3YmU0MmVhZDYzIiwicyI6IlpUVmxOMlUyTm1RdE1HVTNNQzAwTXpVekxXSXdOR010WkRCaFl6Um1PVEJtWldRMyJ9
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
