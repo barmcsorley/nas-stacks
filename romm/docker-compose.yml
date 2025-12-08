@@ -13,7 +13,7 @@ services:
       interval: 10s
       retries: 10
     volumes:
-      - /volume1/docker/romm/db:/var/lib/postgresql/data:rw
+      - /volume2/FastSSD/docker/romm/db:/var/lib/postgresql/data:rw
     environment:
       - POSTGRES_DB=${DB_NAME}
       - POSTGRES_USER=${DB_USER}
@@ -44,11 +44,11 @@ services:
       - PUID=1000
       - PGID=10
     volumes:
-      - /volume1/docker/romm/resources:/romm/resources:rw
-      - /volume1/docker/romm/redis:/redis-data:rw
-      - /volume1/docker/romm/games/library:/romm/library:rw
-      - /volume1/docker/romm/games/assets:/romm/assets:rw
-      - /volume1/docker/romm/games/config:/romm/config:rw
+      - /volume2/FastSSD/docker/romm/resources:/romm/resources:rw
+      - /volume2/FastSSD/docker/romm/redis:/redis-data:rw
+      - /volume2/FastSSD/docker/romm/games/library:/romm/library:rw
+      - /volume2/FastSSD/docker/romm/games/assets:/romm/assets:rw
+      - /volume2/FastSSD/docker/romm/games/config:/romm/config:rw
     ports:
       - 7676:8080
     depends_on:
