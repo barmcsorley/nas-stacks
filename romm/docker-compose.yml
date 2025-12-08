@@ -46,7 +46,7 @@ services:
     volumes:
       - /volume2/FastSSD/docker/romm/resources:/romm/resources:rw
       - /volume2/FastSSD/docker/romm/redis:/redis-data:rw
-      - /volume2/FastSSD/docker/romm/games/library:/romm/library:rw
+      - /volume1/SlowHDD/games:/romm/library:rw
       - /volume2/FastSSD/docker/romm/games/assets:/romm/assets:rw
       - /volume2/FastSSD/docker/romm/games/config:/romm/config:rw
     ports:
