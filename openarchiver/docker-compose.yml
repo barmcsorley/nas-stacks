@@ -36,7 +36,6 @@ services:
     ports:
        - 3212:3000
     volumes:
-       - openarchiver_storage:/var/data/open-archiver:rw
        - /volume1/SlowHDD/emails/openarchiver:/var/data/open-archiver:rw
     depends_on:
        - db
