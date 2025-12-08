@@ -37,6 +37,7 @@ services:
        - 3212:3000
     volumes:
        - openarchiver_storage:/var/data/open-archiver:rw
+       - /volume1/SlowHDD/emails/openarchiver:/var/data/open-archiver:rw
     depends_on:
        - db
        - valkey
@@ -93,7 +94,6 @@ services:
       restart: on-failure:5
 
 volumes:
-  openarchiver_storage:
   openarchiver_postgres:
   openarchiver_valkey:
   openarchiver_meili:
