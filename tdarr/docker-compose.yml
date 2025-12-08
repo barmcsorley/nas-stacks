@@ -12,10 +12,13 @@ services:
       - 8266:8266
     devices:
       - /dev/dri:/dev/dri
+    group_add:       # <--- Grants access to the render group
+      - "105"
     environment:
       - TZ=Europe/Dublin
       - PUID=1000
       - PGID=10
+      - LIBVA_DRIVER_NAME=iHD  # <--- Forces modern driver for your N100 CPU
       - serverIP=${serverIP:-tdarr}
       - serverPort=8266
       - webUIPort=8265
