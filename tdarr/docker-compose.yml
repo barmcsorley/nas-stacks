@@ -17,7 +17,6 @@ services:
       - PUID=1000
       - PGID=10
       - serverIP=${serverIP:-tdarr}
-      - serverIP=tdarr
       - serverPort=8266
       - webUIPort=8265
       - internalNode=true
