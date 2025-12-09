@@ -18,6 +18,6 @@ services:
       - 13378:80
     volumes:
       - /volume2/FastSSD/docker/audiobookshelf:/config:rw
-      - /volume1/SlowHDD/books/Audiobooks:/audiobooks:rw
+      - /volume1/SlowHDD/books:/audiobooks:rw
       - /volume2/FastSSD/docker/audiobookshelf/metadata:/metadata:rw
     restart: on-failure:5
