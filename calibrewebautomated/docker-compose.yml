@@ -17,6 +17,7 @@ services:
        # This variable specifically fixes "Read-only database" errors on NAS drives:
        # CALIBRE_OVERRIDE_DATABASE_PATH=/calibre-library/metadata.db # Removed as specific to the Calibre Desktop container.
        #HARDCOVER_TOKEN: API_KEY  #https://docs.hardcover.app/api/getting-started/
+       HARDCOVER_TOKEN: API_KEY Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJIYXJkY292ZXIiLCJ2ZXJzaW9uIjoiOCIsImp0aSI6IjNjMTU4MmZmLTAwZDEtNDJlOC1iODdkLTkxOTI5YmVhNDQzNyIsImFwcGxpY2F0aW9uSWQiOjIsInN1YiI6IjU4MzYxIiwiYXVkIjoiMSIsImlkIjoiNTgzNjEiLCJsb2dnZWRJbiI6dHJ1ZSwiaWF0IjoxNzY1MzI2NDQyLCJleHAiOjE3OTY4NjI0NDIsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1yb2xlIjoidXNlciIsIlgtaGFzdXJhLXVzZXItaWQiOiI1ODM2MSJ9LCJ1c2VyIjp7ImlkIjo1ODM2MX19.SrVvGhcHkgjbiLXXB93wQ-MxlWFH1VOtSg1KokHToPc
     volumes:
       - /volume2/FastSSD/docker/autocalibreweb/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
