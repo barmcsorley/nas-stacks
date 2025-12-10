@@ -1,22 +1,26 @@
 services:
   calibre:
-    container_name: Calibre
-    image: ghcr.io/linuxserver/calibre
+    image: ghcr.io/linuxserver/calibre:latest
+    container_name: Calibre-Desktop-Master
     mem_limit: 4g
-    cpu_shares: 768
+    # "security_opt" is needed for the GUI to render correctly in some browsers
     security_opt:
-      - no-new-privileges:true
       - seccomp:unconfined
-    restart: on-failure:5
-    ports:
-      - 7080:8080
-      - 7081:8081
-      - 8181:8181
-    volumes:
-      - /volume2/FastSSD/docker/calibre:/config:rw
     environment:
-     CUSTOM_USER: barry
-     PASSWORD: barrytemp
-     TZ: Europe/Dublin
-     PUID: 1000
-     PGID: 10
+      - PUID=1000
+      - PGID=10
+      - TZ=Europe/Dublin
+      - CUSTOM_USER=barry
+      - PASSWORD=barrytemp
+      # 1. FIX: Set a larger screen resolution for easier metadata editing
+      - DRINODE_RESOLUTION=1920x1080
+    volumes:
+      # Config stays on FastSSD (Plugins, UI settings, etc.)
+      - /volume2/FastSSD/docker/calibre:/config:rw
+      # 2. FIX: Map your actual book library here
+      - /volume1/SlowHDD/books/calibreweblib:/books:rw
+    ports:
+      - 7080:8080 # Access the GUI at http://NAS-IP:7080
+      - 7081:8081 # Calibre Content Server (Optional)
+      - 8181:8181 # Wireless Device Connection (Optional)
+    restart: on-failure:5
