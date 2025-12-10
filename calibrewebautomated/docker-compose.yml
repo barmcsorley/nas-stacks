@@ -12,10 +12,10 @@ services:
        PUID: 1000
        PGID: 10
        TZ: Europe/Dublin
-       DOCKER_MODS=linuxserver/mods:universal-calibre # Ensures correct dependencies
+       DOCKER_MODS: linuxserver/mods:universal-calibre # Ensures correct dependencies
        #NETWORK_SHARE_MODE=true  # <--- CRITICAL for preventing locks on NAS. Removed as in Portainer env variable instead
        # This variable specifically fixes "Read-only database" errors on NAS drives:
-       CALIBRE_OVERRIDE_DATABASE_PATH=/calibre-library/metadata.db
+       # CALIBRE_OVERRIDE_DATABASE_PATH=/calibre-library/metadata.db # Removed as specific to the Calibre Desktop container.
        #HARDCOVER_TOKEN: API_KEY  #https://docs.hardcover.app/api/getting-started/
     volumes:
       - /volume2/FastSSD/docker/autocalibreweb/config:/config:rw
