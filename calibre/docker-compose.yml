@@ -13,7 +13,7 @@ services:
       - CUSTOM_USER=barry
       - PASSWORD=barrytemp
       # 1. FIX: Set a larger screen resolution for easier metadata editing
-      - DRINODE_RESOLUTION=1920x1080
+      - DRINODE_RESOLUTION=1280x720
     volumes:
       # Config stays on FastSSD (Plugins, UI settings, etc.)
       - /volume2/FastSSD/docker/calibre:/config:rw
