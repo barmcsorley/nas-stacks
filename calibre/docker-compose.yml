@@ -10,6 +10,7 @@ services:
       - PUID=1000
       - PGID=10
       - TZ=Europe/Dublin
+      QT_SCALE_FACTOR: 1.5
       - CUSTOM_USER=barry
       - PASSWORD=barrytemp
       # 1. FIX: Set a larger screen resolution for easier metadata editing
