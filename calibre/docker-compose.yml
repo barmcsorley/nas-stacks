@@ -10,7 +10,7 @@ services:
       - PUID=1000
       - PGID=10
       - TZ=Europe/Dublin
-      QT_SCALE_FACTOR: 1.5
+      - QT_SCALE_FACTOR=1.5  # <--- Note the dash (-) and the equals (=)
       - CUSTOM_USER=barry
       - PASSWORD=barrytemp
       # 1. FIX: Set a larger screen resolution for easier metadata editing
