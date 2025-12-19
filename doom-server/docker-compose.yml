@@ -12,4 +12,4 @@ services:
     volumes:
       - /volume1/docker/doom-assets:/data
     # THE FIX: Run a blank server. No WAD, no Map, no Skill args.
-    command: "-privateserver"
+    command: "-iwad /data/DOOM.WAD -privateserver"
