@@ -16,3 +16,19 @@ services:
       - /volume2/FastSSD/docker/doom-assets:/data
     # Run as a dedicated server (Blank slate)
     command: "-privateserver"
+# CHANGE: Use 'testing-slim' (Forky) to get Chocolate Doom 3.1.1 cleanly
+FROM debian:testing-slim
+
+# Prevent interactive prompts
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Fix path for games
+ENV PATH="/usr/games:${PATH}"
+
+# Install
+RUN apt-get update && \
+    apt-get install -y chocolate-doom && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /data
+ENTRYPOINT ["chocolate-server"]
