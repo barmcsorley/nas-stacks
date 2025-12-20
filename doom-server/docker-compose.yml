@@ -8,8 +8,10 @@ services:
     restart: unless-stopped
     ports:
       - "2342:2342/udp"
-    # We can keep the volume, but the server won't use the WAD file logic.
+      # THE FIX: Tell Chocolate Doom explicitly where to look for WADs
+    environment:
+      - DOOMWADDIR=/data
     volumes:
       - /volume1/docker/doom-assets:/data
-    # THE FIX: Run a blank server. No WAD, no Map, no Skill args.
-    command: "-iwad /data/DOOM.WAD -privateserver"
+    # THE FIX: No -iwad, no -warp. Just a private server.
+    command: "-privateserver"
