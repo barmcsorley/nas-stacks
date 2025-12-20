@@ -1,28 +1,23 @@
 version: '3'
 services:
   zandronum-server:
-    # CHANGE: Use this valid image (supports the Env Vars you used)
     image: frozenfoxx/zandronum-server:latest
     container_name: doom_modern
     restart: unless-stopped
-    # Port 10666 avoids conflict with your Chocolate server (2342)
     ports:
       - "10666:10666/udp"
     volumes:
-      # This image expects WADs at /usr/games/zandronum or /wads
-      # We map your SSD folder to /wads inside the container
+      # Map your SSD folder to /wads inside the container
       - /volume2/FastSSD/docker/doom-assets:/wads:ro
-    environment:
-      - ZANDRONUM_HOSTNAME=Barry's House of Pain
-      # 1. Base Game (Pick ONE)
-      - ZANDRONUM_IWAD=DOOM2.WAD
-      # 2. Mod (Pick ONE set)
-      # We are loading Scythe 2. 
-      - ZANDRONUM_PWADS=SCYTHE2.WAD
-      # 3. Rules
-      - ZANDRONUM_SKILL=4
-      - ZANDRONUM_DEATHMATCH=1
-      # --- SWAP SHOP (Uncomment to play these instead) ---
-      # - ZANDRONUM_PWADS=SCYTHE.WAD
-      # - ZANDRONUM_PWADS=AV.WAD AVMOVFIX.WAD
-      # - ZANDRONUM_PWADS=PLUTONIA.WAD
+    # THE FIX: Run the command manually, bypassing the broken script.
+    # We explicitly tell it which files to use and what the rules are.
+    command: >
+      zandronum-server 
+      -host 
+      -port 10666 
+      -iwad /wads/DOOM2.WAD 
+      -file /wads/SCYTHE2.WAD 
+      +sv_hostname "Barry's House of Pain" 
+      +skill 4 
+      +deathmatch 1 
+      +sv_maxplayers 8
