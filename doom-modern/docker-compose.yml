@@ -17,7 +17,7 @@ services:
       -port 10666 
       -iwad /wads/DOOM2.WAD 
       -file /wads/SCYTHE2.WAD 
-      +sv_hostname "Barry's House of Pain" 
+      +sv_hostname \"Barrys House of Pain\"
       +skill 4 
       +deathmatch 1 
       +sv_maxplayers 8
