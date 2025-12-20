@@ -21,7 +21,8 @@ services:
       - -file
       - /wads/SCYTHE2.WAD
       - +sv_hostname
-      - "Barrys House of Pain"
+      # Single quotes on the outside wrap the Double quotes on the inside
+      - '"Barrys House of Pain"'
       - +skill
       - "4"
       - +deathmatch
