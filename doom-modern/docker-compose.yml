@@ -22,7 +22,7 @@ services:
       - /wads/SCYTHE2.WAD
       - +sv_hostname
       # Single quotes on the outside wrap the Double quotes on the inside
-      - Barrys House of Pain
+      - Barrys_House_of_Pain
       - +skill
       - "4"
       - +deathmatch
