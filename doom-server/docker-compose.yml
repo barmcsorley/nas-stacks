@@ -5,7 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: chocolate_doom_server
-    restart: unless-stopped
+    # CHANGE 1: Stop the infinite restart loop if it fails
+    restart: on-failure:5
     ports:
       - "2342:2342/udp"
       # THE FIX: Tell Chocolate Doom explicitly where to look for WADs
@@ -13,5 +14,10 @@ services:
       - DOOMWADDIR=/data
     volumes:
       - /volume1/docker/doom-assets:/data
+      # CHANGE 2: Keep the container open so we can debug inside
+    tty: true
+    stdin_open: true
+    # CHANGE 3: We will start the server MANUALLY to see the error
+    command: "tail -f /dev/null"
     # THE FIX: No -iwad, no -warp. Just a private server.
-    command: "-privateserver"
+    # command: "-privateserver"
