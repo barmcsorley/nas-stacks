@@ -1,0 +1,18 @@
+version: "3"
+services:
+  doom-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chocolate_doom_server
+    restart: unless-stopped
+    ports:
+      - "2342:2342/udp"
+    environment:
+      # This tells the game to look in /data for the WADs
+      - DOOMWADDIR=/data
+    volumes:
+      # THE FIX: Use the actual path on your SSD
+      - /volume2/FastSSD/docker/doom-assets:/data
+    # Run as a dedicated server (Blank slate)
+    command: "-privateserver"
