@@ -1,0 +1,31 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    ":disableDependencyDashboard"
+  ],
+  "labels": ["dependencies"],
+  "timezone": "Europe/London",
+  
+  "docker-compose": {
+    "enabled": true,
+    "fileMatch": ["(^|/)docker-compose[^/]*\\.ya?ml$"]
+  },
+
+  "packageRules": [
+    {
+      "description": "Group all non-major updates together to reduce noise",
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "all non-major dependencies",
+      "automerge": true
+    },
+    {
+      "description": "Automatically pin docker images that are currently using 'latest'",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["pin", "digest"],
+      "automerge": true
+    }
+  ],
+  
+  "pinDigests": true
+}
