@@ -18,7 +18,7 @@ services:
       - -file
       - /wads/SCYTHE2.WAD
       - +sv_hostname
-      - Barrys_Scythe_and Doom_Server
+      - Barrys_Scythe_and_Doom_Server
 
   # CHANNEL 2: HEXEN (Port 10667)
   doom-hexen:
