@@ -34,7 +34,7 @@ services:
       - DB_HOST=romm-db
       - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
-      - DB_PASSWD=${DB_PASS}
+      - DB_PASS=${DB_PASS}
       - DB_PORT=5432
       # Secrets & Keys
       - ROMM_AUTH_SECRET_KEY=${AUTH_SECRET}
