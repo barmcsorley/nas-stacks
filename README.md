@@ -78,3 +78,10 @@ Scenario: You defined image: pihole:latest in GitHub. Watchtower sees a new vers
 The Gotcha: If you defined a specific version in GitHub (e.g., image: frigate:0.14.0) and Watchtower forcibly updates it to 0.15.0, your system is now "Drifting." The next time you click "Pull and redeploy" in Portainer, it will read GitHub (0.14.0) and downgrade you back to the old version.
 
 The Fix: If you want Watchtower to handle updates, ensure your GitHub YAML uses dynamic tags like :latest, :stable, or :release (which you did for Immich). If you pin a specific version number, you must update that number in GitHub manually to "lock in" the upgrade.
+
+Quick Summary of what I have built in terms of Doom server:
+
+Hardware: Synology NAS (Intel N100) running Docker.
+Software: Portainer managing a custom stack.
+Network: 4 distinct UDP ports forwarded and firewall-approved.
+Capabilities: Simultaneous hosting of vanilla 1993 Doom (Chocolate) and modern modded Doom/Hexen (Zandronum) with a client-side menu system.
