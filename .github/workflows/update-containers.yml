@@ -1,0 +1,37 @@
+name: NAS Container Update
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      # Trigger only when your compose files change
+      - 'docker-compose.yml'
+      - 'docker-compose.yaml'
+      # If you keep files in subfolders (e.g., /arrs/docker-compose.yml), un-comment the line below:
+      # - '**/*.yml'
+
+jobs:
+  deploy:
+    name: Deploy to UGreen NAS
+    # This must match the LABELS variable in your Portainer stack
+    runs-on: [self-hosted, nas]
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Update Containers
+        run: |
+          echo "🚀 Detecting changes and updating containers on UGreen NAS..."
+          
+          # 1. Pull the new image (using the pinned hash from Renovate)
+          docker compose pull
+          
+          # 2. Recreate the specific containers that changed
+          # --remove-orphans cleans up containers you deleted from the YAML
+          docker compose up -d --remove-orphans
+          
+          # 3. Clean up space (Vital for NAS OS drives)
+          # Removes unused images so your disk doesn't fill up with old updates
+          docker image prune -f
