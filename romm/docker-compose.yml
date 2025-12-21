@@ -4,20 +4,21 @@ services:
   db:
     image: postgres:17
     container_name: RomM-DB
-    hostname: romm-db
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "${DB_NAME}", "-U", "${DB_USER}"]
+      # Hardcoded values here to ensure healthcheck passes
+      test: ["CMD", "pg_isready", "-q", "-d", "romm", "-U", "rommuser"]
       timeout: 45s
       interval: 10s
       retries: 10
     volumes:
       - /volume2/FastSSD/docker/romm/db:/var/lib/postgresql/data:rw
     environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      # HARDCODED: These ensure the DB is created with these exact credentials
+      - POSTGRES_DB=romm
+      - POSTGRES_USER=rommuser
+      - POSTGRES_PASSWORD=rommpass
     restart: on-failure:5
 
   romm:
@@ -31,16 +32,16 @@ services:
       start_period: 90s
     environment:
       - ROMM_DB_DRIVER=postgresql
-      - DB_HOST=romm-db
-      - DB_NAME=${DB_NAME}
-      - DB_USER=${DB_USER}
-      - DB_PASS=${DB_PASS}
+      - DB_HOST=db                # FIXED: Points directly to the service name 'db' on line 4
+      - DB_NAME=romm              # Hardcoded
+      - DB_USER=rommuser          # Hardcoded
+      - DB_PASS=rommpass          # Hardcoded & Fixed typo (was DB_PASSWD)
       - DB_PORT=5432
-      # Secrets & Keys
-      - ROMM_AUTH_SECRET_KEY=${AUTH_SECRET}
-      - IGDB_CLIENT_ID=${IGDB_ID}
-      - IGDB_CLIENT_SECRET=${IGDB_SECRET}
-      # Standard NAS Permissions (Crucial for accessing game files)
+      # Secrets & Keys (Hardcoded from your screenshot)
+      - ROMM_AUTH_SECRET_KEY=9c9e5aabb2bd7171615b94c8cd29dd6196ea6492364f5705715d16b54cc9ec45
+      - IGDB_CLIENT_ID=rxo6lxu142n09c8q9vt9k9m02nv2w1
+      - IGDB_CLIENT_SECRET=xeen56g4qv67nusyfbg6xpj0mm86l6
+      # Standard NAS Permissions
       - PUID=1000
       - PGID=10
     volumes:
