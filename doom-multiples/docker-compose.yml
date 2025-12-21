@@ -1,0 +1,61 @@
+version: '3'
+services:
+  # CHANNEL 1: DOOM 2 / SCYTHE (Port 10666)
+  doom-scythe:
+    image: frozenfoxx/zandronum-server:latest
+    container_name: doom_scythe
+    restart: unless-stopped
+    ports:
+      - "10666:10666/udp"
+    volumes:
+      - /volume2/FastSSD/docker/doom-assets:/wads:ro
+    command:
+      - zandronum-server
+      - -port
+      - "10666"
+      - -iwad
+      - /wads/DOOM2.WAD
+      - -file
+      - /wads/SCYTHE2.WAD
+      - +sv_hostname
+      - Barrys_Scythe_and Doom_Server
+
+  # CHANNEL 2: HEXEN (Port 10667)
+  doom-hexen:
+    image: frozenfoxx/zandronum-server:latest
+    container_name: doom_hexen
+    restart: unless-stopped
+    ports:
+      - "10667:10667/udp" # Different Internal Port
+    volumes:
+      - /volume2/FastSSD/docker/doom-assets:/wads:ro
+    command:
+      - zandronum-server
+      - -port
+      - "10667" # Must match external port
+      - -iwad
+      - /wads/HEXEN.WAD
+      - +sv_hostname
+      - Barrys_Hexen_Server
+      - +skill
+      - "4"
+
+  # CHANNEL 3: ALIEN VENDETTA (Port 10668)
+  doom-av:
+    image: frozenfoxx/zandronum-server:latest
+    container_name: doom_av
+    restart: unless-stopped
+    ports:
+      - "10668:10668/udp"
+    volumes:
+      - /volume2/FastSSD/docker/doom-assets:/wads:ro
+    command:
+      - zandronum-server
+      - -port
+      - "10668"
+      - -iwad
+      - /wads/DOOM2.WAD
+      - -file
+      - /wads/AV.WAD
+      - +sv_hostname
+      - Barrys_Hardcore_Server
