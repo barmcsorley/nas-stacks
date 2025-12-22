@@ -1,40 +1,43 @@
 name: NAS Container Update
 
 on:
-# Allows you to click "Run Workflow" manually in the Actions tab
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual run
   push:
     branches:
       - main
     paths:
-      # Trigger only when your compose files change
-      - 'docker-compose.yml'
       - '**/docker-compose.yml'
       - '**/docker-compose.yaml'
-      # If you keep files in subfolders (e.g., /arrs/docker-compose.yml), un-comment the line below:
-      # - '**/*.yml'
 
 jobs:
   deploy:
-    name: Deploy to UGreen NAS
-    # This must match the LABELS variable in your Portainer stack
     runs-on: [self-hosted, nas]
-    
     steps:
       - name: Checkout Code
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@v4
 
-      - name: Update Containers
+      - name: Update All Containers
         run: |
-          echo "🚀 Detecting changes and updating containers on UGreen NAS..."
+          echo "🚀 Scanning for docker-compose files..."
           
-          # 1. Pull the new image (using the pinned hash from Renovate)
-          docker compose pull
-          
-          # 2. Recreate the specific containers that changed
-          # --remove-orphans cleans up containers you deleted from the YAML
-          docker compose up -d --remove-orphans
-          
-          # 3. Clean up space (Vital for NAS OS drives)
-          # Removes unused images so your disk doesn't fill up with old updates
-          docker image prune -f
+          # Find all docker-compose files and loop through them
+          find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
+            dir=$(dirname "$file")
+            echo "---------------------------------------------------"
+            echo "📂 Processing Stack: $dir"
+            echo "---------------------------------------------------"
+            
+            cd "$dir"
+            
+            # Pull new images
+            docker compose pull
+            
+            # Update only if changed
+            docker compose up -d --remove-orphans
+            
+            # Return to root for the next loop
+            cd - > /dev/null
+          done
+
+      - name: Cleanup
+        run: docker image prune -f
