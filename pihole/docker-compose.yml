@@ -14,7 +14,7 @@ networks:
 ########################### SERVICES
 services:
   pihole:
-    image: pihole/pihole
+    image: pihole/pihole@sha256:91dc91ddd413bf461c283204558f8f21839851e9824799075a7ceff7c77eea40
     container_name: Pi-Hole
     networks:
       macvlan_net:

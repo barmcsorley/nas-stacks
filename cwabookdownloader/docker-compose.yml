@@ -1,6 +1,6 @@
 services:
   calibre-web-automated-book-downloader:
-    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest@sha256:648f94005768ea1dc83339739c666f0944959fc045c558bdd6641e5405c31a02
     # Uncomment to build the image from the Dockerfile for local testing changes.
     # Remember to comment out the image line above.
     #build: .
