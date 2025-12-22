@@ -1,5 +1,76 @@
 [![NAS Container Update](https://github.com/barmcsorley/nas-stacks/actions/workflows/update-containers.yml/badge.svg)](https://github.com/barmcsorley/nas-stacks/actions/workflows/update-containers.yml)
 
+# 🏠 NAS Home Lab (GitOps)
+
+[![NAS Container Update](https://github.com/barmcsorley/nas-stacks/actions/workflows/update-containers.yml/badge.svg)](https://github.com/barmcsorley/nas-stacks/actions/workflows/update-containers.yml)
+
+This repository contains the infrastructure-as-code (IaC) for my self-hosted home lab running on a UGreen NAS. It uses a **GitOps** workflow where this repository is the "Source of Truth," and a self-hosted runner automatically deploys changes to the hardware.
+
+## 🏗 Architecture
+
+* **Hardware:** UGreen NAS (running Docker via Portainer/Shell)
+* **Orchestration:** Docker Compose
+* **Automation:** GitHub Actions (Self-Hosted Runner on NAS)
+* **Updates:** Renovate Bot (Self-Hosted)
+* **Storage:** `/volume2/FastSSD/docker/`
+
+### The Workflow
+1.  **Renovate Bot** scans this repo hourly for outdated Docker images.
+2.  Renovate opens a **Pull Request** with the update (e.g., `Plex v1.3 -> v1.4`).
+3.  When the PR is **Merged**, the **GitHub Action** triggers.
+4.  The Action runs locally on the NAS, finds the updated stack, injects secrets from the local drive, and runs `docker compose up -d`.
+
+---
+
+## 🔐 Secrets Management
+
+**Crucial:** No passwords or API keys are stored in this GitHub repository.
+
+* **Public Config:** `docker-compose.yml` files are public/stored here.
+* **Private Secrets:** `.env` files are stored physically on the NAS at `/volume2/FastSSD/docker/<stack_name>/.env`.
+
+During deployment, the GitHub Runner (which has the NAS Docker folder mounted to `/mnt/nas-docker`) performs a **Just-in-Time Injection**:
+1.  Checks if a `.env` file exists for the stack on the NAS.
+2.  Copies it into the temporary build workspace.
+3.  Deploys the container using those variables.
+4.  Cleans up.
+
+---
+
+## 🚀 How to Add a New Service
+
+To deploy a new application (e.g., `radarr`):
+
+1.  **On the NAS (SSH):**
+    * Create the folder: `mkdir /volume2/FastSSD/docker/radarr`
+    * Create the secrets file: `nano /volume2/FastSSD/docker/radarr/.env`
+    * Add variables: `API_KEY=xyz`, `PUID=1000`, etc.
+
+2.  **In this Repo:**
+    * Create a folder: `radarr/`
+    * Create `radarr/docker-compose.yml`
+    * **Do not** put secrets in the YAML. Use `${API_KEY}` syntax.
+
+3.  **Deploy:**
+    * Commit and Push to `main`.
+    * The GitHub Action will detect the new file, pull the `.env` from the NAS, and launch the stack.
+
+---
+
+## 🛠 Troubleshooting
+
+**Action fails with "Conflict" error:**
+The container is likely owned by Portainer or created manually.
+* *Fix:* The workflow script tries to auto-fix this. If it fails, manually remove the container in Portainer and re-run the Action.
+
+**"Variable is not set" warning:**
+The runner could not find the `.env` file on the NAS.
+* *Fix:* Ensure `/volume2/FastSSD/docker/<stack_name>/.env` exists and matches the folder name in the repo exactly.
+
+**Renovate not creating PRs:**
+* Check the `renovate-bot` container logs in Portainer.
+* Ensure the Personal Access Token (PAT) has not expired.
+
 GitOps Migration Status
 
 I am migrating a massive chunk of my NAS infrastructure to GitOps. My Gdive folder on my MacBook now holds the "Source of Truth" and then synched up to Github for:
