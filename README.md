@@ -1,3 +1,5 @@
+[![NAS Container Update](https://github.com/barmcsorley/nas-stacks/actions/workflows/update-containers.yml/badge.svg)](https://github.com/barmcsorley/nas-stacks/actions/workflows/update-containers.yml)
+
 GitOps Migration Status
 
 I am migrating a massive chunk of my NAS infrastructure to GitOps. My Gdive folder on my MacBook now holds the "Source of Truth" and then synched up to Github for:
