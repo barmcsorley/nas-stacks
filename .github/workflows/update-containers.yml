@@ -1,59 +1,38 @@
-name: NAS Container Update
-
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - '**/docker-compose.yml'
-      - '**/docker-compose.yaml'
-
-jobs:
-  deploy:
-    runs-on: [self-hosted, nas]
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Update All Containers
+- name: Update All Containers
         run: |
           echo "🚀 Scanning for docker-compose files..."
           
           find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
+            # Get just the folder name (e.g., "audiobookshelf") to match against NAS
+            stack_name=$(basename "$dir")
+            
             echo "---------------------------------------------------"
-            echo "📂 Processing Stack: $dir"
+            echo "📂 Processing Stack: $stack_name"
             echo "---------------------------------------------------"
             
             cd "$dir"
             
-            # 1. Pull new images
-            docker compose pull
-            
-            # 2. Check for .env file (Crucial step for your secrets)
-            if [ -f .env ]; then
-              echo "   ✅ Found .env file, loading secrets."
-              CMD="docker compose --env-file .env"
+            # 1. SECRET INJECTION: Copy .env from NAS storage if it exists
+            # We look in /mnt/nas-docker (which we mounted in Step 1)
+            if [ -f "/mnt/nas-docker/$stack_name/.env" ]; then
+                echo "   🔑 Found secrets on NAS! Injecting .env file..."
+                cp "/mnt/nas-docker/$stack_name/.env" ./.env
+                CMD="docker compose --env-file .env"
             else
-              echo "   ⚠️ No .env file found. Deploying without secrets."
-              CMD="docker compose"
+                echo "   ⚠️ No .env file found on NAS for this stack."
+                CMD="docker compose"
             fi
+            
+            # 2. Pull new images
+            docker compose pull
 
-            # 3. Try to up. If it fails due to conflict, force remove and retry.
+            # 3. Conflict Handling & Deployment
             if ! $CMD up -d --remove-orphans; then
-              echo "   ⚠️ Conflict detected! The container is likely owned by Portainer."
-              echo "   ♻️ Removing old container and recreating..."
-              
-              # Force down the old container to release the name/port
+              echo "   ⚠️ Conflict detected! Force recreating..."
               $CMD down --remove-orphans
-              
-              # Try starting again
               $CMD up -d
             fi
             
             cd - > /dev/null
           done
-          
-      - name: Cleanup
-        run: docker image prune -f
