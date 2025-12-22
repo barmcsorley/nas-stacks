@@ -1,7 +1,7 @@
 name: NAS Container Update
 
 on:
-  workflow_dispatch: # Allows manual run
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -14,13 +14,12 @@ jobs:
     runs-on: [self-hosted, nas]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@v4
 
       - name: Update All Containers
         run: |
           echo "🚀 Scanning for docker-compose files..."
           
-          # Find all docker-compose files and loop through them
           find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
             echo "---------------------------------------------------"
@@ -29,15 +28,32 @@ jobs:
             
             cd "$dir"
             
-            # Pull new images
+            # 1. Pull new images
             docker compose pull
             
-            # Update only if changed
-            docker compose up -d --remove-orphans
+            # 2. Check for .env file (Crucial step for your secrets)
+            if [ -f .env ]; then
+              echo "   ✅ Found .env file, loading secrets."
+              CMD="docker compose --env-file .env"
+            else
+              echo "   ⚠️ No .env file found. Deploying without secrets."
+              CMD="docker compose"
+            fi
+
+            # 3. Try to up. If it fails due to conflict, force remove and retry.
+            if ! $CMD up -d --remove-orphans; then
+              echo "   ⚠️ Conflict detected! The container is likely owned by Portainer."
+              echo "   ♻️ Removing old container and recreating..."
+              
+              # Force down the old container to release the name/port
+              $CMD down --remove-orphans
+              
+              # Try starting again
+              $CMD up -d
+            fi
             
-            # Return to root for the next loop
             cd - > /dev/null
           done
-
+          
       - name: Cleanup
         run: docker image prune -f
