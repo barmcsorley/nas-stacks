@@ -1,6 +1,6 @@
 services:
   frigate:
-    image: ghcr.io/blakeblackshear/frigate:0.15.1@sha256:c4e02d2c511847eebbda8e0e370b41c78e7b51247353de79340e06c3e95f11be
+    image: ghcr.io/blakeblackshear/frigate:0.16.3@sha256:cf4305d9f1c673d71c4d0fab30ca56ca05ac91168711a74ee7867a4691a7ad02
     container_name: Frigate
     hostname: frigate
     restart: on-failure:5
