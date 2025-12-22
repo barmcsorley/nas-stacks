@@ -1,10 +1,31 @@
-- name: Update All Containers
+name: NAS Container Update
+
+on:
+  # Allows manual run from the Actions tab
+  workflow_dispatch:
+  # Runs automatically when you push changes to compose files
+  push:
+    branches:
+      - main
+    paths:
+      - '**/docker-compose.yml'
+      - '**/docker-compose.yaml'
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, nas]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Update All Containers
         run: |
           echo "🚀 Scanning for docker-compose files..."
           
+          # Loop through every docker-compose file found in the repo
           find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
-            # Get just the folder name (e.g., "audiobookshelf") to match against NAS
+            # Extract just the folder name (e.g. "audiobookshelf")
             stack_name=$(basename "$dir")
             
             echo "---------------------------------------------------"
@@ -13,8 +34,8 @@
             
             cd "$dir"
             
-            # 1. SECRET INJECTION: Copy .env from NAS storage if it exists
-            # We look in /mnt/nas-docker (which we mounted in Step 1)
+            # 1. SECRET INJECTION
+            # We look for the .env file in the mounted NAS path
             if [ -f "/mnt/nas-docker/$stack_name/.env" ]; then
                 echo "   🔑 Found secrets on NAS! Injecting .env file..."
                 cp "/mnt/nas-docker/$stack_name/.env" ./.env
@@ -28,11 +49,16 @@
             docker compose pull
 
             # 3. Conflict Handling & Deployment
+            # If 'up' fails, we assume it's a conflict, remove the old container, and retry.
             if ! $CMD up -d --remove-orphans; then
               echo "   ⚠️ Conflict detected! Force recreating..."
               $CMD down --remove-orphans
               $CMD up -d
             fi
             
+            # Go back to root for the next loop
             cd - > /dev/null
           done
+
+      - name: Cleanup
+        run: docker image prune -f
