@@ -1,6 +1,6 @@
 services:
   calibre:
-    image: ghcr.io/linuxserver/calibre:latest
+    image: ghcr.io/linuxserver/calibre:latest@sha256:36b44b9fa6addd2ab33f766716a2b08c01c6033b49f8390f684d9e9ca8499b3e
     container_name: Calibre
     mem_limit: 4g
     # "security_opt" is needed for the GUI to render correctly in some browsers

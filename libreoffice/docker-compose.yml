@@ -1,7 +1,7 @@
 services:
   libreoffice:
     container_name: LibreOffice
-    image:  ghcr.io/linuxserver/libreoffice:latest
+    image:  ghcr.io/linuxserver/libreoffice:latest@sha256:f5ab5f0b068eaf48858ead5da859362db3b1eadc6687a287445ce2cddf0b8ef9
     mem_limit: 8g
     cpu_shares: 2048
     security_opt:

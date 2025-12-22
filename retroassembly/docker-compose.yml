@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   retroassembly:
-    image: arianrhodsandlot/retroassembly
+    image: arianrhodsandlot/retroassembly@sha256:04f61e8e881cb0e630c3c9305b6c1e7c24d962e30bcc8f0b28dcfba6f0368152
     container_name: retroassembly
     ports:
         - 8010:8000

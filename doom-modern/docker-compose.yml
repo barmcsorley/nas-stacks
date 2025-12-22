@@ -1,7 +1,7 @@
 version: '3'
 services:
   zandronum-server:
-    image: frozenfoxx/zandronum-server:latest
+    image: frozenfoxx/zandronum-server:latest@sha256:17ef48edc2142b36e215d9bd4cbd8b344630bad0b12b958cdbbaa85241db8fb0
     container_name: doom_modern
     restart: unless-stopped
     ports:

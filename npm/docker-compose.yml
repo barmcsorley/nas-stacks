@@ -1,6 +1,6 @@
 services:
  nginx-proxy-manager:
-  image: jc21/nginx-proxy-manager:latest
+  image: jc21/nginx-proxy-manager:latest@sha256:cd9eba29ca132cb006729f2cb2660126453f84818c2f7d75963ad7b61ef696bd
   container_name: Nginx-Proxy-Manager
   healthcheck:
       test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/81' || exit 1

@@ -16,7 +16,7 @@ services:
 
     hostname: "d9d6d70db526"
 
-    image: "portainer/portainer-ce"
+    image: "portainer/portainer-ce@sha256:4786931dc7c588ff1c242696fe1eb3f7f9c5dafb136b6c713aff7745dd5bd407"
 
     ipc: "private"
 
