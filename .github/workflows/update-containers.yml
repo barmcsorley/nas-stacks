@@ -1,13 +1,17 @@
 name: NAS Container Update
 
 on:
+# Allows you to click "Run Workflow" manually in the Actions tab
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
+    paths:
       # Trigger only when your compose files change
       - 'docker-compose.yml'
-      - 'docker-compose.yaml'
+      - '**/docker-compose.yml'
+      - '**/docker-compose.yaml'
       # If you keep files in subfolders (e.g., /arrs/docker-compose.yml), un-comment the line below:
       # - '**/*.yml'
 
