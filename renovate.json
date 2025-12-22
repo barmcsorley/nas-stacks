@@ -24,6 +24,22 @@
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["pin", "digest"],
       "automerge": true
+    },
+    {
+      "description": "STOP major updates for databases (prevents data format corruption)",
+      "matchPackageNames": [
+        "postgres", 
+        "mariadb", 
+        "mysql", 
+        "mongo", 
+        "redis", 
+        "valkey",
+        "getmeili/meilisearch"
+      ],
+      "separateMajorMinor": true,
+      "major": {
+        "enabled": false
+      }
     }
   ],
   
