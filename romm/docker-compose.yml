@@ -3,6 +3,8 @@ version: '3.8'
 services:
   db:
     image: postgres:17@sha256:dca7512acaa113409df7e40d977d801e53c0c8088e45d4311a45b4065ccfdcd3
+    env_file:
+      - .env
     container_name: RomM-DB
     hostname: db
     security_opt:
