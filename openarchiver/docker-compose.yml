@@ -63,7 +63,7 @@ services:
     restart: on-failure:5
 
   valkey:
-    image: valkey/valkey:8-alpine@sha256:70aa61b8e741ee66d8976eab1418d408067df3624c3a3732d91f95fdddd4f0e8
+    image: valkey/valkey:8-alpine@sha256:3c3ccc8571d4866ec5ac5ffb2519b6b6a1fdbf6b5ff5fdab075413026fbff273
     container_name: OpenArchiver-REDIS
     healthcheck:
      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
