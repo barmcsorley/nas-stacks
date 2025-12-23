@@ -22,6 +22,8 @@ services:
 
   romm:
     image: rommapp/romm:latest@sha256:b909e95d1aab88db9817be700183fda8d24094b3e7c28355ddbd066e2659fc8f
+    env_file:
+      - .env
     container_name: RomM
     healthcheck:
       test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
