@@ -2,7 +2,7 @@ version: '3'
 services:
   # CHANNEL 1: DOOM 2 / SCYTHE (Port 10666)
   doom-scythe:
-    image: frozenfoxx/zandronum-server:latest@sha256:17ef48edc2142b36e215d9bd4cbd8b344630bad0b12b958cdbbaa85241db8fb0
+    image: frozenfoxx/zandronum-server:latest@sha256:c31fb46dfb07e94601dcd9f25b4da2961b351b68b450afaeb521cf9e0e715358
     container_name: doom_scythe
     restart: unless-stopped
     ports:
@@ -22,7 +22,7 @@ services:
 
   # CHANNEL 2: HEXEN (Port 10667)
   doom-hexen:
-    image: frozenfoxx/zandronum-server:latest@sha256:17ef48edc2142b36e215d9bd4cbd8b344630bad0b12b958cdbbaa85241db8fb0
+    image: frozenfoxx/zandronum-server:latest@sha256:c31fb46dfb07e94601dcd9f25b4da2961b351b68b450afaeb521cf9e0e715358
     container_name: doom_hexen
     restart: unless-stopped
     ports:
@@ -42,7 +42,7 @@ services:
 
   # CHANNEL 3: ALIEN VENDETTA (Port 10668)
   doom-av:
-    image: frozenfoxx/zandronum-server:latest@sha256:17ef48edc2142b36e215d9bd4cbd8b344630bad0b12b958cdbbaa85241db8fb0
+    image: frozenfoxx/zandronum-server:latest@sha256:c31fb46dfb07e94601dcd9f25b4da2961b351b68b450afaeb521cf9e0e715358
     container_name: doom_av
     restart: unless-stopped
     ports:
