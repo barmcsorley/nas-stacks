@@ -67,7 +67,7 @@ services:
     restart: on-failure:5
 
   valkey:
-    image: valkey/valkey:8-alpine@sha256:3c3ccc8571d4866ec5ac5ffb2519b6b6a1fdbf6b5ff5fdab075413026fbff273
+    image: valkey/valkey:9-alpine@sha256:c106a0c03bcb23cbdf9febe693114cb7800646b11ca8b303aee7409de005faa8
     env_file:
       - .env
     container_name: OpenArchiver-REDIS
