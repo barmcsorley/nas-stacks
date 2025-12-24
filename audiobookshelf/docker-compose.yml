@@ -2,6 +2,8 @@ services:
   audiobookshelf:
     container_name: Audiobookshelf
     image: advplyr/audiobookshelf@sha256:de4daea50968fe2bb0b6c543c5586601cee14f2ea7543544c89ebea94491005c
+    env_file:
+      - .env
     security_opt:
       - no-new-privileges:true
     healthcheck:
