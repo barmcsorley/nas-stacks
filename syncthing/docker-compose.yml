@@ -1,6 +1,8 @@
 services:
   syncthing:
     image: ghcr.io/linuxserver/syncthing:latest@sha256:b2dbc42f95154986ae3578256f3fa9612fa7e930184d823aa56192b478fa0b8a
+    env_file:
+      - .env
     container_name: Syncthing
     healthcheck:
      test: curl -f http://localhost:8384/ || exit 1
