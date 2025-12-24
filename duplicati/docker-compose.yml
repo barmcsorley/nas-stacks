@@ -1,6 +1,8 @@
 services:
   duplicati:
     image: ghcr.io/linuxserver/duplicati:latest@sha256:0994aa6da740efe41d4070cc618d525b5b42a13645896344ca0eeafab5f3bd65
+    env_file:
+      - .env
     container_name: duplicati
     security_opt:
       - no-new-privileges:true
