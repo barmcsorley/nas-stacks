@@ -18,7 +18,7 @@ services:
       - mongo_data:/data/db
 
   composecraft:
-    image: composecraft/composecraft:latest@sha256:4d45378e54142c0b6924296cd3fe7ac51a7d5e715d1196fdd028029586bd5c4e
+    image: composecraft/composecraft:latest@sha256:fbdf19cbd2988c488406efe4238d3b6ba83a5055bcf490953779b8cf72465c68
     env_file:
       - .env
     container_name: Compose-Craft
