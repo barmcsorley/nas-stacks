@@ -1,6 +1,8 @@
 services:
   open-archiver:
     image: logiclabshq/open-archiver:latest@sha256:8b580260ae82d9f4656912a8d7dd57fbdaaca7b993c82a42f7f0514d8908597b
+    env_file:
+      - .env
     container_name: OpenArchiver-WEB
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
@@ -45,6 +47,8 @@ services:
 
   db:
     image: postgres:17-alpine@sha256:ff4ccc02b97e0ebb6b328ef9ff92522f95586f83be6801896b615088defc8ad2
+    env_file:
+      - .env
     container_name: OpenArchiver-DB
     hostname: openarchiver-db
     security_opt:
@@ -64,6 +68,8 @@ services:
 
   valkey:
     image: valkey/valkey:8-alpine@sha256:3c3ccc8571d4866ec5ac5ffb2519b6b6a1fdbf6b5ff5fdab075413026fbff273
+    env_file:
+      - .env
     container_name: OpenArchiver-REDIS
     healthcheck:
      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
@@ -75,6 +81,8 @@ services:
 
   meilisearch:
     image: getmeili/meilisearch:v1.30@sha256:d04371d3a649d27f84d6faaa8a8cecbdc1b833ebb6466383816935b8e9c6ed2a
+    env_file:
+      - .env
     container_name: OpenArchiver-MEILI
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7700"]
@@ -89,6 +97,8 @@ services:
 
   tika:
       image: apache/tika:3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
+      env_file:
+      - .env
       container_name: Open-Archiver-TIKA
       restart: on-failure:5
 
