@@ -1,6 +1,6 @@
 services:
   calibre-web-automated-book-downloader:
-    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest@sha256:648f94005768ea1dc83339739c666f0944959fc045c558bdd6641e5405c31a02
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest@sha256:3b2f9af9279507edb312f20199087d2ad3567f3eb304cbc31b99777ef21d6c5b
     env_file:
       - .env
     # Uncomment to build the image from the Dockerfile for local testing changes.
