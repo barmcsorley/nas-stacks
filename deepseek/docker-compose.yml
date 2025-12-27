@@ -1,0 +1,28 @@
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    restart: unless-stopped
+    volumes:
+      - /volume2/FastSSD/docker/ollama/models:/root/.ollama
+    networks:
+      - deepseek-net
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"  # This exposes the service to your NAS IP on port 3000
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - /volume2/FastSSD/docker/open-webui/data:/app/backend/data
+    depends_on:
+      - ollama
+    networks:
+      - deepseek-net
+
+networks:
+  deepseek-net:
+    driver: bridge
