@@ -1,8 +1,11 @@
 services:
   plex:
     image: ghcr.io/linuxserver/plex:latest@sha256:1720efa8e919a724ff3003cce7c1c0ae91a54e097ca3c8f6713a780c6fd73432
+    
+    # 1. Loads PUID, PGID, and PLEX_CLAIM directly from the file
     env_file:
       - /volume2/FastSSD/docker/plex/.env
+      
     container_name: Plex
     hostname: plex
     network_mode: host
@@ -15,16 +18,15 @@ services:
       retries: 3
     volumes:
       - /volume2/FastSSD/docker/plexhw:/config:rw
-      # NOTE: Mapping the root of SlowHDD to /movies means 
-      # inside Plex you will see subfolders like /movies/tvseries, /movies/music, etc.
       - /volume1/SlowHDD:/movies:ro
     devices:
       - /dev/dri/renderD128:/dev/dri/renderD128
       - /dev/dri/card0:/dev/dri/card0
+      
     environment:
       - TZ=Europe/Dublin
-      - PUID=${PUID}
-      - PGID=${PGID}
       - VERSION=public
-      - PLEX_CLAIM=${PLEX_CLAIM}
+      # DELETED: PUID, PGID, PLEX_CLAIM
+      # (They are already in the env_file with the correct names)
+
     restart: on-failure:5
