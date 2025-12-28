@@ -2,7 +2,7 @@ services:
   tailscale:
     image: tailscale/tailscale:latest@sha256:d6734d69fd7d31b1861589e347463954aa6097f9a61aa4f8f763ba94bfe0e5b9
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/tailscale/.env
     container_name: Tailscale
     hostname: ugreen-nas
     network_mode: host
