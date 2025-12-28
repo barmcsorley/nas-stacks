@@ -23,8 +23,4 @@ services:
       - TZ=Europe/Dublin
       - PUID=1000
       - PGID=10
-      - CUSTOM_USER=${APP_USER}
-      - PASSWORD=${APP_PASS}
-      - SETTINGS_ENCRYPTION_KEY=${DUPLICATI_KEY}
-      - DUPLICATI__WEBSERVICE_PASSWORD=${WEB_PASS}
     restart: on-failure:5
