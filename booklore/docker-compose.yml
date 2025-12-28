@@ -8,11 +8,8 @@ services:
       - no-new-privileges:true
     hostname: booklore-db
     environment:
-      - MARIADB_DATABASE=booklore
-      - MARIADB_USER=${DB_USER}
-      - MARIADB_PASSWORD=${DB_PASS}
-      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASS}
-      - TZ=Europe/Dublin  # FIXED: Changed from 'TZ: ...' to '- TZ=...'
+      # DELETED: MARIADB_DATABASE, USER, PASSWORD, ROOT_PASSWORD (Now loaded from env_file)
+      - TZ=Europe/Dublin
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -36,13 +33,11 @@ services:
       retries: 3
       start_period: 90s
     environment:
-      # FIXED: Converted ALL lines below to use '- KEY=VALUE' syntax
       - USER_ID=1000
       - GROUP_ID=10
       - TZ=Europe/Dublin
       - DATABASE_URL=jdbc:mariadb://BookLore-DB:3306/booklore
-      - DATABASE_USERNAME=${DB_USER}
-      - DATABASE_PASSWORD=${DB_PASS}
+      # DELETED: DATABASE_USERNAME and DATABASE_PASSWORD (Now loaded from env_file)
       - JAVA_OPTS=-Xmx768m
     depends_on:
       mariadb:
