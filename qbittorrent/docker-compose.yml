@@ -3,7 +3,7 @@ services:
     container_name: qBittorrent-VUE
     image: ghcr.io/linuxserver/qbittorrent@sha256:a68c4cfb7b07c39cf3f13e7f1d23d333c1e4a60304d37bc1eec7af3eacfe12d5
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/qbittorrent/.env
     healthcheck:
      test: curl -f http://localhost:9866/ || exit 1
     mem_limit: 6g
