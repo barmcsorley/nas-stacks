@@ -2,7 +2,7 @@ services:
   immich-redis:
     image: redis@sha256:3906b477e4b60250660573105110c28bfce93b01243eab37610a484daebceb04
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-REDIS
     hostname: immich-redis
     security_opt:
@@ -19,7 +19,7 @@ services:
   immich-db:
     image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0@sha256:1a078b237c1d9b420b0ee59147386b4aa60d3a07a8e6a402fc84a57e41b043a4
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-DB
     hostname: immich-db
     security_opt:
@@ -42,7 +42,7 @@ services:
   immich-server:
     image: ghcr.io/immich-app/immich-server:release@sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-SERVER
     hostname: immich-server
     user: 1000:10
@@ -88,7 +88,7 @@ services:
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:release-openvino@sha256:1c6c703477072b8878b5285d2186af7861f941458a55f2d994158bef373ef010
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-LEARNING
     hostname: immich-machine-learning
     security_opt:
