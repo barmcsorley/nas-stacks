@@ -16,7 +16,7 @@ services:
   pihole:
     image: pihole/pihole@sha256:91dc91ddd413bf461c283204558f8f21839851e9824799075a7ceff7c77eea40
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/pihole/.env
     container_name: Pi-Hole
     networks:
       macvlan_net:
