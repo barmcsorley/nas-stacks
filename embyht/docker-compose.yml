@@ -2,7 +2,7 @@ services:
   emby:
     image: emby/embyserver:latest@sha256:50284133433841756686a8da2bb3122a7e2944546d74297f12dc700a731e5e26
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/embyht/.env
     container_name: Emby
     environment:
       - TZ=Europe/Dublin
