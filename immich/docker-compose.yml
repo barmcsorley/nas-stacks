@@ -25,7 +25,8 @@ services:
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
+      # FIX: Hardcoded values to prevent substitution errors
+      test: ["CMD-SHELL", "pg_isready -d immich -U immichuser"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,9 +35,7 @@ services:
       - /volume2/FastSSD/docker/immich/db:/var/lib/postgresql/data:rw
     environment:
       - TZ=Europe/Dublin
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      # DELETED: POSTGRES_USER, PASSWORD, DB (Loaded from env_file)
     restart: on-failure:5
 
   immich-server:
@@ -53,26 +52,20 @@ services:
       - /dev/dri/card0:/dev/dri/card0
       - /dev/dri:/dev/dri
     environment:
-      # --- General Settings (From stack.env) ---
+      # --- General Settings ---
       - TZ=Europe/Dublin
       - NODE_ENV=production
       - LOG_LEVEL=log
       - DISABLE_REVERSE_GEOCODING=false
       - REVERSE_GEOCODING_PRECISION=3
       
-      # --- Secrets (Mapped to Portainer) ---
-      - JWT_SECRET=${JWT_SECRET}
-      
-      # --- Database Connection ---
-      - DB_HOSTNAME=immich-db
-      - DB_USERNAME=${DB_USER}
-      - DB_PASSWORD=${DB_PASS}
-      - DB_DATABASE_NAME=${DB_NAME}
-      - REDIS_HOSTNAME=immich-redis
-      
       # --- Internal Networking ---
-      # Tells the server where to find the ML container
+      - DB_HOSTNAME=immich-db
+      - REDIS_HOSTNAME=immich-redis
       - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
+      
+      # DELETED: JWT_SECRET, DB_USERNAME, DB_PASSWORD (Loaded from env_file)
+      
     ports:
       - 8212:2283
     volumes:
