@@ -2,7 +2,7 @@ services:
   frigate:
     image: ghcr.io/blakeblackshear/frigate:0.16.3@sha256:cf4305d9f1c673d71c4d0fab30ca56ca05ac91168711a74ee7867a4691a7ad02
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/frigate/.env
     container_name: Frigate
     hostname: frigate
     restart: on-failure:5
