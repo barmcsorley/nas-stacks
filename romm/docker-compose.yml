@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:17@sha256:dca7512acaa113409df7e40d977d801e53c0c8088e45d4311a45b4065ccfdcd3
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/romm/.env
     container_name: RomM-DB
     hostname: db
     security_opt:
@@ -25,7 +25,7 @@ services:
   romm:
     image: rommapp/romm:latest@sha256:b909e95d1aab88db9817be700183fda8d24094b3e7c28355ddbd066e2659fc8f
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/romm/.env
     container_name: RomM
     healthcheck:
       test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
