@@ -2,7 +2,7 @@ services:
   jellyfin:
     image: jellyfin/jellyfin:latest@sha256:6d819e9ab067efcf712993b23455cc100ee5585919bb297ea5a109ac00cb626e
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/jellyfinht/.env
     container_name: Jellyfin-HT
     user: 1000:10
     group_add:
