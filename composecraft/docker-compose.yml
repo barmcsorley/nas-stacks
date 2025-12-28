@@ -2,7 +2,7 @@ services:
   db:
     image: mongo:4.4@sha256:52c42cbab240b3c5b1748582cc13ef46d521ddacae002bbbda645cebed270ec0
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/composecraft/.env
     container_name: Compose-Craft-DB
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
@@ -20,7 +20,7 @@ services:
   composecraft:
     image: composecraft/composecraft:latest@sha256:fbdf19cbd2988c488406efe4238d3b6ba83a5055bcf490953779b8cf72465c68
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/composecraft/.env
     container_name: Compose-Craft
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 3000|| exit 1"]
