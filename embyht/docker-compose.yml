@@ -6,9 +6,6 @@ services:
     container_name: Emby
     environment:
       - TZ=Europe/Dublin
-      - UID=${PUID}
-      - GID=${PGID}
-      - GIDLIST=${HW_ACCEL_GROUPS}
     volumes:
       - /volume1/docker/embyht/config:/config:rw
       - /volume1/SlowHDD/tvseries:/tvshows:rw
