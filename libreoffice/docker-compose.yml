@@ -3,7 +3,7 @@ services:
     container_name: LibreOffice
     image:  ghcr.io/linuxserver/libreoffice:latest@sha256:9e2aec98039ac80a5ab98504b90b6ad8b7674e8d71f618ff478f5ca1c4ed5d7e
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/libreoffice/.env
     mem_limit: 8g
     cpu_shares: 2048
     security_opt:
