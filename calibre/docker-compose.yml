@@ -2,7 +2,7 @@ services:
   calibre:
     image: ghcr.io/linuxserver/calibre:latest@sha256:51e42276a0b0755e11fc9a4f6ea51c4179080e66f7befe41e2ac9b55d57b4c6e
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/calibre/.env
     container_name: Calibre
     mem_limit: 4g
     # "security_opt" is needed for the GUI to render correctly in some browsers
