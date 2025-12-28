@@ -1,8 +1,11 @@
 services:
   frigate:
     image: ghcr.io/blakeblackshear/frigate:0.16.3@sha256:cf4305d9f1c673d71c4d0fab30ca56ca05ac91168711a74ee7867a4691a7ad02
+    
+    # 1. Loads FRIGATE_RTSP_PASSWORD directly into the container
     env_file:
       - /volume2/FastSSD/docker/frigate/.env
+      
     container_name: Frigate
     hostname: frigate
     restart: on-failure:5
@@ -10,11 +13,14 @@ services:
       - apparmor=unconfined
       - systempaths=unconfined
     shm_size: 512mb
+    
     environment:
       - TZ=Europe/Dublin
-      - FRIGATE_RTSP_PASSWORD=${RTSP_PASS}
+      # DELETED: FRIGATE_RTSP_PASSWORD=${RTSP_PASS}
+      # (The container now has FRIGATE_RTSP_PASSWORD set automatically)
+      
     devices:
-      - /dev/dri/renderD128 # Excellent for your Intel N100 (OpenVINO/HW Accel)
+      - /dev/dri/renderD128
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /volume2/FastSSD/docker/frigate/config:/config:rw
@@ -22,9 +28,9 @@ services:
       - type: tmpfs
         target: /tmp/cache
         tmpfs:
-          size: 1000000000 # 1GB Cache
+          size: 1000000000
     ports:
-      - 5563:5000      # Web UI
-      - 8554:8554      # RTSP feeds
-      - 8555:8555/tcp  # WebRTC
-      - 8555:8555/udp  # WebRTC
+      - 5563:5000
+      - 8554:8554
+      - 8555:8555/tcp
+      - 8555:8555/udp
