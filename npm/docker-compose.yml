@@ -1,7 +1,7 @@
 services:
  nginx-proxy-manager:
   image: jc21/nginx-proxy-manager:latest@sha256:cd9eba29ca132cb006729f2cb2660126453f84818c2f7d75963ad7b61ef696bd
-   env_file:
+  env_file:
       - /volume2/FastSSD/docker/npm/.env
   container_name: Nginx-Proxy-Manager
   healthcheck:
