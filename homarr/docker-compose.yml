@@ -3,7 +3,7 @@ services:
     container_name: Homarr
     image: ghcr.io/homarr-labs/homarr:latest@sha256:47f827c16e7a93435159f77ddb726d8dacdf8b6dd8fb7bb91777b933a915bf05
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/homarr/.env
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 7575 || exit 1"]
       interval: 10s
