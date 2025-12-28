@@ -98,7 +98,7 @@ services:
 
   tika:
       image: apache/tika:3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
-    env_file:
-      - /volume2/FastSSD/docker/openarchiver/.env
+      env_file:
+        - /volume2/FastSSD/docker/openarchiver/.env
       container_name: Open-Archiver-TIKA
       restart: on-failure:5
