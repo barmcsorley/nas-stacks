@@ -1,19 +1,18 @@
 services:
   plextraktsync:
     image: ghcr.io/taxel/plextraktsync:latest@sha256:3dc9c707450247325d4ba29b802654451d9961d94601677b01c13d30940156b3
-    env_file:
-      - /volume2/FastSSD/docker/plextraktsync/.env
     container_name: PlexTraktSync
+    # 👇 CHANGE 1: Use relative path (The runner creates this file right here)
+    env_file:
+      - .env
     # This tells it to stay running and sync periodically
     command: watch
     volumes:
-      - /volume2/FastSSD/docker/PlexTraktSync/config:/app/config
+      - /volume2/FastSSD/docker/plextraktsync/config:/app/config
     environment:
       - PUID=1000
       - PGID=10
-      - TZ=Europe/Dublin
-    restart: on-failure:5  # Add this!
-    depends_on:
-      plex:
-        condition: service_started
-# vim:ts=2:sw=2:et
+      - TZ=Europe/London
+    # 👇 CHANGE 2: "on-failure" handles the dependency. 
+    # If Plex isn't ready, this crashes, waits, and tries again.
+    restart: on-failure:5
