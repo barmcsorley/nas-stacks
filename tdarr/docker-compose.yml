@@ -1,8 +1,11 @@
 services:
   tdarr:
     image: ghcr.io/haveagitgat/tdarr:latest@sha256:20a5656c4af4854e1877046294f77113f949d27e35940a9a65f231423d063207
+    
+    # 1. Loads all config (IPs, Ports, Drivers, PUID) from the file
     env_file:
       - /volume2/FastSSD/docker/tdarr/.env
+      
     container_name: Tdarr
     hostname: tdarr
     security_opt:
@@ -14,18 +17,12 @@ services:
       - 8266:8266
     devices:
       - /dev/dri:/dev/dri
-    group_add:       # <--- Grants access to the render group
+    group_add:
       - "105"
-    environment:
-      - TZ=Europe/Dublin
-      - PUID=1000
-      - PGID=10
-      - LIBVA_DRIVER_NAME=iHD  # <--- Forces modern driver for your N100 CPU
-      - serverIP=${serverIP:-tdarr}
-      - serverPort=8266
-      - webUIPort=8265
-      - internalNode=true
-      - nodeID=InternalNode
+      
+    # DELETED: environment section 
+    # (Everything is now safe in the env_file)
+
     volumes:
       - /volume2/FastSSD/docker/tdarr/server:/app/server
       - /volume2/FastSSD/docker/tdarr/configs:/app/configs
