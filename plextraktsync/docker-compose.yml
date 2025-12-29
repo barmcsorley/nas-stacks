@@ -12,4 +12,8 @@ services:
       - PUID=1000
       - PGID=10
       - TZ=Europe/Dublin
+    restart: on-failure:5  # Add this!
+    depends_on:
+      plex:
+        condition: service_started
 # vim:ts=2:sw=2:et
