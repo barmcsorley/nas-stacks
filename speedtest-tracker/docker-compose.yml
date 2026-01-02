@@ -22,3 +22,16 @@ services:
       - APP_KEY=${SPEEDTEST_APP_KEY}
     env_file:
       - /volume2/FastSSD/docker/speedtest-tracker/.env
+      # Add this dependency so they start together
+    depends_on:
+      - apprise
+
+  # NEW SERVICE 👇
+  apprise:
+    image: caronc/apprise-api:latest
+    container_name: apprise-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - /volume2/FastSSD/docker/speedtest-tracker/.env
