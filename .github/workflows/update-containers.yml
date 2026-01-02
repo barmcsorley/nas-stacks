@@ -16,7 +16,7 @@ jobs:
     runs-on: [self-hosted, nas]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v3
 
       - name: Update All Containers
         run: |
@@ -25,7 +25,7 @@ jobs:
           # Loop through every docker-compose file found in the repo
           find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
-            # Extract just the folder name (e.g. "audiobookshelf")
+            # Extract just the folder name (e.g. "plextraktsync")
             stack_name=$(basename "$dir")
             
             echo "---------------------------------------------------"
@@ -34,14 +34,21 @@ jobs:
             
             cd "$dir"
             
-            # 1. SECRET INJECTION
-            # We look for the .env file in the mounted NAS path
-            if [ -f "/mnt/nas-docker/$stack_name/.env" ]; then
+            # 1. SECRET INJECTION (Corrected Path)
+            # We look for the .env file in the ACTUAL volume path we verified with docker inspect
+            TARGET_ENV="/volume2/FastSSD/docker/$stack_name/.env"
+            
+            echo "   🔍 Debug: Checking for secrets at $TARGET_ENV"
+
+            if [ -f "$TARGET_ENV" ]; then
                 echo "   🔑 Found secrets on NAS! Injecting .env file..."
-                cp "/mnt/nas-docker/$stack_name/.env" ./.env
+                cp "$TARGET_ENV" ./.env
+                # Tell Docker to use the local .env we just created
                 CMD="docker compose --env-file .env"
             else
-                echo "   ⚠️ No .env file found on NAS for this stack."
+                echo "   ⚠️ No .env file found at $TARGET_ENV. Proceeding without secrets."
+                # List the parent folder to debug if it's missing or named differently
+                ls -la "/volume2/FastSSD/docker/$stack_name/" || echo "   ❌ Folder does not exist on NAS"
                 CMD="docker compose"
             fi
             

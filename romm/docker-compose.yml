@@ -1,10 +1,11 @@
-version: '3.8'
-
 services:
   db:
     image: postgres:17@sha256:dca7512acaa113409df7e40d977d801e53c0c8088e45d4311a45b4065ccfdcd3
+    
+    # 1. Loads POSTGRES_USER, PASSWORD, DB directly
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/romm/.env
+      
     container_name: RomM-DB
     hostname: db
     security_opt:
@@ -16,16 +17,18 @@ services:
       retries: 10
     volumes:
       - /volume2/FastSSD/docker/romm/db:/var/lib/postgresql/data:rw
-    environment:
-      - POSTGRES_DB=romm
-      - POSTGRES_USER=rommuser
-      - POSTGRES_PASSWORD=rommpass
+      
+    # DELETED: environment section (Loaded from env_file)
+      
     restart: on-failure:5
 
   romm:
     image: rommapp/romm:latest@sha256:b909e95d1aab88db9817be700183fda8d24094b3e7c28355ddbd066e2659fc8f
+    
+    # 2. Loads DB_PASSWD, IGDB keys, AUTH_SECRET directly
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/romm/.env
+      
     container_name: RomM
     healthcheck:
       test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
@@ -33,18 +36,10 @@ services:
       timeout: 5s
       retries: 3
       start_period: 90s
-    environment:
-      - ROMM_DB_DRIVER=postgresql
-      - DB_HOST=db
-      - DB_NAME=romm
-      - DB_USER=rommuser
-      - DB_PASSWD=rommpass      # FIXED: Changed back to DB_PASSWD
-      - DB_PORT=5432
-      - ROMM_AUTH_SECRET_KEY=9c9e5aabb2bd7171615b94c8cd29dd6196ea6492364f5705715d16b54cc9ec45
-      - IGDB_CLIENT_ID=rxo6lxu142n09c8q9vt9k9m02nv2w1
-      - IGDB_CLIENT_SECRET=xeen56g4qv67nusyfbg6xpj0mm86l6
-      - PUID=1000
-      - PGID=10
+      
+    # DELETED: environment section 
+    # (Everything, including PUID/PGID and API keys, is now in the env_file)
+      
     volumes:
       - /volume2/FastSSD/docker/romm/resources:/romm/resources:rw
       - /volume2/FastSSD/docker/romm/redis:/redis-data:rw

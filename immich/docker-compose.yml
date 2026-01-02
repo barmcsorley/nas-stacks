@@ -2,7 +2,7 @@ services:
   immich-redis:
     image: redis@sha256:3906b477e4b60250660573105110c28bfce93b01243eab37610a484daebceb04
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-REDIS
     hostname: immich-redis
     security_opt:
@@ -19,13 +19,14 @@ services:
   immich-db:
     image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0@sha256:1a078b237c1d9b420b0ee59147386b4aa60d3a07a8e6a402fc84a57e41b043a4
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-DB
     hostname: immich-db
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}"]
+      # FIX: Hardcoded values to prevent substitution errors
+      test: ["CMD-SHELL", "pg_isready -d immich -U immichuser"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -34,15 +35,13 @@ services:
       - /volume2/FastSSD/docker/immich/db:/var/lib/postgresql/data:rw
     environment:
       - TZ=Europe/Dublin
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
+      # DELETED: POSTGRES_USER, PASSWORD, DB (Loaded from env_file)
     restart: on-failure:5
 
   immich-server:
     image: ghcr.io/immich-app/immich-server:release@sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-SERVER
     hostname: immich-server
     user: 1000:10
@@ -53,26 +52,20 @@ services:
       - /dev/dri/card0:/dev/dri/card0
       - /dev/dri:/dev/dri
     environment:
-      # --- General Settings (From stack.env) ---
+      # --- General Settings ---
       - TZ=Europe/Dublin
       - NODE_ENV=production
       - LOG_LEVEL=log
       - DISABLE_REVERSE_GEOCODING=false
       - REVERSE_GEOCODING_PRECISION=3
       
-      # --- Secrets (Mapped to Portainer) ---
-      - JWT_SECRET=${JWT_SECRET}
-      
-      # --- Database Connection ---
-      - DB_HOSTNAME=immich-db
-      - DB_USERNAME=${DB_USER}
-      - DB_PASSWORD=${DB_PASS}
-      - DB_DATABASE_NAME=${DB_NAME}
-      - REDIS_HOSTNAME=immich-redis
-      
       # --- Internal Networking ---
-      # Tells the server where to find the ML container
+      - DB_HOSTNAME=immich-db
+      - REDIS_HOSTNAME=immich-redis
       - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
+      
+      # DELETED: JWT_SECRET, DB_USERNAME, DB_PASSWORD (Loaded from env_file)
+      
     ports:
       - 8212:2283
     volumes:
@@ -88,7 +81,7 @@ services:
   immich-machine-learning:
     image: ghcr.io/immich-app/immich-machine-learning:release-openvino@sha256:1c6c703477072b8878b5285d2186af7861f941458a55f2d994158bef373ef010
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-LEARNING
     hostname: immich-machine-learning
     security_opt:

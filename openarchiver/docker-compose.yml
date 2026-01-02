@@ -2,7 +2,7 @@ services:
   open-archiver:
     image: logiclabshq/open-archiver:latest@sha256:8b580260ae82d9f4656912a8d7dd57fbdaaca7b993c82a42f7f0514d8908597b
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-WEB
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
@@ -16,18 +16,9 @@ services:
       # Redis Connection
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
-      - REDIS_PASSWORD=${REDIS_PASS}
-      # Database Connection
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${DB_PASS}
-      # Constructed URL using the variables above:
-      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASS}@openarchiver-db:5432/${DB_NAME}
-      # Secrets
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRES_IN=7d
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
+      # DELETED: REDIS_PASSWORD, POSTGRES_*, DATABASE_URL, SECRETS...
+      # (All loaded directly from the env_file now)
+      
       # Internal Services
       - MEILI_HOST=http://meilisearch:7700
       - TIKA_URL=http://tika:9998
@@ -48,33 +39,34 @@ services:
   db:
     image: postgres:17-alpine@sha256:ff4ccc02b97e0ebb6b328ef9ff92522f95586f83be6801896b615088defc8ad2
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-DB
     hostname: openarchiver-db
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "${DB_NAME}", "-U", "${DB_USER}"]
+      # FIX: Hardcoded values because healthcheck runs on host sometimes or can't see env vars easily
+      test: ["CMD", "pg_isready", "-q", "-d", "openarchiver", "-U", "openuser"]
       timeout: 45s
       interval: 10s
       retries: 10
-    environment:
-       - POSTGRES_DB=${DB_NAME}
-       - POSTGRES_USER=${DB_USER}
-       - POSTGRES_PASSWORD=${DB_PASS}
+    # DELETED: environment section (Loaded from env_file)
     volumes:
-        - ./db:/var/lib/postgresql/data
+       - ./db:/var/lib/postgresql/data
     restart: on-failure:5
 
   valkey:
     image: valkey/valkey:8-alpine@sha256:3c3ccc8571d4866ec5ac5ffb2519b6b6a1fdbf6b5ff5fdab075413026fbff273
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-REDIS
     healthcheck:
      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
-    # We inject the password variable into the command line here:
-    command: valkey-server --requirepass ${REDIS_PASS}
+    
+    # FIX: Use Shell execution so the CONTAINER injects the password variable, not the Runner
+    # We use 'sh -c' and "$REDIS_PASS" (with quotes)
+    command: sh -c "valkey-server --requirepass \"$REDIS_PASS\""
+    
     volumes:
       - ./redis:/data
     restart: on-failure:5
@@ -82,23 +74,21 @@ services:
   meilisearch:
     image: getmeili/meilisearch:v1.30@sha256:d04371d3a649d27f84d6faaa8a8cecbdc1b833ebb6466383816935b8e9c6ed2a
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-MEILI
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:7700"]
       interval: 10s
       timeout: 5s
       retries: 5
-    environment:
-      - MEILI_MASTER_KEY=${MEILI_MASTER_KEY}
+    # DELETED: environment section (MEILI_MASTER_KEY loaded from env_file)
     volumes:
-      # Change this line to point to your actual NAS folder:
       - ./meili:/meili_data
     restart: on-failure:5
 
   tika:
       image: apache/tika:3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
       env_file:
-      - .env
+        - /volume2/FastSSD/docker/openarchiver/.env
       container_name: Open-Archiver-TIKA
       restart: on-failure:5

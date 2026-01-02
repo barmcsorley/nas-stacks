@@ -1,26 +1,34 @@
 services:
   db:
     image: mongo:4.4@sha256:52c42cbab240b3c5b1748582cc13ef46d521ddacae002bbbda645cebed270ec0
+    
+    # 1. Loads MONGO_INITDB_ROOT_USERNAME/PASSWORD directly
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/composecraft/.env
+      
     container_name: Compose-Craft-DB
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASS}
+    # Change restart policy to always, so it keeps trying if OOM killer shoots it
+    restart: always  
+    # DELETED: environment section 
+    # (Variables are now loaded automatically from env_file)
+      
     ports:
       - 27017:27017
     volumes:
       - mongo_data:/data/db
 
   composecraft:
-    image: composecraft/composecraft:latest@sha256:8f321d5775c2d65d59364cf0f95e3c60c6e5c8f6671cd7291d37ebfdfd759c16
+    image: composecraft/composecraft:latest@sha256:fbdf19cbd2988c488406efe4238d3b6ba83a5055bcf490953779b8cf72465c68
+    
+    # 2. Loads SECRET_KEY and MONGODB_URI directly
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/composecraft/.env
+      
     container_name: Compose-Craft
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 3000|| exit 1"]
@@ -30,12 +38,15 @@ services:
       start_period: 90s
     ports:
       - 3784:3000
+      
     environment:
+      # Static config is fine to keep here
       - CORE_ONLY=true
       - URL=http://localhost:3000
-      - SECRET_KEY=${APP_SECRET}
-      # Using a separate variable for URI to handle the special character encoding
-      - MONGODB_URI=${MONGO_CONNECTION_STRING}
+      
+      # DELETED: SECRET_KEY, MONGODB_URI
+      # (They are now loaded securely from env_file)
+
     depends_on:
       - db
 

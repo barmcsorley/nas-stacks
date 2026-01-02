@@ -1,19 +1,19 @@
 services:
   tailscale:
     image: tailscale/tailscale:latest@sha256:d6734d69fd7d31b1861589e347463954aa6097f9a61aa4f8f763ba94bfe0e5b9
+    
+    # 1. Loads Auth Key, Routes, and Config from the file
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/tailscale/.env
+      
     container_name: Tailscale
     hostname: ugreen-nas
     network_mode: host
     privileged: true
-    environment:
-      - TS_AUTHKEY=${TS_AUTHKEY}
-      - TS_STATE_DIR=/var/lib/tailscale
-      # Recommendation: Set TS_USERSPACE=false if you want better performance and exit nodes
-      - TS_USERSPACE=true
-      - TS_ROUTES=192.168.68.0/24  # Your home subnet
-      - TS_EXTRA_ARGS=--advertise-exit-node
+    
+    # DELETED: environment section 
+    # (All variables are now loaded from env_file)
+      
     volumes:
       - /volume2/FastSSD/docker/tailscale/state:/var/lib/tailscale
     devices:

@@ -2,17 +2,14 @@ services:
   mariadb:
     image: mariadb:12.1-noble@sha256:e1bcd6f85781f4a875abefb11c4166c1d79e4237c23de597bf0df81fec225b40
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/booklore/.env
     container_name: BookLore-DB
     security_opt:
       - no-new-privileges:true
     hostname: booklore-db
     environment:
-      - MARIADB_DATABASE=booklore
-      - MARIADB_USER=${DB_USER}
-      - MARIADB_PASSWORD=${DB_PASS}
-      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASS}
-      - TZ=Europe/Dublin  # FIXED: Changed from 'TZ: ...' to '- TZ=...'
+      # DELETED: MARIADB_DATABASE, USER, PASSWORD, ROOT_PASSWORD (Now loaded from env_file)
+      - TZ=Europe/Dublin
     healthcheck:
       test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
       interval: 10s
@@ -26,7 +23,7 @@ services:
   booklore:
     image: ghcr.io/booklore-app/booklore:latest@sha256:1efc89c1ec87efa290943270a3b76130fe4dc8294177b287d4252d2aeff0ccbf
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/booklore/.env
     container_name: BookLore
     mem_limit: 1g
     healthcheck:
@@ -36,13 +33,11 @@ services:
       retries: 3
       start_period: 90s
     environment:
-      # FIXED: Converted ALL lines below to use '- KEY=VALUE' syntax
       - USER_ID=1000
       - GROUP_ID=10
       - TZ=Europe/Dublin
       - DATABASE_URL=jdbc:mariadb://BookLore-DB:3306/booklore
-      - DATABASE_USERNAME=${DB_USER}
-      - DATABASE_PASSWORD=${DB_PASS}
+      # DELETED: DATABASE_USERNAME and DATABASE_PASSWORD (Now loaded from env_file)
       - JAVA_OPTS=-Xmx768m
     depends_on:
       mariadb:

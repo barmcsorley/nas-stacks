@@ -2,7 +2,7 @@ services:
  sonarr:
     image: ghcr.io/linuxserver/sonarr:latest@sha256:8b9f2138ec50fc9e521960868f79d2ad0d529bc610aef19031ea8ff80b54c5e0
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/sonarr/.env
     container_name: Sonarr
     network_mode: host
     healthcheck:

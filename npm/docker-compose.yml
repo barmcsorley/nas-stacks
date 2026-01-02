@@ -1,25 +1,28 @@
 services:
- nginx-proxy-manager:
-  image: jc21/nginx-proxy-manager:latest@sha256:cd9eba29ca132cb006729f2cb2660126453f84818c2f7d75963ad7b61ef696bd
-  env_file:
-      - .env
-  container_name: Nginx-Proxy-Manager
-  healthcheck:
+  nginx-proxy-manager:
+    image: jc21/nginx-proxy-manager:latest@sha256:cd9eba29ca132cb006729f2cb2660126453f84818c2f7d75963ad7b61ef696bd
+    
+    # 1. Loads all variables (TZ, Email, Password) from the file
+    env_file:
+      - /volume2/FastSSD/docker/npm/.env
+      
+    container_name: Nginx-Proxy-Manager
+    healthcheck:
       test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/81' || exit 1
       interval: 10s
       timeout: 5s
       retries: 3
       start_period: 90s
-  volumes:
-    - /volume2/FastSSD/docker/npm/letsencrypt:/etc/letsencrypt:rw
-    - /volume2/FastSSD/docker/npm/data:/data:rw
-    - /volume2/FastSSD/docker/npm/config.json:/app/config/production.json
-  environment:
-    TZ: Europe/Dublin
-    INITIAL_ADMIN_EMAIL: barry@mcsorley.org.uk
-    INITIAL_ADMIN_PASSWORD: barrytemp
-  ports:
-    - 443:443
-    - 81:81
-    - 80:80
-  restart: on-failure:5
+    volumes:
+      - /volume2/FastSSD/docker/npm/letsencrypt:/etc/letsencrypt:rw
+      - /volume2/FastSSD/docker/npm/data:/data:rw
+      - /volume2/FastSSD/docker/npm/config.json:/app/config/production.json
+    ports:
+      - 443:443
+      - 81:81
+      - 80:80
+      
+    # DELETED: environment section
+    # (Everything is now safe in the env_file)
+      
+    restart: on-failure:5

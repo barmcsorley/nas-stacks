@@ -3,7 +3,7 @@ services:
     container_name: Audiobookshelf
     image: advplyr/audiobookshelf@sha256:a52dc5db694a5bf041ce38f285dd6c6a660a4b1b21e37ad6b6746433263b2ae5
     env_file:
-      - .env
+      - /volume2/FastSSD/docker/audiobookshelf/.env
     security_opt:
       - no-new-privileges:true
     healthcheck:
@@ -14,8 +14,6 @@ services:
       start_period: 90s
     mem_limit: 4g
     cpu_shares: 768
-    environment:
-      - JWT_SECRET_KEY=${JWT_SECRET}  # <--- Added the dash here
     ports:
       - 13378:80
     volumes:
