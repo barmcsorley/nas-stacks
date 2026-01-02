@@ -20,6 +20,5 @@ services:
       - PRUNE_RESULTS_OLDER_THAN=90
       # Pass the key from the .env file to the container
       - APP_KEY=${SPEEDTEST_APP_KEY}
-      - APP_DEBUG=${APP_DEBUG} # Add this line
     env_file:
       - /volume2/FastSSD/docker/speedtest-tracker/.env
