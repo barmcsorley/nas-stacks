@@ -3,7 +3,7 @@ services:
     image: crocodilestick/calibre-web-automated:latest@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
     env_file:
       - /volume2/FastSSD/docker/calibrewebautomated/.env
-    container_name: Calibre-WEB-AUTOMATED
+    container_name: Calibre-Web-Automated
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 8083 || exit 1"]
       interval: 10s
@@ -12,19 +12,19 @@ services:
       start_period: 90s
     environment:
       PUID: 1000
-      PGID: 10
+      PGID: 100 # Changed from 10. Usually 100 (users) or 1000 on UGreen.
       TZ: Europe/Dublin
       # Ensures correct dependencies for conversion
       DOCKER_MODS: linuxserver/mods:universal-calibre 
       # Paste ONLY the long token string here (no "Bearer" prefix unless docs specify)
-      HARDCOVER_TOKEN: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJIYXJkY292ZXIiLCJ2ZXJzaW9uIjoiOCIsImp0aSI6IjlhMDQ2ZDA2LTE4YzEtNGFlYy05ODM5LWU2YjdmYjA1MzdhMCIsImFwcGxpY2F0aW9uSWQiOjIsInN1YiI6IjU4MzYxIiwiYXVkIjoiMSIsImlkIjoiNTgzNjEiLCJsb2dnZWRJbiI6dHJ1ZSwiaWF0IjoxNzY1MzI2MzE1LCJleHAiOjE3OTY4NjIzMTUsImh0dHBzOi8vaGFzdXJhLmlvL2p3dC9jbGFpbXMiOnsieC1oYXN1cmEtYWxsb3dlZC1yb2xlcyI6WyJ1c2VyIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6InVzZXIiLCJ4LWhhc3VyYS1yb2xlIjoidXNlciIsIlgtaGFzdXJhLXVzZXItaWQiOiI1ODM2MSJ9LCJ1c2VyIjp7ImlkIjo1ODM2MX19.goRsiO4sv8plL4ktkb-xx83j_T8CVCiPhyIgyV9MEiM
+      HARDCOVER_TOKEN=${HARDCOVER_TOKEN}
       # Ensure NETWORK_SHARE_MODE=true is set in Portainer!
     volumes:
-      - /volume2/FastSSD/docker/autocalibreweb/config:/config:rw
+      - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
       # This points to your clean library folder
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
-      - /volume2/FastSSD/docker/autocalibreweb/plugins:/config/.config/calibre/plugins:rw
+      - /volume2/FastSSD/docker/calibrewebautomated/plugins:/config/.config/calibre/plugins:rw
     ports:
       - 8213:8083
     restart: on-failure:5
