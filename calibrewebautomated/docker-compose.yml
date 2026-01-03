@@ -9,14 +9,12 @@ services:
       PGID: 100
       TZ: Europe/Dublin
       DOCKER_MODS: linuxserver/mods:universal-calibre
-      # FIXED: Changed '=' to ':' to match the format of PUID/PGID above
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
-      # Add this line below to fix the "libasound" error:
-      - TP_ADDON=libasound2 libxkbcommon-x11-0
+      # FIXED: Removed the '-' and '=', changed to key: value format
+      TP_ADDON: libasound2 libxkbcommon-x11-0
     volumes:
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
-      # HDD Library Path
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
       - /volume2/FastSSD/docker/calibrewebautomated/plugins:/config/.config/calibre/plugins:rw
     ports:
