@@ -1,21 +1,18 @@
 services:
   calibre-web-automated:
-    # UPDATED: Removed the @sha256 hash to ensure you get the latest scripts
     image: crocodilestick/calibre-web-automated:latest
     container_name: Calibre-Web-Automated
     env_file:
       - /volume2/FastSSD/docker/calibrewebautomated/.env
+    # FORCE-INSTALL DEPENDENCIES ON BOOT
+    # This runs apt-get install before starting the app to fix the Calibre 8 crash
+    command: /bin/sh -c "apt-get update && apt-get install -y libasound2 libxkbcommon-x11-0 libegl1 libopengl0 libglx0 libnss3 libxcomposite1 libxdamage1 libxrandr2 libxtst6 libxcursor1 libxi6 && /init"
     environment:
-      # Run as Root to guarantee no permission errors
       PUID: 0
       PGID: 0
       TZ: Europe/Dublin
-      # Force Calibre 7 (Stable) to avoid the V8 library crashes
-      CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
       DOCKER_MODS: linuxserver/mods:universal-calibre
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
-      # Extra libraries just in case
-      TP_ADDON: "libasound2 libxkbcommon-x11-0 libegl1 libopengl0 libglx0"
     volumes:
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
