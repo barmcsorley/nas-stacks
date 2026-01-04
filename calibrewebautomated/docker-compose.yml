@@ -8,6 +8,8 @@ services:
       PUID: 1000
       PGID: 100
       TZ: Europe/Dublin
+      # ADD THIS LINE to pin the version to a stable release
+      CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
       DOCKER_MODS: linuxserver/mods:universal-calibre
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
       # FIXED: Removed the '-' and '=', changed to key: value format
