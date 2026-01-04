@@ -1,22 +1,24 @@
 services:
   calibre-web-automated:
-    image: crocodilestick/calibre-web-automated:latest@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
+    # UPDATED: Removed the @sha256 hash to ensure you get the latest scripts
+    image: crocodilestick/calibre-web-automated:latest
     container_name: Calibre-Web-Automated
     env_file:
       - /volume2/FastSSD/docker/calibrewebautomated/.env
     environment:
-      # RUNNING AS ROOT TO DIAGNOSE PERMISSIONS
+      # Run as Root to guarantee no permission errors
       PUID: 0
       PGID: 0
       TZ: Europe/Dublin
+      # Force Calibre 7 (Stable) to avoid the V8 library crashes
+      CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
       DOCKER_MODS: linuxserver/mods:universal-calibre
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
-      # The "Mega List" to fix Calibre 8 / Qt6 crashes
-      TP_ADDON: libasound2 libxkbcommon-x11-0 libegl1 libopengl0 libglx0 libnss3 libxcomposite1 libxdamage1 libxrandr2 libxtst6 libxcursor1 libxi6
+      # Extra libraries just in case
+      TP_ADDON: "libasound2 libxkbcommon-x11-0 libegl1 libopengl0 libglx0"
     volumes:
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
-      # HDD Library Path
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
       - /volume2/FastSSD/docker/calibrewebautomated/plugins:/config/.config/calibre/plugins:rw
     ports:
