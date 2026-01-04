@@ -3,23 +3,20 @@ services:
     image: crocodilestick/calibre-web-automated:latest
     container_name: Calibre-Web-Automated
     environment:
-      # Run as Root (0) to bypass all permission issues on the HDD
-      PUID: 0
-      PGID: 0
+      # REVERTED: Back to standard user (Safer than Root)
+      PUID: 1000
+      PGID: 100
       TZ: Europe/Dublin
       
-      # FIX 1: Install the Package Manager and the dependencies for Calibre 8+
+      # TOKEN: Managed in Portainer UI
+      HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
+
+      # CRITICAL FIX: We MUST keep this.
+      # Your logs prove V8 needs these libraries to run without crashing.
       DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install
       INSTALL_PACKAGES: libasound2|libxkbcommon-x11-0|libegl1|libopengl0|libglx0|libnss3|libxcomposite1|libxdamage1|libxrandr2|libxtst6|libxcursor1|libxi6
-      
-      # FIX 2: Inject the token (We set this in Portainer UI)
-      HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
-      
-      # FIX 3: Force Calibre 7 (Stable) to avoid V8 instability if libraries fail
-      CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
     
     volumes:
-      # We still mount the config folder because this happens at RUNTIME, not DEPLOY time
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
