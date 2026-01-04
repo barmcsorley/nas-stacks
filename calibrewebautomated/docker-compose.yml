@@ -4,15 +4,17 @@ services:
     container_name: Calibre-Web-Automated
     env_file:
       - /volume2/FastSSD/docker/calibrewebautomated/.env
-    # FORCE-INSTALL DEPENDENCIES ON BOOT
-    # This runs apt-get install before starting the app to fix the Calibre 8 crash
-    command: /bin/sh -c "apt-get update && apt-get install -y libasound2 libxkbcommon-x11-0 libegl1 libopengl0 libglx0 libnss3 libxcomposite1 libxdamage1 libxrandr2 libxtst6 libxcursor1 libxi6 && /init"
     environment:
       PUID: 0
       PGID: 0
       TZ: Europe/Dublin
-      DOCKER_MODS: linuxserver/mods:universal-calibre
+      # We combine universal-calibre with universal-package-install using a pipe |
+      DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install
+      # This tells the mod which system packages to install on boot
+      INSTALL_PACKAGES: libasound2|libxkbcommon-x11-0|libegl1|libopengl0|libglx0|libnss3|libxcomposite1|libxdamage1|libxrandr2|libxtst6|libxcursor1|libxi6
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
+      # Force Calibre 7 to avoid the V8 instability completely (Optional but recommended)
+      CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
     volumes:
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
