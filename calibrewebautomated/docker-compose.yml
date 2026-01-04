@@ -5,18 +5,18 @@ services:
     env_file:
       - /volume2/FastSSD/docker/calibrewebautomated/.env
     environment:
-      PUID: 1000
-      PGID: 100
+      # RUNNING AS ROOT TO DIAGNOSE PERMISSIONS
+      PUID: 0
+      PGID: 0
       TZ: Europe/Dublin
-      # ADD THIS LINE to pin the version to a stable release
-      CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
       DOCKER_MODS: linuxserver/mods:universal-calibre
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
-      # FIXED: Removed the '-' and '=', changed to key: value format
-      TP_ADDON: libasound2 libxkbcommon-x11-0
+      # The "Mega List" to fix Calibre 8 / Qt6 crashes
+      TP_ADDON: libasound2 libxkbcommon-x11-0 libegl1 libopengl0 libglx0 libnss3 libxcomposite1 libxdamage1 libxrandr2 libxtst6 libxcursor1 libxi6
     volumes:
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
+      # HDD Library Path
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
       - /volume2/FastSSD/docker/calibrewebautomated/plugins:/config/.config/calibre/plugins:rw
     ports:
