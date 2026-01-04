@@ -2,20 +2,24 @@ services:
   calibre-web-automated:
     image: crocodilestick/calibre-web-automated:latest
     container_name: Calibre-Web-Automated
-    env_file:
-      - /volume2/FastSSD/docker/calibrewebautomated/.env
     environment:
+      # Run as Root (0) to bypass all permission issues on the HDD
       PUID: 0
       PGID: 0
       TZ: Europe/Dublin
-      # We combine universal-calibre with universal-package-install using a pipe |
+      
+      # FIX 1: Install the Package Manager and the dependencies for Calibre 8+
       DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install
-      # This tells the mod which system packages to install on boot
       INSTALL_PACKAGES: libasound2|libxkbcommon-x11-0|libegl1|libopengl0|libglx0|libnss3|libxcomposite1|libxdamage1|libxrandr2|libxtst6|libxcursor1|libxi6
+      
+      # FIX 2: Inject the token (We set this in Portainer UI)
       HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
-      # Force Calibre 7 to avoid the V8 instability completely (Optional but recommended)
+      
+      # FIX 3: Force Calibre 7 (Stable) to avoid V8 instability if libraries fail
       CALIBRE_INSTALLER_SOURCE_CODE_URL: https://github.com/kovidgoyal/calibre/releases/download/v7.26.0/calibre-7.26.0-x86_64.txz
+    
     volumes:
+      # We still mount the config folder because this happens at RUNTIME, not DEPLOY time
       - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
       - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
