@@ -19,7 +19,6 @@ services:
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
       - /volume2/FastSSD/docker/calibrewebautomated/plugins:/config/.config/calibre/plugins:rw
     ports:
-      # Your preferred port (Host Port : Container Port)
       - 8213:8083
     restart: on-failure:5
     healthcheck:
@@ -47,7 +46,8 @@ services:
       # Mounts the SAME library as CWA (CRITICAL: Guarded by command below)
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
     ports:
-      - 8080:8080 # Web Interface for Desktop
+      # CHANGED: 8085 to avoid conflict with other apps on 8080
+      - 8085:8080
       - 8081:8081
     # ---------------------------------------------------------
     # THE SAFETY GUARD
