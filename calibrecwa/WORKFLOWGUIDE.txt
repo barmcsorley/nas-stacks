@@ -1,0 +1,43 @@
+===================================================================
+   CALIBRE HYBRID WORKFLOW: SAFE DATABASE MANAGEMENT
+===================================================================
+
+Your Calibre setup runs TWO containers sharing ONE database.
+To prevent database corruption, they cannot run at the same time.
+
+-------------------------------------------------------------------
+MODE A: DAILY USE (Reading & Automation)
+-------------------------------------------------------------------
+1. Status: "Calibre-Web-Automated" is RUNNING.
+2. Status: "Calibre-Desktop" is SLEEPING (Safety Guard Active).
+3. Access: http://192.168.68.102:8213
+4. Use this for:
+   - Browsing your library
+   - Automatic downloads (Readarr/Ingest)
+   - Reading books via Web or Booklore
+
+-------------------------------------------------------------------
+MODE B: LIBRARIAN MODE (Heavy Editing)
+-------------------------------------------------------------------
+Use this when you need to fix covers, merge books, or use plugins.
+
+1. Go to Portainer -> Stack -> calibrewebautomated.
+2. STOP the "Calibre-Web-Automated" container.
+3. RESTART the "Calibre-Desktop" container.
+   (The Safety Guard will see CWA is offline and allow Desktop to start).
+4. Access: http://192.168.68.102:8085
+5. Perform your edits in the full desktop interface.
+
+-------------------------------------------------------------------
+RETURNING TO NORMAL
+-------------------------------------------------------------------
+1. STOP "Calibre-Desktop".
+2. START "Calibre-Web-Automated".
+3. Done.
+
+-------------------------------------------------------------------
+TROUBLESHOOTING
+-------------------------------------------------------------------
+If Calibre Desktop won't load on port 8085:
+- Check Portainer Logs for Calibre-Desktop.
+- If it says "🛑 CWA IS RUNNING!", you forgot to stop the other container.
