@@ -1,0 +1,72 @@
+services:
+  # -------------------------------------------------------
+  # SERVICE 1: Calibre-Web Automated (The "Daily Driver")
+  # -------------------------------------------------------
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: Calibre-Web-Automated
+    environment:
+      PUID: 1000
+      PGID: 100
+      TZ: Europe/Dublin
+      HARDCOVER_TOKEN: ${HARDCOVER_TOKEN}
+      # Critical Mods for Calibre V8 Stability
+      DOCKER_MODS: linuxserver/mods:universal-calibre|linuxserver/mods:universal-package-install
+      INSTALL_PACKAGES: libasound2|libxkbcommon-x11-0|libegl1|libopengl0|libglx0|libnss3|libxcomposite1|libxdamage1|libxrandr2|libxtst6|libxcursor1|libxi6
+    volumes:
+      - /volume2/FastSSD/docker/calibrewebautomated/config:/config:rw
+      - /volume2/FastSSD/docker/cwabookdownloader/ingest:/cwa-book-ingest:rw
+      - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
+      - /volume2/FastSSD/docker/calibrewebautomated/plugins:/config/.config/calibre/plugins:rw
+    ports:
+      # Your preferred port (Host Port : Container Port)
+      - 8213:8083
+    restart: on-failure:5
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8083 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+
+  # -------------------------------------------------------
+  # SERVICE 2: Calibre Desktop (The "Gardener")
+  # -------------------------------------------------------
+  calibre:
+    image: lscr.io/linuxserver/calibre:latest
+    container_name: Calibre-Desktop
+    environment:
+      - PUID=1000
+      - PGID=100
+      - TZ=Europe/Dublin
+      # Fixes the tiny screen issue (Sets it to 1080p)
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
+    volumes:
+      - /volume2/FastSSD/docker/calibre/config:/config
+      # Mounts the SAME library as CWA (CRITICAL: Guarded by command below)
+      - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
+    ports:
+      - 8080:8080 # Web Interface for Desktop
+      - 8081:8081
+    # ---------------------------------------------------------
+    # THE SAFETY GUARD
+    # Checks if CWA is responding internally on port 8083.
+    # IF CWA ON -> Sleep indefinitely (Protects DB).
+    # IF CWA OFF -> Start Calibre Desktop.
+    # ---------------------------------------------------------
+    command: >
+      /bin/sh -c "
+        echo '🔍 Checking for CWA Activity...';
+        if curl -s --connect-timeout 2 http://Calibre-Web-Automated:8083 > /dev/null; then 
+          echo '🛑 CWA IS RUNNING! Sleeping indefinitely to protect database...';
+          echo '👉 To use Desktop: Stop CWA container, then Restart this container.';
+          sleep infinity;
+        else 
+          echo '✅ CWA is Offline. Starting Calibre Desktop...';
+          /init; 
+        fi
+      "
+    restart: unless-stopped
+    depends_on:
+      - calibre-web-automated
