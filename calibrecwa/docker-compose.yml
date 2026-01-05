@@ -38,24 +38,25 @@ services:
       - PUID=1000
       - PGID=100
       - TZ=Europe/Dublin
-      # Fixes the tiny screen issue (Sets it to 1080p)
       - DISPLAY_WIDTH=1920
       - DISPLAY_HEIGHT=1080
     volumes:
       - /volume2/FastSSD/docker/calibre/config:/config
-      # Mounts the SAME library as CWA (CRITICAL: Guarded by command below)
+      # Mounts the SAME library as CWA (Protected by the Entrypoint Guard)
       - /volume1/SlowHDD/books/calibreweblib:/calibre-library:rw
     ports:
-      # CHANGED: 8085 to avoid conflict with other apps on 8080
       - 8085:8080
       - 8081:8081
+    restart: unless-stopped
+    depends_on:
+      - calibre-web-automated
+      
     # ---------------------------------------------------------
-    # THE SAFETY GUARD
-    # Checks if CWA is responding internally on port 8083.
-    # IF CWA ON -> Sleep indefinitely (Protects DB).
-    # IF CWA OFF -> Start Calibre Desktop.
+    # THE ENTRYPOINT GUARD (FIXED)
+    # We use 'entrypoint' to hijack the boot process.
+    # 'exec /init' ensures the app takes over as PID 1 properly.
     # ---------------------------------------------------------
-    command: >
+    entrypoint: >
       /bin/sh -c "
         echo '🔍 Checking for CWA Activity...';
         if curl -s --connect-timeout 2 http://Calibre-Web-Automated:8083 > /dev/null; then 
@@ -64,9 +65,6 @@ services:
           sleep infinity;
         else 
           echo '✅ CWA is Offline. Starting Calibre Desktop...';
-          /init; 
+          exec /init; 
         fi
       "
-    restart: unless-stopped
-    depends_on:
-      - calibre-web-automated
