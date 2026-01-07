@@ -21,4 +21,13 @@ services:
     ports:
       - 7878:7878
     restart: always
-  
+    
+  recyclarr:
+    image: ghcr.io/recyclarr/recyclarr:latest
+    container_name: recyclarr
+    user: 1000:1000
+    volumes:
+      - /volume2/FastSSD/docker/recyclarr/config:/config
+    env_file:
+      - /volume2/FastSSD/docker/recyclarr/.env
+    restart: unless-stopped  
