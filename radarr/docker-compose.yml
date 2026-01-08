@@ -14,7 +14,6 @@ services:
       - PGID=10
       - TZ=Europe/Dublin
     volumes:
-      - ./config/radarr:/config
       - /volume1/SlowHDD/movies:/movies:rw #If you want, you can change the following line /volume1/docker/radarr/movies with the path Location of your own Movie library.
       - /volume2/FastSSD/docker/radarr/downloads:/downloads:rw #If you want, you can change the following line /volume1/docker/radarr/downloads with the path Location of your Download folder.
       - /volume2/FastSSD/docker/radarr/config:/config:rw 
