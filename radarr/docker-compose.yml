@@ -30,4 +30,16 @@ services:
       - /volume2/FastSSD/docker/recyclarr/config:/config
     env_file:
       - /volume2/FastSSD/docker/recyclarr/.env
-    restart: unless-stopped  
+    restart: unless-stopped
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /volume2/FastSSD/docker/prowlarr/config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
