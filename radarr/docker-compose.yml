@@ -52,7 +52,7 @@ services:
       - "8191:8191"
     restart: unless-stopped
   overseerr:
-    image: sct/overseerr:latest
+    image: sctx/overseerr:latest
     container_name: overseerr
     environment:
       - TZ=Europe/London
