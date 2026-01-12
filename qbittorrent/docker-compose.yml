@@ -18,7 +18,7 @@ services:
       - 9866:9866
     volumes:
       - /volume2/FastSSD/docker/qbittorrent/config:/config:rw
-      - /volume2/FastSSD/docker/qbittorrent/downloads:/downloads:rw
+      - /volume1/SlowHDD/downloads/downloads:/downloads:rw
     environment:
      WEBUI_PORT: 9866
      PUID: 1000
