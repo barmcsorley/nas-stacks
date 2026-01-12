@@ -51,3 +51,13 @@ services:
     ports:
       - "8191:8191"
     restart: unless-stopped
+  overseerr:
+    image: sct/overseerr:latest
+    container_name: overseerr
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /volume2/FastSSD/docker/overseerr/config:/app/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
