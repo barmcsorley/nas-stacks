@@ -51,14 +51,27 @@ services:
     ports:
       - "8191:8191"
     restart: unless-stopped
+# Existing Overseerr (Keep this as is)
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    environment:
+      - TZ=Europe/London
+    volumes:
+      - /volume2/FastSSD/docker/overseerr/config:/app/config
+    ports:
+      - 5055:5055
+    restart: unless-stopped
+
+  # New Jellyseerr (Running alongside)
   jellyseerr:
     image: fallenbagel/jellyseerr:latest
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=info
       - TZ=Europe/London
-    ports:
-      - 5055:5055
     volumes:
       - /volume2/FastSSD/docker/jellyseerr/config:/app/config
+    ports:
+      - 5056:5055  # <--- EXTERNAL port 5056 maps to INTERNAL 5055
     restart: unless-stopped
