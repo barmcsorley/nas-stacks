@@ -51,13 +51,14 @@ services:
     ports:
       - "8191:8191"
     restart: unless-stopped
-  overseerr:
-    image: sctx/overseerr:latest
-    container_name: overseerr
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
     environment:
+      - LOG_LEVEL=info
       - TZ=Europe/London
-    volumes:
-      - /volume2/FastSSD/docker/overseerr/config:/app/config
     ports:
       - 5055:5055
+    volumes:
+      - /volume2/FastSSD/docker/jellyseerr/config:/app/config
     restart: unless-stopped
