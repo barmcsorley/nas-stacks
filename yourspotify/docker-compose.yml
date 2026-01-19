@@ -1,21 +1,22 @@
 services:
   your_spotify_server:
     image: lscr.io/linuxserver/your_spotify:latest
-    container_name: yourspotify
+    container_name: your_spotify
     environment:
-      - PUID=1000 # Update to your NAS user ID
-      - PGID=1000 # Update to your NAS group ID
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/London
-      - APP_URL=http://192.168.68.102:3000 # Your NAS IP
-      - SPOTIFY_PUBLIC=${SPOTIFY_CLIENT_ID}
-      - SPOTIFY_SECRET=${SPOTIFY_CLIENT_SECRET}
+      # IMPORTANT: Changed port to 3040 below to avoid conflict
+      - APP_URL=http://192.168.0.222:3040 
+      # Note: We removed SPOTIFY_CLIENT_ID/SECRET here. 
+      # The 'env_file' section below handles them automatically.
       - MONGO_ENDPOINT=mongodb://mongo:27017/your_spotify
     env_file:
       - .env
     depends_on:
       - mongo
     ports:
-      - 3000:80
+      - 3040:80 # <--- CHANGED from 3000:80 to 3040:80
     restart: unless-stopped
     volumes:
       - /volume2/FastSSD/docker/yourspotify/config:/config
