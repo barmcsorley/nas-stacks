@@ -1,6 +1,6 @@
 services:
   calibre-web-automated-book-downloader:
-    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest@sha256:3b2f9af9279507edb312f20199087d2ad3567f3eb304cbc31b99777ef21d6c5b
+    image: ghcr.io/calibrain/calibre-web-automated-book-downloader:latest@sha256:1efbbd45ea434cb4f5abde217e19c35280ea1de9eb2c0baa37e6b8cddac32fae
     env_file:
       - /volume2/FastSSD/docker/cwabookdownloader/.env
     # Uncomment to build the image from the Dockerfile for local testing changes.
