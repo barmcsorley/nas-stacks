@@ -1,5 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,  // <--- ADD THIS LINE (Forces the dashboard to stay open)
   "extends": [
     "config:base"
   ],
@@ -16,16 +17,14 @@
       "description": "Group all non-major updates together to reduce noise",
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non-major dependencies"
-      // REMOVED: automerge for updates
     },
     {
       "description": "Automatically pin docker images that are currently using 'latest'",
       "matchDatasources": ["docker"],
       "matchUpdateTypes": ["pin", "digest"]
-      // REMOVED: automerge for pinning (Now you must approve this too)
     },
     {
-      "description": "STOP major updates for databases (prevents data format corruption)",
+      "description": "STOP major updates for databases",
       "matchPackageNames": [
         "postgres", 
         "mariadb", 
