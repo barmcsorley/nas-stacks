@@ -1,6 +1,6 @@
 services:
   immich-redis:
-    image: redis@sha256:3906b477e4b60250660573105110c28bfce93b01243eab37610a484daebceb04
+    image: redis@sha256:73dad4271642c5966db88db7a7585fae7cf10b685d1e48006f31e0294c29fdd7
     env_file:
       - /volume2/FastSSD/docker/immich/.env
     container_name: Immich-REDIS
