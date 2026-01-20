@@ -2,7 +2,6 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:base"
-    // REMOVED: ":disableDependencyDashboard" - You want this back!
   ],
   "labels": ["dependencies"],
   "timezone": "Europe/London",
@@ -17,13 +16,13 @@
       "description": "Group all non-major updates together to reduce noise",
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non-major dependencies"
-      // REMOVED: "automerge": true - Removed so you can manually check PRs again
+      // REMOVED: automerge for updates
     },
     {
       "description": "Automatically pin docker images that are currently using 'latest'",
       "matchDatasources": ["docker"],
-      "matchUpdateTypes": ["pin", "digest"],
-      "automerge": true
+      "matchUpdateTypes": ["pin", "digest"]
+      // REMOVED: automerge for pinning (Now you must approve this too)
     },
     {
       "description": "STOP major updates for databases (prevents data format corruption)",
