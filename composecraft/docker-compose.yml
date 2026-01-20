@@ -23,7 +23,7 @@ services:
       - mongo_data:/data/db
 
   composecraft:
-    image: composecraft/composecraft:latest@sha256:fbdf19cbd2988c488406efe4238d3b6ba83a5055bcf490953779b8cf72465c68
+    image: composecraft/composecraft:latest@sha256:8f321d5775c2d65d59364cf0f95e3c60c6e5c8f6671cd7291d37ebfdfd759c16
     
     # 2. Loads SECRET_KEY and MONGODB_URI directly
     env_file:
