@@ -28,7 +28,7 @@ services:
 
   # NEW SERVICE 👇
   apprise:
-    image: caronc/apprise-api:latest
+    image: caronc/apprise:latest
     container_name: apprise-api
     restart: unless-stopped
     ports:
