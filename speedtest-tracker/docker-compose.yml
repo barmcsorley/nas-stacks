@@ -29,7 +29,7 @@ services:
   # NEW SERVICE 👇
   apprise:
     image: caronc/apprise:latest
-    container_name: apprise-api
+    container_name: apprise
     restart: unless-stopped
     ports:
       - "30005:8000"
