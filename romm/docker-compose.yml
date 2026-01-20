@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:17@sha256:dca7512acaa113409df7e40d977d801e53c0c8088e45d4311a45b4065ccfdcd3
+    image: postgres:17@sha256:7352e0c4d62bbac8aa69d95e40220a60967c4a19f9c4f65b4d118175f7ce9e3b
     
     # 1. Loads POSTGRES_USER, PASSWORD, DB directly
     env_file:
