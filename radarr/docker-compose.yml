@@ -22,7 +22,7 @@ services:
     restart: always
     
   recyclarr:
-    image: ghcr.io/recyclarr/recyclarr:latest
+    image: ghcr.io/recyclarr/recyclarr:latest@sha256:2550848d43a453f2c6adf3582f2198ac719f76670691d76de0819053103ef2fb
     container_name: recyclarr
     user: 1000:1000
     volumes:
@@ -31,7 +31,7 @@ services:
       - /volume2/FastSSD/docker/recyclarr/.env
     restart: unless-stopped
   prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
+    image: lscr.io/linuxserver/prowlarr:latest@sha256:d3e9307b320b6772749a2cf8fc2712e9e824c4930b034680ad4d08a9e2f25884
     container_name: prowlarr
     environment:
       - PUID=1000
@@ -43,7 +43,7 @@ services:
       - 9696:9696
     restart: unless-stopped
   flaresolverr:
-    image: flaresolverr/flaresolverr:latest
+    image: flaresolverr/flaresolverr:latest@sha256:7962759d99d7e125e108e0f5e7f3cdbcd36161776d058d1d9b7153b92ef1af9e
     container_name: flaresolverr
     environment:
       - LOG_LEVEL=info
@@ -53,7 +53,7 @@ services:
     restart: unless-stopped
 # Existing Overseerr (Keep this as is)
   overseerr:
-    image: sctx/overseerr:latest
+    image: sctx/overseerr:latest@sha256:4f38f58d68555004d3f487a4c5cbe2823e6a0942d946a25a2d9391d8492240a4
     container_name: overseerr
     environment:
       - TZ=Europe/London
@@ -65,7 +65,7 @@ services:
 
   # New Jellyseerr (Running alongside)
   jellyseerr:
-    image: fallenbagel/jellyseerr:latest
+    image: fallenbagel/jellyseerr:latest@sha256:4538137bc5af902dece165f2bf73776d9cf4eafb6dd714670724af8f3eb77764
     container_name: jellyseerr
     environment:
       - LOG_LEVEL=info
