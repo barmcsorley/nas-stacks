@@ -1,6 +1,6 @@
 services:
   syncthing:
-    image: ghcr.io/linuxserver/syncthing:v2.0.13
+    image: ghcr.io/linuxserver/syncthing:latest
     env_file:
       - /volume2/FastSSD/docker/syncthing/.env
     container_name: Syncthing
