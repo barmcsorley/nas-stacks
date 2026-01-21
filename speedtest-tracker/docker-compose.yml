@@ -2,7 +2,7 @@ services:
   # ... your existing OpenSpeedTest service can stay here if you want both ...
 
   internet-monitoring:
-    image: lscr.io/linuxserver/speedtest-tracker:latest@sha256:d00dcbe8cd2c868ec059dd70379d8d7b033932c8fbeb744f6e10d0133c664a42
+    image: lscr.io/linuxserver/speedtest-tracker:v1.13.5
     container_name: speedtest-tracker
     restart: unless-stopped
     ports:
