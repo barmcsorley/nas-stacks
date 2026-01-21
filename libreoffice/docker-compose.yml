@@ -1,7 +1,7 @@
 services:
   libreoffice:
     container_name: LibreOffice
-    image:  ghcr.io/linuxserver/libreoffice:latest@sha256:b8ae8eca88967566453936b751cb4e62d566362bc13c6fd1b6b9d51ee3388a0b
+    image:  ghcr.io/linuxserver/libreoffice:25.8.1.1
     env_file:
       - /volume2/FastSSD/docker/libreoffice/.env
     mem_limit: 8g
