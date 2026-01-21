@@ -1,6 +1,6 @@
 services:
   dozzle:
-    image: amir20/dozzle:latest@sha256:bad5ccd44a1bf40492e1142e9ae6fca2c53d197a01fee5ef5d0f6ed45ea21fcb
+    image: amir20/dozzle:v9.0.2
     env_file:
       - /volume2/FastSSD/docker/dozzle/.env
     container_name: Dozzle
