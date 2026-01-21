@@ -1,6 +1,6 @@
 services:
   open-archiver:
-    image: logiclabshq/open-archiver:latest@sha256:ce5dadae4f1a0be84479718d7cc546cdcb821ea8c39e341f6ee3482c8a1e9796
+    image: logiclabshq/open-archiver:latest
     env_file:
       - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-WEB
