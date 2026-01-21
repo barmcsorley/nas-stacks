@@ -1,6 +1,6 @@
 services:
   emby:
-    image: emby/embyserver:latest
+    image: emby/embyserver:latest@sha256:338a17ad65a822f18d18574459046003a84d2fee82c2e234adf8645009238d0a
     env_file:
       - /volume2/FastSSD/docker/embyht/.env
     container_name: Emby

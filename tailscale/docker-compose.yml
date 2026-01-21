@@ -1,6 +1,6 @@
 services:
   tailscale:
-    image: tailscale/tailscale:latest
+    image: tailscale/tailscale:latest@sha256:4a0aaacee6f28e724c1f80c986e5776c9c979d8f7e19274c2cae2d495cc8d625
     
     # 1. Loads Auth Key, Routes, and Config from the file
     env_file:

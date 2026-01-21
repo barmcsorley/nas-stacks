@@ -1,6 +1,6 @@
 services:
   plex:
-    image: ghcr.io/linuxserver/plex:1.42.2
+    image: ghcr.io/linuxserver/plex:1.42.2@sha256:b19a5e34c6f8dd42abf88556b8aa5c8987c0c34820aaeaa320a02d8c17fdaab3
     
     # 1. Loads PUID, PGID, and PLEX_CLAIM directly from the file
     env_file:

@@ -1,6 +1,6 @@
 services:
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:latest@sha256:a7471e7e503643d06767053fa4c825eaa7cafb1586f7256ce29080bcbf57bf5c
     container_name: ollama
     restart: unless-stopped
     env_file:
@@ -11,7 +11,7 @@ services:
       - deepseek-net
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: ghcr.io/open-webui/open-webui:main@sha256:000b87a6ae726aa7f6611a0064ba528ba1a6aff6ead5fb3b6c89fd4a5717eb8a
     container_name: open-webui
     restart: unless-stopped
     ports:
