@@ -23,7 +23,7 @@ services:
     restart: on-failure:5
 
   romm:
-    image: rommapp/romm:latest@sha256:79d2ab75ce6bdb8f0c7b1d8bb33a456566de5470d5d0e451fbc0919cc84679e8
+    image: rommapp/romm:latest
     
     # 2. Loads DB_PASSWD, IGDB keys, AUTH_SECRET directly
     env_file:
