@@ -3,6 +3,9 @@ name: NAS Container Update
 on:
   # Allows manual run from the Actions tab 
   workflow_dispatch:
+  concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
   # Runs automatically when you push changes to compose files
   push:
     branches:
