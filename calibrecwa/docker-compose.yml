@@ -3,7 +3,7 @@ services:
   # SERVICE 1: Calibre-Web Automated (The "Daily Driver")
   # -------------------------------------------------------
   calibre-web-automated:
-    image: crocodilestick/calibre-web-automated:latest@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
+    image: crocodilestick/calibre-web-automated:V3.1.4@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
     container_name: Calibre-Web-Automated
     environment:
       PUID: 1000
@@ -32,7 +32,7 @@ services:
   # SERVICE 2: Calibre Desktop (The "Gardener")
   # -------------------------------------------------------
   calibre:
-    image: lscr.io/linuxserver/calibre:latest@sha256:a9113e79e9ea0e0add35671d6568ac01ddd94438e52215b8c1bb5819cb93d4f6
+    image: lscr.io/linuxserver/calibre:v8.16.2@sha256:a9113e79e9ea0e0add35671d6568ac01ddd94438e52215b8c1bb5819cb93d4f6
     container_name: Calibre-Desktop
     environment:
       - PUID=1000
