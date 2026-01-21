@@ -1,18 +1,21 @@
 name: NAS Container Update
 
 on:
-  # Allows manual run from the Actions tab 
+  # 1. Manual Trigger
   workflow_dispatch:
-  concurrency:
-  group: ${{ github.ref }}
-  cancel-in-progress: true
-  # Runs automatically when you push changes to compose files
+  
+  # 2. Automatic Trigger (Must be indented under 'on')
   push:
     branches:
       - main
     paths:
       - '**/docker-compose.yml'
       - '**/docker-compose.yaml'
+
+# 3. Concurrency (Must be a top-level key, NOT inside 'on')
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   deploy:
