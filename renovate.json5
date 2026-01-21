@@ -1,56 +1,48 @@
 {
-  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
-  dependencyDashboard: true,
-  prHourlyLimit: 0,
-  prConcurrentLimit: 0,
-  extends: [
-    'config:recommended',
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "dependencyDashboard": true,
+  "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
+  "extends": [
+    "config:recommended"
   ],
-  labels: [
-    'dependencies',
+  "labels": [
+    "dependencies"
   ],
-  timezone: 'Europe/London',
-  'docker-compose': {
-    enabled: true,
-    managerFilePatterns: [
-      '/(^|/)docker-compose[^/]*\\.ya?ml$/',
-    ],
+  "timezone": "Europe/London",
+  "docker-compose": {
+    "enabled": true,
+    "managerFilePatterns": [
+      "/(^|/)docker-compose[^/]*\\.ya?ml$/"
+    ]
   },
-  packageRules: [
+  "packageRules": [
     {
-      description: 'Group all non-major updates together to reduce noise',
-      matchUpdateTypes: [
-        'minor',
-        'patch',
+      "description": "Group all non-major updates, PINS, and DIGESTS together",
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
       ],
-      groupName: 'all non-major dependencies',
+      "groupName": "all non-major dependencies"
     },
     {
-      description: "Automatically pin docker images that are currently using 'latest'",
-      matchDatasources: [
-        'docker',
+      "description": "STOP major updates for databases",
+      "matchPackageNames": [
+        "postgres",
+        "mariadb",
+        "mysql",
+        "mongo",
+        "redis",
+        "valkey",
+        "getmeili/meilisearch"
       ],
-      matchUpdateTypes: [
-        'pin',
-        'digest',
-      ],
-    },
-    {
-      description: 'STOP major updates for databases',
-      matchPackageNames: [
-        'postgres',
-        'mariadb',
-        'mysql',
-        'mongo',
-        'redis',
-        'valkey',
-        'getmeili/meilisearch',
-      ],
-      separateMajorMinor: true,
-      major: {
-        enabled: false,
-      },
-    },
+      "separateMajorMinor": true,
+      "major": {
+        "enabled": false
+      }
+    }
   ],
-  pinDigests: true,
+  "pinDigests": true
 }
