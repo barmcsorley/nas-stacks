@@ -176,10 +176,12 @@ It demonstrates a shift from UI-based management (Portainer) to a declarative **
 * **Observability:** Prometheus, Grafana, Uptime Kuma
 
 ## 📂 Directory Structure
-* `/infrastructure` - Core networking (Cloudflare, Authelia, Portainer Agent)
-* `/observability` - Monitoring stack (Grafana, Prometheus)
-* `/media` - Content management (Plex, Arr-stack)
-* `/apps` - Productivity tools
+*   `/media` - Streaming (Plex, Emby), Management (Arr-stack), and Photos (Immich)
+*   `/core` - Networking (Pi-hole, Tailscale, Cloudflare) and System (Portainer, Syncthing)
+*   `/smart-home` - Home Assistant, Frigate
+*   `/gaming` - Doom Servers (Legacy & Modern)
+*   `/observability` - Uptime Kuma, Speedtest
+*   `/ai` - Ollama Local AI
 
 ## 🔐 Secrets Management
 Sensitive environment variables are stripped from this repository.
