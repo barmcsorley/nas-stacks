@@ -159,3 +159,29 @@ Hardware: Synology NAS (Intel N100) running Docker.
 Software: Portainer managing a custom stack.
 Network: 4 distinct UDP ports forwarded and firewall-approved.
 Capabilities: Simultaneous hosting of vanilla 1993 Doom (Chocolate) and modern modded Doom/Hexen (Zandronum) with a client-side menu system.
+
+# 🏠 Home Lab Infrastructure (GitOps)
+
+[![Security: Mend Bolt](https://img.shields.io/badge/Security-Mend%20Bolt-blue?style=for-the-badge&logo=mend&logoColor=white)](https://github.com/marketplace/mend-bolt)
+[![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?style=for-the-badge&logo=renovatebot)](https://github.com/renovatebot/renovate)
+
+## 📋 Overview
+This repository contains the **Infrastructure as Code (IaC)** for my personal homelab running on a **UGreen NAS (UGOS Pro)**.
+It demonstrates a shift from UI-based management (Portainer) to a declarative **GitOps** workflow.
+
+## 🏗️ Architecture
+* **Orchestrator:** Docker Compose
+* **Proxy:** Cloudflare Tunnel + Traefik (Zero Trust)
+* **Updates:** Automated via Renovate (Pull Request workflow)
+* **Observability:** Prometheus, Grafana, Uptime Kuma
+
+## 📂 Directory Structure
+* `/infrastructure` - Core networking (Cloudflare, Authelia, Portainer Agent)
+* `/observability` - Monitoring stack (Grafana, Prometheus)
+* `/media` - Content management (Plex, Arr-stack)
+* `/apps` - Productivity tools
+
+## 🔐 Secrets Management
+Sensitive environment variables are stripped from this repository.
+* See `.env.example` in each directory for required keys.
+* Production secrets are injected at runtime via the NAS filesystem.
