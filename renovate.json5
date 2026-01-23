@@ -28,6 +28,15 @@
       "groupName": "all non-major dependencies"
     },
     {
+      "description": "Ignore the ancient Ubuntu-versioned tag for qBittorrent",
+      "matchPackageNames": [
+        "ghcr.io/linuxserver/qbittorrent"
+      ],
+      "ignoreVersions": [
+        "^20\\."
+      ]
+    },
+    {
       "description": "STOP major updates for databases",
       "matchPackageNames": [
         "postgres",
