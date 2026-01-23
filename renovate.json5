@@ -23,7 +23,7 @@
     },
     {
       "matchPackageNames": ["ghcr.io/linuxserver/qbittorrent"],
-      "ignoreVersions": ["^20\\."]
+      "allowedVersions": "< 20"
     },
     {
       "matchPackageNames": [
