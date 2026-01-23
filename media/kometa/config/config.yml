@@ -1,0 +1,37 @@
+settings:
+  cache_expiration: 60
+  asset_directory: config/assets
+  asset_depth: 0
+  create_asset_folders: false
+  tmdb:
+    apikey: "${KOMETA_TMDB_API_KEY}"
+
+trakt:
+  client_id: "${KOMETA_TRAKT_CLIENT_ID}"
+  client_secret: "${KOMETA_TRAKT_CLIENT_SECRET}"
+  pin: # 9394
+
+libraries:
+  Movies:
+    collection_files:
+      - file: movies.yml
+    plex:
+      url: "${KOMETA_PLEX_URL}"
+      token: "${KOMETA_PLEX_TOKEN}"
+      library_name: Movies
+    jellyfin:
+      url: "${KOMETA_JELLYFIN_URL}"
+      token: "${KOMETA_JELLYFIN_TOKEN}"
+      library_name: Movies
+
+  TV Shows:
+    collection_files:
+      - file: tvshows.yml
+    plex:
+      url: "${KOMETA_PLEX_URL}"
+      token: "${KOMETA_PLEX_TOKEN}"
+      library_name: TV Shows
+    jellyfin:
+      url: "${KOMETA_JELLYFIN_URL}"
+      token: "${KOMETA_JELLYFIN_TOKEN}"
+      library_name: Shows
