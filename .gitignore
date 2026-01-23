@@ -8,3 +8,5 @@ auth/
 .DS_Store
 @eaDir
 .vscode
+*.WAD
+*.wad
