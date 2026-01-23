@@ -18,17 +18,14 @@
   },
   "packageRules": [
     {
-      "description": "Group all non-major updates, PINS, and DIGESTS together",
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "groupName": "all non-major dependencies"
     },
     {
-      "description": "STOP major updates for databases",
+      "matchPackageNames": ["ghcr.io/linuxserver/qbittorrent"],
+      "allowedVersions": "< 20"
+    },
+    {
       "matchPackageNames": [
         "postgres",
         "mariadb",
