@@ -1,0 +1,94 @@
+services:
+  open-archiver:
+    image: logiclabshq/open-archiver:latest@sha256:ce5dadae4f1a0be84479718d7cc546cdcb821ea8c39e341f6ee3482c8a1e9796
+    env_file:
+      - /volume2/FastSSD/docker/openarchiver/.env
+    container_name: OpenArchiver-WEB
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    environment:
+      - NODE_ENV=production
+      - STORAGE_TYPE=local
+      # Redis Connection
+      - REDIS_HOST=valkey
+      - REDIS_PORT=6379
+      # DELETED: REDIS_PASSWORD, POSTGRES_*, DATABASE_URL, SECRETS...
+      # (All loaded directly from the env_file now)
+      
+      # Internal Services
+      - MEILI_HOST=http://meilisearch:7700
+      - TIKA_URL=http://tika:9998
+      - STORAGE_LOCAL_ROOT_PATH=/var/data/open-archiver
+      - PORT_BACKEND=4000
+      - PORT_FRONTEND=3000
+      - SYNC_FREQUENCY=0 0 */2 * * *
+    ports:
+       - 3212:3000
+    volumes:
+       - /volume1/SlowHDD/emails/openarchiver:/var/data/open-archiver:rw
+    depends_on:
+       - db
+       - valkey
+       - meilisearch
+    restart: on-failure:5
+
+  db:
+    image: postgres:17-alpine@sha256:ff4ccc02b97e0ebb6b328ef9ff92522f95586f83be6801896b615088defc8ad2
+    env_file:
+      - /volume2/FastSSD/docker/openarchiver/.env
+    container_name: OpenArchiver-DB
+    hostname: openarchiver-db
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      # FIX: Hardcoded values because healthcheck runs on host sometimes or can't see env vars easily
+      test: ["CMD", "pg_isready", "-q", "-d", "openarchiver", "-U", "openuser"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    # DELETED: environment section (Loaded from env_file)
+    volumes:
+       - ./db:/var/lib/postgresql/data
+    restart: on-failure:5
+
+  valkey:
+    image: valkey/valkey:9-alpine@sha256:c106a0c03bcb23cbdf9febe693114cb7800646b11ca8b303aee7409de005faa8
+    env_file:
+      - /volume2/FastSSD/docker/openarchiver/.env
+    container_name: OpenArchiver-REDIS
+    healthcheck:
+     test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+    
+    # FIX: Use Shell execution so the CONTAINER injects the password variable, not the Runner
+    # We use 'sh -c' and "$REDIS_PASS" (with quotes)
+    command: sh -c "valkey-server --requirepass \"$REDIS_PASS\""
+    
+    volumes:
+      - ./redis:/data
+    restart: on-failure:5
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.30.1@sha256:d04371d3a649d27f84d6faaa8a8cecbdc1b833ebb6466383816935b8e9c6ed2a
+    env_file:
+      - /volume2/FastSSD/docker/openarchiver/.env
+    container_name: OpenArchiver-MEILI
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7700"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # DELETED: environment section (MEILI_MASTER_KEY loaded from env_file)
+    volumes:
+      - ./meili:/meili_data
+    restart: on-failure:5
+
+  tika:
+      image: apache/tika:3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
+      env_file:
+        - /volume2/FastSSD/docker/openarchiver/.env
+      container_name: Open-Archiver-TIKA
+      restart: on-failure:5

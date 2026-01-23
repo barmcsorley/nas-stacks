@@ -1,0 +1,45 @@
+# version: "3" <-- Deleted (Obsolete)
+
+networks:
+  macvlan_net:
+    driver: macvlan
+    driver_opts:
+      parent: eth0
+    ipam:
+      config:
+        - subnet: 192.168.68.0/22
+          gateway: 192.168.68.1
+
+services:
+  pihole:
+    image: pihole/pihole:2025.11.1@sha256:91dc91ddd413bf461c283204558f8f21839851e9824799075a7ceff7c77eea40
+    
+    # 1. Loads WEBPASSWORD and FTLCONF_... directly
+    env_file:
+      - /volume2/FastSSD/docker/pihole/.env
+      
+    container_name: Pi-Hole
+    networks:
+      macvlan_net:
+        ipv4_address: 192.168.68.150
+    security_opt:
+      - no-new-privileges:false
+    restart: on-failure:5
+    volumes:
+      - /volume1/docker/pihole/dnsmasq.d:/etc/dnsmasq.d:rw
+      - /volume1/docker/pihole/pihole:/etc/pihole:rw
+      
+    environment:
+      # Static settings
+      - FTLCONF_webserver_port=8080
+      - FTLCONF_dns_listeningMode=all
+      - DNSMASQ_USER=pihole
+      - PIHOLE_UID=1000
+      - PIHOLE_GID=10
+      
+      # DELETED: TZ, FTLCONF_webserver_api_password
+      # (Now loaded safely from env_file)
+
+    cap_add:
+      - SYS_TIME
+      - SYS_NICE

@@ -1,0 +1,105 @@
+services:
+  immich-redis:
+    image: redis@sha256:73dad4271642c5966db88db7a7585fae7cf10b685d1e48006f31e0294c29fdd7
+    env_file:
+      - /volume2/FastSSD/docker/immich/.env
+    container_name: Immich-REDIS
+    hostname: immich-redis
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
+    user: 1000:10
+    environment:
+      - TZ=Europe/Dublin
+    volumes:
+      - /volume2/FastSSD/docker/immich/redis:/data:rw
+    restart: on-failure:5
+
+  immich-db:
+    image: ghcr.io/immich-app/postgres:16-vectorchord0.4.3-pgvectors0.2.0@sha256:1a078b237c1d9b420b0ee59147386b4aa60d3a07a8e6a402fc84a57e41b043a4
+    env_file:
+      - /volume2/FastSSD/docker/immich/.env
+    container_name: Immich-DB
+    hostname: immich-db
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      # FIX: Hardcoded values to prevent substitution errors
+      test: ["CMD-SHELL", "pg_isready -d immich -U immichuser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    shm_size: 128mb
+    volumes:
+      - /volume2/FastSSD/docker/immich/db:/var/lib/postgresql/data:rw
+    environment:
+      - TZ=Europe/Dublin
+      # DELETED: POSTGRES_USER, PASSWORD, DB (Loaded from env_file)
+    restart: on-failure:5
+
+  immich-server:
+    image: ghcr.io/immich-app/immich-server:v2.4.1@sha256:e6a6298e67ae077808fdb7d8d5565955f60b0708191576143fc02d30ab1389d1
+    env_file:
+      - /volume2/FastSSD/docker/immich/.env
+    container_name: Immich-SERVER
+    hostname: immich-server
+    user: 1000:10
+    security_opt:
+      - no-new-privileges:true
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+      - /dev/dri:/dev/dri
+    environment:
+      # --- General Settings ---
+      - TZ=Europe/Dublin
+      - NODE_ENV=production
+      - LOG_LEVEL=log
+      - DISABLE_REVERSE_GEOCODING=false
+      - REVERSE_GEOCODING_PRECISION=3
+      
+      # --- Internal Networking ---
+      - DB_HOSTNAME=immich-db
+      - REDIS_HOSTNAME=immich-redis
+      - IMMICH_MACHINE_LEARNING_URL=http://immich-machine-learning:3003
+      
+      # DELETED: JWT_SECRET, DB_USERNAME, DB_PASSWORD (Loaded from env_file)
+      
+    ports:
+      - 8212:2283
+    volumes:
+      - /volume1/SlowHDD/photos/immich:/data:rw
+      - /volume1/SlowHDD/photos/Barry_Photos:/mnt/nas-photos:ro
+    restart: on-failure:5
+    depends_on:
+      immich-redis:
+        condition: service_healthy
+      immich-db:
+        condition: service_started
+
+  immich-machine-learning:
+    image: ghcr.io/immich-app/immich-machine-learning:v2.4.1@sha256:b3deefd1826f113824e9d7bc30d905e7f823535887d03f869330946b6db3b44a
+    env_file:
+      - /volume2/FastSSD/docker/immich/.env
+    container_name: Immich-LEARNING
+    hostname: immich-machine-learning
+    security_opt:
+      - no-new-privileges:true
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+      - /dev/dri:/dev/dri
+    volumes:
+      - /volume1/SlowHDD/photos/immich:/data:rw
+      - /volume2/FastSSD/docker/immich/cache:/cache:rw
+      - /volume2/FastSSD/docker/immich/cache:/.cache:rw
+      - /volume2/FastSSD/docker/immich/cache:/.config:rw
+      - /volume2/FastSSD/docker/immich/matplotlib:/matplotlib:rw
+    environment: 
+      - MPLCONFIGDIR=/matplotlib
+      - TZ=Europe/Dublin
+    restart: on-failure:5
+    depends_on:
+      immich-db:
+        condition: service_started

@@ -1,0 +1,24 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:10.11.6@sha256:333b647716631443a43c7fabac4b0c46b4e2f036bad19547e00958f10f721b85
+    env_file:
+      - /volume2/FastSSD/docker/jellyfinht/.env
+    container_name: Jellyfin-HT
+    user: 1000:10
+    group_add:
+      - 105
+    environment:
+      TZ: Europe/Dublin
+    volumes:
+      - /volume2/FastSSD/docker/jellyfinht/config:/config:rw
+      - /volume2/FastSSD/docker/jellyfinht/cache:/cache:rw
+      - /volume2/FastSSD/docker/jellyfinht/logs:/logs:rw
+      - /volume1/SlowHDD:/media:rw
+      - /volume1/SlowHDD/music:/music:rw
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+      - /dev/dri:/dev/dri
+    restart: on-failure:5
+    ports:
+      - 8097:8096

@@ -1,0 +1,13 @@
+services:
+  portainer:
+    image: portainer/portainer-ce@sha256:4786931dc7c588ff1c242696fe1eb3f7f9c5dafb136b6c713aff7745dd5bd407
+    env_file:
+      - /volume2/FastSSD/docker/portainer/.env
+    container_name: Portainer2
+    ports:
+      - 8000:8000
+      - 9000:9000
+    volumes:
+      - /volume2/FastSSD/docker/portainer:/data:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always

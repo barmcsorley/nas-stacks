@@ -1,0 +1,18 @@
+services:
+  homeassistant:
+    image: homeassistant/home-assistant:2026.1.2@sha256:3007eeeaf87d1e3a2047faeac6ff01dfef218b8a404bdff3ce421c1f4f363a43
+    env_file:
+      - /volume2/FastSSD/docker/homeassistant/.env
+    container_name: Home-Assistant
+    mem_limit: 8g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+     test: curl -f http://localhost:8123/ || exit 1
+    network_mode: host
+    volumes:
+      - /volume2/FastSSD/docker/homeassistant:/config:rw
+    environment:
+      TZ: Europe/Dublin
+    restart: on-failure:5

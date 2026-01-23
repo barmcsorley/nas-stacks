@@ -1,0 +1,25 @@
+services:
+  homarr:
+    container_name: Homarr
+    image: ghcr.io/homarr-labs/homarr:latest@sha256:99cf8466e5035049f718285a4a8529d1017d7950b0f9569440de04a0361caf60
+    
+    # 1. Loads SECRET_ENCRYPTION_KEY directly
+    env_file:
+      - /volume2/FastSSD/docker/homarr/.env
+      
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 7575 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /volume1/docker/homarr:/appdata:rw
+    ports:
+      - 7575:7575
+      
+    # DELETED: environment section 
+    # (SECRET_ENCRYPTION_KEY is now loaded safely from env_file)
+      
+    restart: on-failure:5

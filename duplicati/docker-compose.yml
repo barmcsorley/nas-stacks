@@ -1,0 +1,26 @@
+services:
+  duplicati:
+    image: ghcr.io/linuxserver/duplicati:latest@sha256:3d8ac3bc359a2ae0703b3062f390087ffb97bc04c041e9a336495ecbccb17dca
+    env_file:
+      - /volume2/FastSSD/docker/duplicati/.env
+    container_name: duplicati
+    security_opt:
+      - no-new-privileges:true
+      - seccomp:unconfined
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8200 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    ports:
+      - 8200:8200
+    volumes:
+      - /volume2/FastSSD/docker/duplicati/config:/config:rw
+      - /volume2/FastSSD/docker/duplicati/backups:/backups:rw
+      - /volume1/SlowHDD:/source:rw
+    environment:
+      - TZ=Europe/Dublin
+      - PUID=1000
+      - PGID=10
+    restart: on-failure:5

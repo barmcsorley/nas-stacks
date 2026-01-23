@@ -1,0 +1,21 @@
+services:
+  emby:
+    image: emby/embyserver:latest@sha256:338a17ad65a822f18d18574459046003a84d2fee82c2e234adf8645009238d0a
+    env_file:
+      - /volume2/FastSSD/docker/embyht/.env
+    container_name: Emby
+    environment:
+      - TZ=Europe/Dublin
+    volumes:
+      - /volume1/docker/embyht/config:/config:rw
+      - /volume1/SlowHDD/tvseries:/tvshows:rw
+      - /volume1/SlowHDD/music:/music:rw
+      - /volume1/SlowHDD/movies:/movies:rw
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+    restart: on-failure:5
+    network_mode: host
+    # ports:  <-- Ignored when using 'host' network mode
+    #   - 8096:8096
+    #   - 8920:8920

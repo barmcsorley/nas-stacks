@@ -1,0 +1,10 @@
+# Secrets
+.env
+*.env
+*.secret
+auth/
+
+# System
+.DS_Store
+@eaDir
+.vscode

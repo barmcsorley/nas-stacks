@@ -1,0 +1,54 @@
+services:
+  db:
+    image: mongo:4.4@sha256:4be76f674fc4b27859816811b8baa3c51830eb1dbf4ca81a51e26b79edd662ef
+    
+    # 1. Loads MONGO_INITDB_ROOT_USERNAME/PASSWORD directly
+    env_file:
+      - /volume2/FastSSD/docker/composecraft/.env
+      
+    container_name: Compose-Craft-DB
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+    # Change restart policy to always, so it keeps trying if OOM killer shoots it
+    restart: always  
+    # DELETED: environment section 
+    # (Variables are now loaded automatically from env_file)
+      
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_data:/data/db
+
+  composecraft:
+    image: composecraft/composecraft:latest@sha256:8f321d5775c2d65d59364cf0f95e3c60c6e5c8f6671cd7291d37ebfdfd759c16
+    
+    # 2. Loads SECRET_KEY and MONGODB_URI directly
+    env_file:
+      - /volume2/FastSSD/docker/composecraft/.env
+      
+    container_name: Compose-Craft
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 3000|| exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    ports:
+      - 3784:3000
+      
+    environment:
+      # Static config is fine to keep here
+      - CORE_ONLY=true
+      - URL=http://localhost:3000
+      
+      # DELETED: SECRET_KEY, MONGODB_URI
+      # (They are now loaded securely from env_file)
+
+    depends_on:
+      - db
+
+volumes:
+  mongo_data:

@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:17@sha256:7352e0c4d62bbac8aa69d95e40220a60967c4a19f9c4f65b4d118175f7ce9e3b
+    
+    # 1. Loads POSTGRES_USER, PASSWORD, DB directly
+    env_file:
+      - /volume2/FastSSD/docker/romm/.env
+      
+    container_name: RomM-DB
+    hostname: db
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "romm", "-U", "rommuser"]
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    volumes:
+      - /volume2/FastSSD/docker/romm/db:/var/lib/postgresql/data:rw
+      
+    # DELETED: environment section (Loaded from env_file)
+      
+    restart: on-failure:5
+
+  romm:
+    image: rommapp/romm:latest@sha256:79d2ab75ce6bdb8f0c7b1d8bb33a456566de5470d5d0e451fbc0919cc84679e8
+    
+    # 2. Loads DB_PASSWD, IGDB keys, AUTH_SECRET directly
+    env_file:
+      - /volume2/FastSSD/docker/romm/.env
+      
+    container_name: RomM
+    healthcheck:
+      test: timeout 10s bash -c ':> /dev/tcp/127.0.0.1/8080' || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+      
+    # DELETED: environment section 
+    # (Everything, including PUID/PGID and API keys, is now in the env_file)
+      
+    volumes:
+      - /volume2/FastSSD/docker/romm/resources:/romm/resources:rw
+      - /volume2/FastSSD/docker/romm/redis:/redis-data:rw
+      - /volume1/SlowHDD/games:/romm/library:rw
+      - /volume2/FastSSD/docker/romm/games/assets:/romm/assets:rw
+      - /volume2/FastSSD/docker/romm/games/config:/romm/config:rw
+    ports:
+      - 7676:8080
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: on-failure:10

@@ -1,0 +1,77 @@
+name: NAS Container Update
+
+on:
+  # 1. Manual Trigger
+  workflow_dispatch:
+  
+  # 2. Automatic Trigger (Must be indented under 'on')
+  push:
+    branches:
+      - main
+    paths:
+      - '**/docker-compose.yml'
+      - '**/docker-compose.yaml'
+
+# 3. Concurrency (Must be a top-level key, NOT inside 'on')
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, nas]
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Update All Containers
+        run: |
+          echo "🚀 Scanning for docker-compose files..."
+          
+          # Loop through every docker-compose file found in the repo
+          find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
+            dir=$(dirname "$file")
+            # Extract just the folder name (e.g. "plextraktsync")
+            stack_name=$(basename "$dir")
+            
+            echo "---------------------------------------------------"
+            echo "📂 Processing Stack: $stack_name"
+            echo "---------------------------------------------------"
+            
+            cd "$dir"
+            
+            # 1. SECRET INJECTION (Corrected Path)
+            # We look for the .env file in the ACTUAL volume path we verified with docker inspect
+            TARGET_ENV="/volume2/FastSSD/docker/$stack_name/.env"
+            
+            echo "   🔍 Debug: Checking for secrets at $TARGET_ENV"
+
+            if [ -f "$TARGET_ENV" ]; then
+                echo "   🔑 Found secrets on NAS! Injecting .env file..."
+                cp "$TARGET_ENV" ./.env
+                # Tell Docker to use the local .env we just created
+                CMD="docker compose --env-file .env"
+            else
+                echo "   ⚠️ No .env file found at $TARGET_ENV. Proceeding without secrets."
+                # List the parent folder to debug if it's missing or named differently
+                ls -la "/volume2/FastSSD/docker/$stack_name/" || echo "   ❌ Folder does not exist on NAS"
+                CMD="docker compose"
+            fi
+            
+            # 2. Pull new images
+            docker compose pull
+
+            # 3. Conflict Handling & Deployment
+            # If 'up' fails, we assume it's a conflict, remove the old container, and retry.
+            if ! $CMD up -d --remove-orphans; then
+              echo "   ⚠️ Conflict detected! Force recreating..."
+              $CMD down --remove-orphans
+              $CMD up -d
+            fi
+            
+            # Go back to root for the next loop
+            cd - > /dev/null
+          done
+
+      - name: Cleanup
+        run: docker image prune -f

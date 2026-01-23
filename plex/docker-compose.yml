@@ -1,0 +1,32 @@
+services:
+  plex:
+    image: ghcr.io/linuxserver/plex:1.42.2@sha256:b19a5e34c6f8dd42abf88556b8aa5c8987c0c34820aaeaa320a02d8c17fdaab3
+    
+    # 1. Loads PUID, PGID, and PLEX_CLAIM directly from the file
+    env_file:
+      - /volume2/FastSSD/docker/plex/.env
+      
+    container_name: Plex
+    hostname: plex
+    network_mode: host
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:32400/web || exit 1
+      interval: 1m
+      timeout: 3s
+      retries: 3
+    volumes:
+      - /volume2/FastSSD/docker/plexhw:/config:rw
+      - /volume1/SlowHDD:/movies:ro
+    devices:
+      - /dev/dri/renderD128:/dev/dri/renderD128
+      - /dev/dri/card0:/dev/dri/card0
+      
+    environment:
+      - TZ=Europe/Dublin
+      - VERSION=public
+      # DELETED: PUID, PGID, PLEX_CLAIM
+      # (They are already in the env_file with the correct names)
+
+    restart: on-failure:5

@@ -1,0 +1,23 @@
+services:
+ sonarr:
+    image: ghcr.io/linuxserver/sonarr:4.0.16@sha256:02b4d538d351d6e35882a021c08e8600fe95d28860fb1dd724b597166e7221ca
+    env_file:
+      - /volume2/FastSSD/docker/sonarr/.env
+    container_name: Sonarr
+    network_mode: host
+    healthcheck:
+     test: curl -f http://localhost:8989/ || exit 1
+    restart: always
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./config/sonarr:/config
+      - /volume1/SlowHDD/tvseries:/tv:rw #If you want, you can change the following line /volume1/docker/sonarr/tv with the path Location of your own Movie library.
+      - /volume1/SlowHDD/downloads/downloads:/downloads:rw #If you want, you can change the following line /volume1/docker/sonarr/downloads with the path Location of your Download folder.
+      - /volume2/FastSSD/docker/sonarr/config:/config:rw 
+    environment:
+      - PUID=1000
+      - PGID=10
+      - TZ=Europe/Dublin
+    ports:
+      - 8989:8989

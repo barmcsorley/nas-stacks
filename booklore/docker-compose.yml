@@ -1,0 +1,54 @@
+services:
+  mariadb:
+    image: mariadb:12.1-noble@sha256:f54db0cb3ccfe9431aba6d08c65a1763c499789b116b4cb651dd7fcf325965b3
+    env_file:
+      - /volume2/FastSSD/docker/booklore/.env
+    container_name: BookLore-DB
+    security_opt:
+      - no-new-privileges:true
+    hostname: booklore-db
+    environment:
+      # DELETED: MARIADB_DATABASE, USER, PASSWORD, ROOT_PASSWORD (Now loaded from env_file)
+      - TZ=Europe/Dublin
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    volumes:
+      - booklore_db_data:/var/lib/mysql
+    restart: on-failure:5
+    
+  booklore:
+    image: ghcr.io/booklore-app/booklore:latest@sha256:5b594a607fb0d9533d06a850156e2b54877ed0ddd0da8cd1f0240cb38bb6ac70
+    env_file:
+      - /volume2/FastSSD/docker/booklore/.env
+    container_name: BookLore
+    mem_limit: 1g
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 6060 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    environment:
+      - USER_ID=1000
+      - GROUP_ID=10
+      - TZ=Europe/Dublin
+      - DATABASE_URL=jdbc:mariadb://BookLore-DB:3306/booklore
+      # DELETED: DATABASE_USERNAME and DATABASE_PASSWORD (Now loaded from env_file)
+      - JAVA_OPTS=-Xmx768m
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - 6060:6060
+    volumes:
+      - /volume2/FastSSD/docker/booklore/data:/app/data:rw
+      - /volume1/SlowHDD/books:/books:ro
+      - /volume2/FastSSD/docker/booklore/bookdrop:/bookdrop:rw
+    restart: on-failure:5
+
+volumes:
+  booklore_db_data:

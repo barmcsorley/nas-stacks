@@ -1,0 +1,24 @@
+services:
+  tailscale:
+    image: tailscale/tailscale:latest@sha256:4a0aaacee6f28e724c1f80c986e5776c9c979d8f7e19274c2cae2d495cc8d625
+    
+    # 1. Loads Auth Key, Routes, and Config from the file
+    env_file:
+      - /volume2/FastSSD/docker/tailscale/.env
+      
+    container_name: Tailscale
+    hostname: ugreen-nas
+    network_mode: host
+    privileged: true
+    
+    # DELETED: environment section 
+    # (All variables are now loaded from env_file)
+      
+    volumes:
+      - /volume2/FastSSD/docker/tailscale/state:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    restart: unless-stopped

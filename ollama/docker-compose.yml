@@ -1,0 +1,34 @@
+services:
+  ollama:
+    image: ollama/ollama:latest@sha256:a7471e7e503643d06767053fa4c825eaa7cafb1586f7256ce29080bcbf57bf5c
+    container_name: ollama
+    restart: unless-stopped
+    env_file:
+      - /volume2/FastSSD/docker/ollama/.env
+    volumes:
+      - /volume2/FastSSD/docker/ollama/models:/root/.ollama
+    networks:
+      - deepseek-net
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main@sha256:000b87a6ae726aa7f6611a0064ba528ba1a6aff6ead5fb3b6c89fd4a5717eb8a
+    container_name: open-webui
+    restart: unless-stopped
+    ports:
+      - "3000:8080"
+    env_file:
+      - /volume2/FastSSD/docker/ollama/.env
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      # We removed the conflicting secret variables from here
+      # so they will be correctly loaded from the env_file above.
+    volumes:
+      - /volume2/FastSSD/docker/open-webui/data:/app/backend/data
+    depends_on:
+      - ollama
+    networks:
+      - deepseek-net
+
+networks:
+  deepseek-net:
+    driver: bridge

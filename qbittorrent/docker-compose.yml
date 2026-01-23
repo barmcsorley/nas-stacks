@@ -1,0 +1,28 @@
+services:
+  qbittorrent-vue:
+    container_name: qBittorrent-VUE
+    image: ghcr.io/linuxserver/qbittorrent:20.04.1@sha256:fc98c8af048936d0070dc5e5992feab08664f8a61a860d91be02f782f8721485
+    env_file:
+      - /volume2/FastSSD/docker/qbittorrent/.env
+    healthcheck:
+     test: curl -f http://localhost:9866/ || exit 1
+    mem_limit: 6g
+    cpu_shares: 768
+    security_opt:
+      - no-new-privileges:true
+    network_mode: host
+    tty: true
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+      - 9866:9866
+    volumes:
+      - /volume2/FastSSD/docker/qbittorrent/config:/config:rw
+      - /volume1/SlowHDD/downloads/downloads:/downloads:rw
+    environment:
+     WEBUI_PORT: 9866
+     PUID: 1000
+     PGID: 10
+     TZ: Europe/Dublin
+     DOCKER_MODS: ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
+    restart: on-failure:5

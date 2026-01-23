@@ -1,0 +1,25 @@
+services:
+  audiobookshelf:
+    container_name: Audiobookshelf
+    image: advplyr/audiobookshelf:2.32.1@sha256:a52dc5db694a5bf041ce38f285dd6c6a660a4b1b21e37ad6b6746433263b2ae5
+    env_file:
+      - /volume2/FastSSD/docker/audiobookshelf/.env
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 80 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    mem_limit: 4g
+    cpu_shares: 768
+    ports:
+      - 13378:80
+    volumes:
+      - /volume2/FastSSD/docker/audiobookshelf:/config:rw
+      - /volume2/FastSSD/docker/audiobookshelf/metadata:/metadata:rw
+      # MEDIA on SlowHDD (Read Only is safer for Calibre parallel use)
+      - /volume1/SlowHDD/books/calibreweblib:/books:ro
+      - /volume1/SlowHDD/books/audiobooks:/audiobooks:ro
+    restart: on-failure:5

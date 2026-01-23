@@ -1,0 +1,24 @@
+services:
+  syncthing:
+    image: ghcr.io/linuxserver/syncthing:latest@sha256:de603dda4513191b47d18bae93decd4683a20b212a3cd9595b2e681bb2ad9d34
+    env_file:
+      - /volume2/FastSSD/docker/syncthing/.env
+    container_name: Syncthing
+    healthcheck:
+     test: curl -f http://localhost:8384/ || exit 1
+    restart: on-failure:5
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      - PUID=1000
+      - PGID=10
+      - TZ=Europe/Dublin
+    volumes:
+      - /volume2/FastSSD/docker/syncthing/config:/config:rw
+      - /volume1/SlowHDD:/data1:rw
+      - /volume2/FastSSD/docker/syncthing/data2:/data2:rw
+    ports:
+      - 8384:8384
+      - 22000:22000/tcp
+      - 22000:22000/udp
+      - 21027:21027/udp

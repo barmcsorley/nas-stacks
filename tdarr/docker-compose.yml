@@ -1,0 +1,32 @@
+services:
+  tdarr:
+    image: ghcr.io/haveagitgat/tdarr:2.58.02@sha256:20a5656c4af4854e1877046294f77113f949d27e35940a9a65f231423d063207
+    
+    # 1. Loads all config (IPs, Ports, Drivers, PUID) from the file
+    env_file:
+      - /volume2/FastSSD/docker/tdarr/.env
+      
+    container_name: Tdarr
+    hostname: tdarr
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8265/ || exit 1
+    ports:
+      - 8265:8265
+      - 8266:8266
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - "105"
+      
+    # DELETED: environment section 
+    # (Everything is now safe in the env_file)
+
+    volumes:
+      - /volume2/FastSSD/docker/tdarr/server:/app/server
+      - /volume2/FastSSD/docker/tdarr/configs:/app/configs
+      - /volume2/FastSSD/docker/tdarr/logs:/app/logs
+      - /volume1/SlowHDD:/media
+      - /volume2/FastSSD/docker/tdarr/temp:/temp
+    restart: always
