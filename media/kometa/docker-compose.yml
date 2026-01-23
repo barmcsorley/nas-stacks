@@ -1,0 +1,18 @@
+services:
+  kometa:
+    image: kometateam/kometa:latest
+    env_file:
+      - /volume2/FastSSD/docker/kometa/.env
+    container_name: kometa
+    environment:
+      - TZ=Europe/London
+      # Optional: Run immediately on startup, then every day at 5am
+      - KOMETA_run=true
+      - KOMETA_times=05:00 
+    volumes:
+      # Mount your config folder from your Git repository source
+      - /volume2/FastSSD/docker/kometa/config:/config
+    restart: unless-stopped
+    # If using Trakt/Plex/Jellyfin external URLs, you might not need network_mode: host
+    # but 'host' is easiest if connecting to local instances via localhost/IP.
+    # network_mode: host
