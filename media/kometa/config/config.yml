@@ -3,7 +3,7 @@ settings:
   asset_directory: config/assets
   asset_depth: 0
   create_asset_folders: false
-  tmdb:
+tmdb:
     apikey: "${KOMETA_TMDB_API_KEY}"
 
 trakt:
