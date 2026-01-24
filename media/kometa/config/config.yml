@@ -4,7 +4,7 @@ settings:
   asset_depth: 0
   create_asset_folders: false
 tmdb:
-    apikey: "${KOMETA_TMDB_API_KEY}"
+    apikey: "715eeb318aa344eedea4385ef3ff9484"
 
 trakt:
   client_id: "${KOMETA_TRAKT_CLIENT_ID}"
