@@ -16,11 +16,11 @@ libraries:
     collection_files:
       - file: movies.yml
     plex:
-      url: "${KOMETA_PLEX_URL}"
+      url: http://192.168.68.102:32400
       token: "${KOMETA_PLEX_TOKEN}"
       library_name: Movies
     jellyfin:
-      url: "${KOMETA_JELLYFIN_URL}"
+      url: http://192.168.68.102:8097
       token: "${KOMETA_JELLYFIN_TOKEN}"
       library_name: Movies
 
@@ -28,10 +28,10 @@ libraries:
     collection_files:
       - file: tvshows.yml
     plex:
-      url: "${KOMETA_PLEX_URL}"
+      url: http://192.168.68.102:32400
       token: "${KOMETA_PLEX_TOKEN}"
       library_name: TV Shows
     jellyfin:
-      url: "${KOMETA_JELLYFIN_URL}"
+      url: http://192.168.68.102:8097
       token: "${KOMETA_JELLYFIN_TOKEN}"
       library_name: Shows
