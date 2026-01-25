@@ -1,0 +1,193 @@
+[2026-01-23 17:31:34,599] [kometa.py:299]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,599] [kometa.py:300]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,600] [kometa.py:301]             [INFO]     |                   __  ___  ______    ___  ___   _______  __________    ___                         |
+[2026-01-23 17:31:34,600] [kometa.py:302]             [INFO]     |                  |  |/  / /  __  \  |   \/   | |   ____||          |  /   \                        |
+[2026-01-23 17:31:34,600] [kometa.py:303]             [INFO]     |                  |  '  / |  |  |  | |  \  /  | |  |__   `---|  |---` /  ^  \                       |
+[2026-01-23 17:31:34,600] [kometa.py:304]             [INFO]     |                  |    <  |  |  |  | |  |\/|  | |   __|      |  |    /  /_\  \                      |
+[2026-01-23 17:31:34,600] [kometa.py:305]             [INFO]     |                  |  .  \ |  `--`  | |  |  |  | |  |____     |  |   /  _____  \                     |
+[2026-01-23 17:31:34,600] [kometa.py:306]             [INFO]     |                  |__|\__\ \______/  |__|  |__| |_______|    |__|  /__/     \__\                    |
+[2026-01-23 17:31:34,600] [kometa.py:307]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,619] [kometa.py:313]             [INFO]     |     Version: 2.2.2 (Docker: master)                                                                |
+[2026-01-23 17:31:34,706] [kometa.py:316]             [INFO]     |     Platform: Linux-6.12.30+-x86_64-with-glibc2.41                                                 |
+[2026-01-23 17:31:34,707] [kometa.py:317]             [INFO]     |     Total Memory: 31 GB                                                                            |
+[2026-01-23 17:31:34,707] [kometa.py:318]             [INFO]     |     Available Memory: 16 GB                                                                        |
+[2026-01-23 17:31:34,708] [kometa.py:319]             [INFO]     |     Process Priority: normal                                                                       |
+[2026-01-23 17:31:34,708] [kometa.py:351]             [DEBUG]    |====================================================================================================|
+[2026-01-23 17:31:34,708] [kometa.py:352]             [DEBUG]    | Run Command: kometa.py --run                                                                       |
+[2026-01-23 17:31:34,708] [kometa.py:356]             [DEBUG]    | --config (KOMETA_CONFIG): None                                                                     |
+[2026-01-23 17:31:34,709] [kometa.py:356]             [DEBUG]    | --times (KOMETA_TIMES): "05:00"                                                                    |
+[2026-01-23 17:31:34,709] [kometa.py:356]             [DEBUG]    | --run (KOMETA_RUN): True                                                                           |
+[2026-01-23 17:31:34,709] [kometa.py:356]             [DEBUG]    | --tests (KOMETA_TESTS): False                                                                      |
+[2026-01-23 17:31:34,709] [kometa.py:356]             [DEBUG]    | --debug (KOMETA_DEBUG): False                                                                      |
+[2026-01-23 17:31:34,710] [kometa.py:356]             [DEBUG]    | --trace (KOMETA_TRACE): False                                                                      |
+[2026-01-23 17:31:34,710] [kometa.py:356]             [DEBUG]    | --log-requests (KOMETA_LOG_REQUESTS): False                                                        |
+[2026-01-23 17:31:34,710] [kometa.py:356]             [DEBUG]    | --timeout (KOMETA_TIMEOUT): 180                                                                    |
+[2026-01-23 17:31:34,710] [kometa.py:356]             [DEBUG]    | --no-verify-ssl (KOMETA_NO_VERIFY_SSL): False                                                      |
+[2026-01-23 17:31:34,711] [kometa.py:356]             [DEBUG]    | --collections-only (KOMETA_COLLECTIONS_ONLY): False                                                |
+[2026-01-23 17:31:34,711] [kometa.py:356]             [DEBUG]    | --metadata-only (KOMETA_METADATA_ONLY): False                                                      |
+[2026-01-23 17:31:34,711] [kometa.py:356]             [DEBUG]    | --playlists-only (KOMETA_PLAYLISTS_ONLY): False                                                    |
+[2026-01-23 17:31:34,711] [kometa.py:356]             [DEBUG]    | --operations-only (KOMETA_OPERATIONS_ONLY): False                                                  |
+[2026-01-23 17:31:34,711] [kometa.py:356]             [DEBUG]    | --overlays-only (KOMETA_OVERLAYS_ONLY): False                                                      |
+[2026-01-23 17:31:34,711] [kometa.py:356]             [DEBUG]    | --run-collections (KOMETA_RUN_COLLECTIONS): None                                                   |
+[2026-01-23 17:31:34,712] [kometa.py:356]             [DEBUG]    | --run-libraries (KOMETA_RUN_LIBRARIES): None                                                       |
+[2026-01-23 17:31:34,712] [kometa.py:356]             [DEBUG]    | --run-files (KOMETA_RUN_FILES): None                                                               |
+[2026-01-23 17:31:34,712] [kometa.py:356]             [DEBUG]    | --ignore-schedules (KOMETA_IGNORE_SCHEDULES): False                                                |
+[2026-01-23 17:31:34,712] [kometa.py:356]             [DEBUG]    | --ignore-ghost (KOMETA_IGNORE_GHOST): False                                                        |
+[2026-01-23 17:31:34,712] [kometa.py:356]             [DEBUG]    | --delete-collections (KOMETA_DELETE_COLLECTIONS): False                                            |
+[2026-01-23 17:31:34,712] [kometa.py:356]             [DEBUG]    | --delete-labels (KOMETA_DELETE_LABELS): False                                                      |
+[2026-01-23 17:31:34,713] [kometa.py:356]             [DEBUG]    | --resume (KOMETA_RESUME): None                                                                     |
+[2026-01-23 17:31:34,713] [kometa.py:356]             [DEBUG]    | --no-countdown (KOMETA_NO_COUNTDOWN): False                                                        |
+[2026-01-23 17:31:34,713] [kometa.py:356]             [DEBUG]    | --no-missing (KOMETA_NO_MISSING): False                                                            |
+[2026-01-23 17:31:34,713] [kometa.py:356]             [DEBUG]    | --no-report (KOMETA_NO_REPORT): False                                                              |
+[2026-01-23 17:31:34,713] [kometa.py:356]             [DEBUG]    | --read-only-config (KOMETA_READ_ONLY_CONFIG): False                                                |
+[2026-01-23 17:31:34,714] [kometa.py:356]             [DEBUG]    | --divider (KOMETA_DIVIDER): "="                                                                    |
+[2026-01-23 17:31:34,714] [kometa.py:356]             [DEBUG]    | --width (KOMETA_WIDTH): 100                                                                        |
+[2026-01-23 17:31:34,714] [kometa.py:356]             [DEBUG]    | --low-priority (KOMETA_LOW_PRIORITY): False                                                        |
+[2026-01-23 17:31:34,714] [kometa.py:357]             [DEBUG]    |                                                                                                    |
+[2026-01-23 17:31:34,714] [kometa.py:359]             [DEBUG]    | Kometa Secrets Read:                                                                               |
+[2026-01-23 17:31:34,714] [kometa.py:361]             [DEBUG]    | --kometa-jellyfin-token (KOMETA_JELLYFIN_TOKEN): (redacted)                                        |
+[2026-01-23 17:31:34,715] [kometa.py:361]             [DEBUG]    | --kometa-tmdb-api-key (KOMETA_TMDB_API_KEY): (redacted)                                            |
+[2026-01-23 17:31:34,715] [kometa.py:361]             [DEBUG]    | --kometa-jellyfin-url (KOMETA_JELLYFIN_URL): (redacted)                                            |
+[2026-01-23 17:31:34,715] [kometa.py:361]             [DEBUG]    | --kometa-trakt-client-secret (KOMETA_TRAKT_CLIENT_SECRET): (redacted)                              |
+[2026-01-23 17:31:34,715] [kometa.py:361]             [DEBUG]    | --kometa-trakt-client-id (KOMETA_TRAKT_CLIENT_ID): (redacted)                                      |
+[2026-01-23 17:31:34,715] [kometa.py:362]             [DEBUG]    |                                                                                                    |
+[2026-01-23 17:31:34,715] [kometa.py:363]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,716] [kometa.py:363]             [INFO]     |                                            Starting Run                                            |
+[2026-01-23 17:31:34,716] [kometa.py:363]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,716] [config.py:157]             [INFO]     | Locating config...                                                                                 |
+[2026-01-23 17:31:34,716] [config.py:163]             [INFO]     | Using //config/config.yml as config                                                                |
+[2026-01-23 17:31:34,722] [config.py:204]             [DEBUG]    |========================================= Redacted Config ==========================================|
+[2026-01-23 17:31:34,723] [config.py:206]             [DEBUG]    | # config.yml                                                                                       |
+[2026-01-23 17:31:34,723] [config.py:206]             [DEBUG]    | libraries:                                                                                         |
+[2026-01-23 17:31:34,724] [config.py:206]             [DEBUG]    |   Movies:                                                                                          |
+[2026-01-23 17:31:34,724] [config.py:206]             [DEBUG]    |     collection_files:                                                                              |
+[2026-01-23 17:31:34,724] [config.py:206]             [DEBUG]    |     - file: movies.yml                                                                             |
+[2026-01-23 17:31:34,724] [config.py:206]             [DEBUG]    |     # Tells Kometa to apply these rules to BOTH Plex and Jellyfin                                  |
+[2026-01-23 17:31:34,724] [config.py:206]             [DEBUG]    |     plex:                                                                                          |
+[2026-01-23 17:31:34,724] [config.py:206]             [DEBUG]    |       url: (redacted)                                                                              |
+[2026-01-23 17:31:34,725] [config.py:206]             [DEBUG]    |       token: (redacted)                                                                            |
+[2026-01-23 17:31:34,725] [config.py:206]             [DEBUG]    |       library_name: Movies                                                                         |
+[2026-01-23 17:31:34,725] [config.py:206]             [DEBUG]    |     jellyfin:                                                                                      |
+[2026-01-23 17:31:34,725] [config.py:206]             [DEBUG]    |       url: (redacted)                                                                              |
+[2026-01-23 17:31:34,725] [config.py:206]             [DEBUG]    |       token: (redacted)                                                                            |
+[2026-01-23 17:31:34,725] [config.py:206]             [DEBUG]    |       library_name: Movies                                                                         |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |                                                                                                    |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |   TV Shows:                                                                                        |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |     collection_files:                                                                              |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |     - file: tvshows.yml                                                                            |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |     plex:                                                                                          |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |       url: (redacted)                                                                              |
+[2026-01-23 17:31:34,726] [config.py:206]             [DEBUG]    |       token: (redacted)                                                                            |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |       library_name: TV Shows                                                                       |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |     jellyfin:                                                                                      |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |       url: (redacted)                                                                              |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |       token: (redacted)                                                                            |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |       library_name: Shows                                                                          |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |                                                                                                    |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    | settings:                                                                                          |
+[2026-01-23 17:31:34,727] [config.py:206]             [DEBUG]    |   cache_expiration: 60                                                                             |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    |   asset_directory: config/assets                                                                   |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    |   asset_depth: 0                                                                                   |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    |   create_asset_folders: false                                                                      |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    |   tmdb:                                                                                            |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    |     apikey: (redacted)                                                                             |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    |                                                                                                    |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    | # Trakt Authentication (Free Account)                                                              |
+[2026-01-23 17:31:34,728] [config.py:206]             [DEBUG]    | # You will need to run the container once interactively to generate these,                         |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    | # or follow the Kometa wiki to authorize via browser.                                              |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    |   run_order:                                                                                       |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    |   - operations                                                                                     |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    |   - metadata                                                                                       |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    |   - collections                                                                                    |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    |   - overlays                                                                                       |
+[2026-01-23 17:31:34,729] [config.py:206]             [DEBUG]    |   cache: true                                                                                      |
+[2026-01-23 17:31:34,730] [config.py:206]             [DEBUG]    |   asset_folders: true                                                                              |
+[2026-01-23 17:31:34,730] [config.py:206]             [DEBUG]    |   prioritize_assets: false                                                                         |
+[2026-01-23 17:31:34,730] [config.py:206]             [DEBUG]    |   dimensional_asset_rename: false                                                                  |
+[2026-01-23 17:31:34,730] [config.py:206]             [DEBUG]    |   download_url_assets: false                                                                       |
+[2026-01-23 17:31:34,730] [config.py:206]             [DEBUG]    |   show_missing_assets: true                                                                        |
+[2026-01-23 17:31:34,730] [config.py:206]             [DEBUG]    |   show_missing_season_assets: false                                                                |
+[2026-01-23 17:31:34,731] [config.py:206]             [DEBUG]    |   show_missing_episode_assets: false                                                               |
+[2026-01-23 17:31:34,731] [config.py:206]             [DEBUG]    |   show_asset_not_needed: true                                                                      |
+[2026-01-23 17:31:34,731] [config.py:206]             [DEBUG]    |   sync_mode: append                                                                                |
+[2026-01-23 17:31:34,731] [config.py:206]             [DEBUG]    |   default_collection_order:                                                                        |
+[2026-01-23 17:31:34,731] [config.py:206]             [DEBUG]    |   minimum_items: 1                                                                                 |
+[2026-01-23 17:31:34,731] [config.py:206]             [DEBUG]    |   item_refresh_delay: 0                                                                            |
+[2026-01-23 17:31:34,732] [config.py:206]             [DEBUG]    |   delete_below_minimum: false                                                                      |
+[2026-01-23 17:31:34,732] [config.py:206]             [DEBUG]    |   delete_not_scheduled: false                                                                      |
+[2026-01-23 17:31:34,732] [config.py:206]             [DEBUG]    |   run_again_delay: 0                                                                               |
+[2026-01-23 17:31:34,732] [config.py:206]             [DEBUG]    |   missing_only_released: false                                                                     |
+[2026-01-23 17:31:34,732] [config.py:206]             [DEBUG]    |   only_filter_missing: false                                                                       |
+[2026-01-23 17:31:34,732] [config.py:206]             [DEBUG]    |   show_unmanaged: true                                                                             |
+[2026-01-23 17:31:34,733] [config.py:206]             [DEBUG]    |   show_unconfigured: true                                                                          |
+[2026-01-23 17:31:34,733] [config.py:206]             [DEBUG]    |   show_filtered: false                                                                             |
+[2026-01-23 17:31:34,733] [config.py:206]             [DEBUG]    |   show_unfiltered: false                                                                           |
+[2026-01-23 17:31:34,733] [config.py:206]             [DEBUG]    |   show_options: false                                                                              |
+[2026-01-23 17:31:34,733] [config.py:206]             [DEBUG]    |   show_missing: true                                                                               |
+[2026-01-23 17:31:34,733] [config.py:206]             [DEBUG]    |   save_report: false                                                                               |
+[2026-01-23 17:31:34,734] [config.py:206]             [DEBUG]    |   tvdb_language: default                                                                           |
+[2026-01-23 17:31:34,734] [config.py:206]             [DEBUG]    |   ignore_ids:                                                                                      |
+[2026-01-23 17:31:34,734] [config.py:206]             [DEBUG]    |   ignore_imdb_ids:                                                                                 |
+[2026-01-23 17:31:34,734] [config.py:206]             [DEBUG]    |   playlist_sync_to_users:                                                                          |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    |   playlist_exclude_users:                                                                          |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    |   playlist_report: true                                                                            |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    |   custom_repo:                                                                                     |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    |   overlay_artwork_filetype: webp_lossy                                                             |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    |   overlay_artwork_quality: 90                                                                      |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    | trakt:                                                                                             |
+[2026-01-23 17:31:34,735] [config.py:206]             [DEBUG]    |   client_id: (redacted)                                                                            |
+[2026-01-23 17:31:34,736] [config.py:206]             [DEBUG]    |   client_secret: (redacted)                                                                        |
+[2026-01-23 17:31:34,736] [config.py:206]             [DEBUG]    |   pin: # 9394                                                                                      |
+[2026-01-23 17:31:34,736] [config.py:206]             [DEBUG]    | tmdb:                                                                                              |
+[2026-01-23 17:31:34,736] [config.py:206]             [DEBUG]    |   apikey:                                                                                          |
+[2026-01-23 17:31:34,736] [config.py:207]             [DEBUG]    |                                                                                                    |
+[2026-01-23 17:31:34,771] [config.py:440]             [WARNING]  | Config Warning: Path does not exist: /config/assets                                                |
+[2026-01-23 17:31:34,771] [config.py:469]             [WARNING]  | Config Warning: No Paths exist using None as default                                               |
+[2026-01-23 17:31:34,771] [config.py:469]             [WARNING]  | Config Warning: settings sub-attribute verify_ssl not found using True as default                  |
+[2026-01-23 17:31:34,771] [config.py:559]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,772] [cache.py:17]               [INFO]     | Initializing cache database at //config/config.cache                                               |
+[2026-01-23 17:31:34,774] [config.py:568]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,774] [config.py:585]             [INFO]     | notifiarr attribute not found                                                                      |
+[2026-01-23 17:31:34,774] [config.py:603]             [INFO]     | gotify attribute not found                                                                         |
+[2026-01-23 17:31:34,774] [config.py:622]             [INFO]     | ntfy attribute not found                                                                           |
+[2026-01-23 17:31:34,774] [config.py:642]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,774] [config.py:647]             [INFO]     | Connecting to TMDb...                                                                              |
+[2026-01-23 17:31:34,778] [config.py:1356]            [DEBUG]    | Traceback (most recent call last):                                                                 |
+                                                                 |   File "/modules/config.py", line 649, in __init__                                                 |
+                                                                 |     "apikey": check_for_attribute(self.data, "apikey", parent="tmdb", throw=True),                 |
+                                                                 |               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                  |
+                                                                 |   File "/modules/config.py", line 467, in check_for_attribute                                      |
+                                                                 |     raise Failed(f"Config Error: {message}")                                                       |
+                                                                 | modules.util.Failed: Config Error: tmdb sub-attribute apikey is blank                              |
+                                                                 |                                                                                                    |
+[2026-01-23 17:31:34,782] [kometa.py:369]             [DEBUG]    | Traceback (most recent call last):                                                                 |
+                                                                 |   File "//kometa.py", line 367, in start                                                           |
+                                                                 |     config = ConfigFile(my_requests, default_dir, attrs, secret_args)                              |
+                                                                 |   File "/modules/config.py", line 649, in __init__                                                 |
+                                                                 |     "apikey": check_for_attribute(self.data, "apikey", parent="tmdb", throw=True),                 |
+                                                                 |               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^                  |
+                                                                 |   File "/modules/config.py", line 467, in check_for_attribute                                      |
+                                                                 |     raise Failed(f"Config Error: {message}")                                                       |
+                                                                 | modules.util.Failed: Config Error: tmdb sub-attribute apikey is blank                              |
+                                                                 |                                                                                                    |
+[2026-01-23 17:31:34,783] [kometa.py:370]             [CRITICAL] | Config Error: tmdb sub-attribute apikey is blank                                                   |
+[2026-01-23 17:31:34,783] [kometa.py:378]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,784] [kometa.py:453]             [INFO]     |========================================= Warning Summary ==========================================|
+[2026-01-23 17:31:34,784] [kometa.py:455]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,784] [kometa.py:456]             [INFO]     | Count | Message                                                                                    |
+[2026-01-23 17:31:34,784] [kometa.py:457]             [INFO]     |=======|============================================================================================|
+[2026-01-23 17:31:34,784] [kometa.py:459]             [INFO]     |     1 | Config Warning: Path does not exist: /config/assets                                        |
+[2026-01-23 17:31:34,785] [kometa.py:459]             [INFO]     |     1 | Config Warning: No Paths exist using None as default                                       |
+[2026-01-23 17:31:34,785] [kometa.py:459]             [INFO]     |     1 | Config Warning: settings sub-attribute verify_ssl not found using True as default          |
+[2026-01-23 17:31:34,785] [kometa.py:460]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,785] [kometa.py:453]             [INFO]     |========================================= Critical Summary =========================================|
+[2026-01-23 17:31:34,785] [kometa.py:455]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,785] [kometa.py:456]             [INFO]     | Count | Message                                                                                    |
+[2026-01-23 17:31:34,785] [kometa.py:457]             [INFO]     |=======|============================================================================================|
+[2026-01-23 17:31:34,785] [kometa.py:459]             [INFO]     |     1 | Config Error: tmdb sub-attribute apikey is blank                                           |
+[2026-01-23 17:31:34,785] [kometa.py:460]             [INFO]     |                                                                                                    |
+[2026-01-23 17:31:34,785] [kometa.py:467]             [INFO]     |====================================================================================================|
+[2026-01-23 17:31:34,786] [kometa.py:467]             [INFO]     |                                            Finished Run                                            |
+[2026-01-23 17:31:34,786] [kometa.py:467]             [INFO]     |                                           Version: 2.2.2                                           |
+[2026-01-23 17:31:34,786] [kometa.py:467]             [INFO]     |      Start Time: 17:31:34 2026-01-23     Finished: 17:31:34 2026-01-23     Run Time: 0:00:00       |
+[2026-01-23 17:31:34,786] [kometa.py:467]             [INFO]     |====================================================================================================|

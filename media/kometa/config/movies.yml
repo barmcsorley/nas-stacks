@@ -1,0 +1,31 @@
+templates:
+  TMDb Collection:
+    url_background: https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager-Images/master/backgrounds/TMDb.jpg
+    sort_title: +_<<collection_name>>
+    sync_mode: sync
+    collection_order: release
+    collection_level: season
+
+collections:
+  TMDb Trending:
+    template: { name: TMDb Collection }
+    tmdb_trending_weekly: 10
+
+  Oscar Best Picture Winners:
+    template: { name: TMDb Collection }
+    tmdb_list: 28
+    sort_title: "+_Oscar Winners"
+    summary: "Best Picture winners from the Academy Awards."
+
+  IMDb Top 250:
+    template: { name: TMDb Collection }
+    imdb_chart: top_movies
+    limit: 20
+    summary: "The highest rated movies of all time on IMDb."
+
+  Action Movies:
+    smart_filter:
+      sort_field: title
+      limit: 50
+      all:
+        genre: Action

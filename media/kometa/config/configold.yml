@@ -1,9 +1,41 @@
+# config.yml
+libraries:
+  Movies:
+    collection_files:
+    - file: movies.yml
+    # Tells Kometa to apply these rules to BOTH Plex and Jellyfin
+    plex:
+      url: http://192.168.1.X:32400
+      token: gfrPPXG4TgX-1gitUxHc
+      library_name: Movies
+    jellyfin:
+      url: http://192.168.1.X:8096
+      token: b109cd9b54814f338e973b9f53d18e7a
+      library_name: Movies
+
+  TV Shows:
+    collection_files:
+    - file: tvshows.yml
+    plex:
+      url: http://192.168.1.X:32400
+      token: gfrPPXG4TgX-1gitUxHc
+      library_name: TV Shows
+    jellyfin:
+      url: http://192.168.1.X:8096
+      token: b109cd9b54814f338e973b9f53d18e7a
+      library_name: Shows
+
 settings:
   cache_expiration: 60
   asset_directory: config/assets
   asset_depth: 0
   create_asset_folders: false
+  tmdb:
+    apikey: ${KOMETA_TMDB_API_KEY}
 
+# Trakt Authentication (Free Account)
+# You will need to run the container once interactively to generate these,
+# or follow the Kometa wiki to authorize via browser.
   run_order:
   - operations
   - metadata
@@ -44,43 +76,6 @@ settings:
   overlay_artwork_filetype: webp_lossy
   overlay_artwork_quality: 90
 trakt:
-  client_id: "${KOMETA_TRAKT_CLIENT_ID}"
-  client_secret: ${KOMETA_TRAKT_CLIENT_SECRET}"
-  pin: 4000b1a2
-  force_refresh:
-  authorization:
-    access_token: 
-    token_type: Bearer
-    expires_in: 604799
-    refresh_token: 
-    scope: public
-    created_at: 1769269813
-libraries:
-  Films:
-    collection_files:
-    - file: /config/movies.yml
-    plex:
-      url: http://192.168.68.102:32400
-      token:  "${KOMETA_PLEX_TOKEN}"
-     # library_name: Films
-    jellyfin:
-      url: http://192.168.68.102:8097
-      token: ${KOMETA_JELLYFIN_TOKEN}
-      library_name: Movies
-
-  TV Programmes:
-    collection_files:
-    - file: /config/tvshows.yml
-    plex:
-      url: http://192.168.68.102:32400
-      token:  "${KOMETA_PLEX_TOKEN}"
-      # library_name: TV Programmes
-    jellyfin:
-      url: http://192.168.68.102:8097
-      token: ${KOMETA_JELLYFIN_TOKEN}
-      library_name: Shows
-tmdb:
-  apikey: 
-  language: en
-  cache_expiration: 60
-  region:
+  client_id: 801e0e82452c6111a714de35f3a24646c94daa5461cfce41edb5d9d175be9cbb
+  client_secret: 5452d5057dffecacf9ffe18c4f21d4ab60c0f6f9e1723f7069998232d42fcd22
+  pin: # 9394

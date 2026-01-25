@@ -1,0 +1,32 @@
+templates:
+  TMDb Collection:
+    url_background: https://raw.githubusercontent.com/meisnate12/Plex-Meta-Manager-Images/master/backgrounds/TMDb.jpg
+    sort_title: +_<<collection_name>>
+    sync_mode: sync
+    collection_order: release
+    collection_level: show
+
+collections:
+  TMDb Trending:
+    template: { name: TMDb Collection }
+    tmdb_trending_weekly: 10
+    
+# --- FIXED: Dictionary Syntax for Trakt Chart ---
+  Critically Acclaimed:
+    template: { name: TMDb Collection }
+    trakt_chart:           # <--- This is the "Dictionary" structure it wanted
+      chart: watched       # Options: watched, collected, anticipated, trending
+      limit: 20
+    summary: "The most watched TV shows according to Trakt users."
+
+  # --- Networks ---
+  HBO Series:
+    template: { name: TMDb Collection }
+    network: HBO
+    summary: "Original programming from HBO."
+
+  Netflix Originals:
+    template: { name: TMDb Collection }
+    network: Netflix
+    summary: "Original programming from Netflix."
+ 
