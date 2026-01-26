@@ -26,7 +26,7 @@ services:
     volumes:
       # This is where the books will be downloaded to, usually it would be
       # the same as whatever you gave in "calibre-web-automated"
-      - /volume1/SlowHDD/downloads/downloads:/cwa-book-ingest
+      - /volume1/SlowHDD/downloads/downloads/books:/cwa-book-ingest
       # This is the location of CWA's app.db, which contains authentication
       # details. Comment out to disable authentication
       #- /cwa/config/path/app.db:/auth/app.db:ro
