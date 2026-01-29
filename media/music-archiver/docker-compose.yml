@@ -11,4 +11,11 @@ services:
     environment:
       - TZ=Europe/London
     working_dir: /app
-    command: python /app/scripts/sync_playlists.py
+    # command: python /app/scripts/sync_playlists.py
+    # Updated Fragment for docker-compose.yaml
+    command: >
+      sh -c "while true; do 
+        python /app/scripts/sync_playlists.py; 
+        echo 'Sleeping 12 hours...'; 
+        sleep 43200; 
+    done"
