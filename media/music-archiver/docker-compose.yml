@@ -1,0 +1,14 @@
+services:
+  music-archiver:
+    image: python:3.11-slim
+    container_name: music-archiver
+    restart: unless-stopped
+    volumes:
+      - /volume2/FastSSD/docker/music-archiver:/app/data
+      - ./scripts:/app/scripts
+    env_file:
+      - .env
+    environment:
+      - TZ=Europe/London
+    working_dir: /app
+    command: python /app/scripts/sync_playlists.py
