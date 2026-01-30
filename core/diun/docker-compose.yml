@@ -33,6 +33,5 @@ services:
 
     # Your standard block to pick up secrets from the NAS
     env_file:
-      - .env
-    
+      - /volume2/FastSSD/docker/diun/.env
     restart: always
