@@ -12,7 +12,7 @@ services:
       - "LOG_JSON=false"
       
       # Watch Settings
-      - "DIUN_WATCH_WORKERS=true"         # Watch all containers automatically
+      - "DIUN_WATCH_WORKERS=20"         # Watch all containers automatically
       - "DIUN_WATCH_SCHEDULE=0 */6 * * *" # Check every 6 hours
       - "DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true" # Default to 'On' for everything
       
