@@ -1,0 +1,38 @@
+services:
+  diun:
+    image: crazymax/diun:latest
+    container_name: diun
+    command: serve
+    volumes:
+      - /volume2/FastSSD/docker/diun/data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - "TZ=Europe/London"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+      
+      # Watch Settings
+      - "DIUN_WATCH_WORKERS=true"         # Watch all containers automatically
+      - "DIUN_WATCH_SCHEDULE=0 */6 * * *" # Check every 6 hours
+      - "DIUN_PROVIDERS_DOCKER_WATCHBYDEFAULT=true" # Default to 'On' for everything
+      
+      # Notification Settings (Pulls from your .env file)
+      # Uncomment the section matching your preferred service below:
+      
+      # OPTION A: Discord (Recommended - Easiest)
+      # - "DIUN_NOTIF_DISCORD_WEBHOOKURL=${DISCORD_WEBHOOK_URL}"
+      # - "DIUN_NOTIF_DISCORD_MENTION_USER=${DISCORD_USER_ID}" # Optional: Pings you
+      
+      # OPTION B: Telegram
+      # - "DIUN_NOTIF_TELEGRAM_TOKEN=${TELEGRAM_TOKEN}"
+      # - "DIUN_NOTIF_TELEGRAM_CHATIDS=${TELEGRAM_CHATID}"
+
+      # OPTION C: Gotify (Self-hosted)
+      # - "DIUN_NOTIF_GOTIFY_ENDPOINT=${GOTIFY_URL}"
+      # - "DIUN_NOTIF_GOTIFY_TOKEN=${GOTIFY_TOKEN}"
+
+    # Your standard block to pick up secrets from the NAS
+    env_file:
+      - .env
+    
+    restart: always
