@@ -2,7 +2,7 @@ version: '3'
 services:
   # CHANNEL 1: DOOM 2 / SCYTHE (Port 10666)
   doom-scythe:
-    image: frozenfoxx/zandronum-server:latest@sha256:e4bf7eb2a61183b141ebf4a9a90792400304c2da54b010e5d896c37aaf69b89a
+    image: frozenfoxx/zandronum-server:latest@sha256:214926f51b3f3f20a360c089dab8bebd7b5d02b884e727bb5cebeb5434c7a7ea
     env_file:
       - /volume2/FastSSD/docker/doom-multiples/.env
     container_name: doom_scythe
@@ -24,7 +24,7 @@ services:
 
   # CHANNEL 2: HEXEN (Port 10667)
   doom-hexen:
-    image: frozenfoxx/zandronum-server:latest@sha256:e4bf7eb2a61183b141ebf4a9a90792400304c2da54b010e5d896c37aaf69b89a
+    image: frozenfoxx/zandronum-server:latest@sha256:214926f51b3f3f20a360c089dab8bebd7b5d02b884e727bb5cebeb5434c7a7ea
     env_file:
       - /volume2/FastSSD/docker/doom-multiples/.env
     container_name: doom_hexen
@@ -46,7 +46,7 @@ services:
 
   # CHANNEL 3: ALIEN VENDETTA (Port 10668)
   doom-av:
-    image: frozenfoxx/zandronum-server:latest@sha256:e4bf7eb2a61183b141ebf4a9a90792400304c2da54b010e5d896c37aaf69b89a
+    image: frozenfoxx/zandronum-server:latest@sha256:214926f51b3f3f20a360c089dab8bebd7b5d02b884e727bb5cebeb5434c7a7ea
     env_file:
       - /volume2/FastSSD/docker/doom-multiples/.env
     container_name: doom_av

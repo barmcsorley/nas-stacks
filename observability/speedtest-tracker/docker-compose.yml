@@ -2,7 +2,7 @@ services:
   # ... your existing OpenSpeedTest service can stay here if you want both ...
 
   internet-monitoring:
-    image: lscr.io/linuxserver/speedtest-tracker:latest@sha256:d00dcbe8cd2c868ec059dd70379d8d7b033932c8fbeb744f6e10d0133c664a42
+    image: lscr.io/linuxserver/speedtest-tracker:latest@sha256:62be357ce63118f2c2b38c80eb9b48c1c643facdc8645bb5544114791ff32b29
     container_name: speedtest-tracker
     restart: unless-stopped
     ports:
@@ -28,7 +28,7 @@ services:
 
   # NEW SERVICE 👇
   apprise:
-    image: caronc/apprise:latest@sha256:6b112f8f174244f4a73b8e1254c9bde1fa562a6a428010aeaff1c18bc98d2713
+    image: caronc/apprise:latest@sha256:e0a2b6a4bfeac6ccc0a4bf33f0ffb1266aed97da665ceb42aacf75c2434e416d
     container_name: apprise
     restart: unless-stopped
     ports:

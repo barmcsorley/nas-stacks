@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   retroassembly:
-    image: arianrhodsandlot/retroassembly:v5.260119.1416@sha256:52401c00d27e51f0ddea2b4a8222ade0481af0ac0c741cc0a5e83e765b1b4b06
+    image: arianrhodsandlot/retroassembly:v5.260124.0752@sha256:d9bc4ff834617ecfb22a20388df5989cab6420c330ed27c7eafdac4e43400a01
     env_file:
       - /volume2/FastSSD/docker/retroassembly/.env
     container_name: retroassembly
