@@ -18,14 +18,12 @@
   },
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "groupName": "all non-major updates"
-    },
-    {
+      "description": "Prevent qBittorrent from upgrading to v5 if you are holding it back (Optional - keep if you added this intentionally)",
       "matchPackageNames": ["ghcr.io/linuxserver/qbittorrent"],
       "allowedVersions": "< 20"
     },
     {
+      "description": "STOP major updates for databases",
       "matchPackageNames": [
         "postgres",
         "mariadb",
