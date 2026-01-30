@@ -19,7 +19,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      "groupName": "all non-major dependencies"
+      "groupName": "all non-major updates"
     },
     {
       "matchPackageNames": ["ghcr.io/linuxserver/qbittorrent"],
