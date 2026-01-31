@@ -21,7 +21,7 @@ services:
       
       # OPTION A: Discord (Recommended - Easiest)
       - "DIUN_NOTIF_DISCORD_WEBHOOKURL=${DISCORD_WEBHOOK_URL}"
-      - "DIUN_NOTIF_DISCORD_MENTION_USER=${DISCORD_USER_ID}" # Optional: Pings you
+      - "DIUN_NOTIF_DISCORD_MENTIONS_USERS=${DISCORD_USER_ID}" # Optional: Pings you
       
       # OPTION B: Telegram
       # - "DIUN_NOTIF_TELEGRAM_TOKEN=${TELEGRAM_TOKEN}"
