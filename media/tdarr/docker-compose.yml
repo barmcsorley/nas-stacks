@@ -19,10 +19,10 @@ services:
       - /dev/dri:/dev/dri
     group_add:
       - "105"
-      
-    # DELETED: environment section 
-    # (Everything is now safe in the env_file)
-
+    environment:
+      - PUID=1000
+      - PGID=10
+      - TZ=Europe/Dublin      
     volumes:
       - /volume2/FastSSD/docker/tdarr/server:/app/server
       - /volume2/FastSSD/docker/tdarr/configs:/app/configs
