@@ -22,6 +22,7 @@ services:
     environment:
       - PUID=1000
       - PGID=10
+      - UMASK_SET=002
       - TZ=Europe/Dublin      
     volumes:
       - /volume2/FastSSD/docker/tdarr/server:/app/server
