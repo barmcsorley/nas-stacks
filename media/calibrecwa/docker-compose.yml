@@ -3,7 +3,7 @@ services:
   # SERVICE 1: Calibre-Web Automated (The "Daily Driver")
   # -------------------------------------------------------
   calibre-web-automated:
-    image: crocodilestick/calibre-web-automated:V3.1.4@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
+    image: crocodilestick/calibre-web-automated:latest
     container_name: Calibre-Web-Automated
     environment:
       PUID: 1000
