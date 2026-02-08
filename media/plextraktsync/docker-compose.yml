@@ -1,6 +1,6 @@
 services:
   plextraktsync:
-    image: ghcr.io/taxel/plextraktsync:0.34.20@sha256:4ba05fc4b0882638272ea325bc4fd76d50fab8d5e3e33fc7f087dd3e88497833
+    image: ghcr.io/taxel/plextraktsync:0.34.21@sha256:9a194380386f629df38e886f843825f4ef6e44389d8f2a0948ad5c97aa282271
     container_name: PlexTraktSync
     # 👇 CHANGE 1: Use relative path (The runner creates this file right here)
     env_file:
