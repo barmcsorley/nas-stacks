@@ -1,6 +1,6 @@
 services:
   music-assistant-server:
-    image: ghcr.io/music-assistant/server:latest@sha256:0b71975a411fb497984314de0a498bc6dd8b4094aa034f7cb7b986352a52e128
+    image: ghcr.io/music-assistant/server:latest@sha256:004ce2decfe074cb6b2fde7f0b98ad0b14055579172d9be1080d5331189f4e73
     container_name: music-assistant-server
     restart: unless-stopped
     # Network mode must be set to host for MA to work correctly
