@@ -1,7 +1,7 @@
 services:
   homarr:
     container_name: Homarr
-    image: ghcr.io/homarr-labs/homarr:latest@sha256:028535f392933a941da281b8580c5ae305fb2a7f0746e230107963935e22633d
+    image: ghcr.io/homarr-labs/homarr:latest@sha256:1f34d8b5be9727aa222d2a6b090131ed017e6308548cc8fc5a394ed4d8b60064
     
     # 1. Loads SECRET_ENCRYPTION_KEY directly
     env_file:
