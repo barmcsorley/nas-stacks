@@ -75,3 +75,15 @@ services:
     ports:
       - 5056:5055  # <--- EXTERNAL port 5056 maps to INTERNAL 5055
     restart: unless-stopped
+
+  maintainerr:
+    image: ghcr.io/jorenn92/maintainerr:latest
+    container_name: maintainerr
+    user: 1000:1000
+    volumes:
+      - /volume2/FastSSD/docker/maintainerr/config:/opt/data
+    environment:
+      - TZ=Europe/London
+    restart: unless-stopped
+    ports:
+      - 6246:6246
