@@ -1,6 +1,6 @@
 services:
   bentopdf:
-    image: ghcr.io/alam00000/bentopdf:latest@sha256:1be1c12c7c222f9ea01bf7bfc849ebb96e48d4da112f45ef1bab7ef47563a744
+    image: ghcr.io/alam00000/bentopdf:latest@sha256:b123f74921c079fb2be8a5a04eb576ab542d4a551bc26b291173580b7d037968
     container_name: BentoPDF
     healthcheck:
       test: ["CMD-SHELL", "nc -z 127.0.0.1 8080 || exit 1"]
