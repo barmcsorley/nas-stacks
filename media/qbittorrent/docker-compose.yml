@@ -1,7 +1,7 @@
 services:
   qbittorrent-vue:
     container_name: qBittorrent-VUE
-    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:dfa75bc534ad4f36262f75b5c1d4c4f0ddd5e7ed5711ebc581c70920cce204ee
+    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:85eb27d2d09cd4cb748036a4c7f261321da516b6f88229176cf05a92ccd26815
     env_file:
       - /volume2/FastSSD/docker/qbittorrent/.env
     healthcheck:
