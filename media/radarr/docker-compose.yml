@@ -105,7 +105,7 @@ services:
       # DOWNLOADS: This MUST match your qBittorrent mapping exactly.
       # Earlier you showed qBit uses: /volume1/SlowHDD/downloads/downloads
       # If you map a specific subfolder "/books" here, Readarr might not find the files.
-      - /volume1/SlowHDD/downloads/downloads:/downloads
+      - /volume1/SlowHDD/downloads:/downloads
       
     ports:
       - 8787:8787
