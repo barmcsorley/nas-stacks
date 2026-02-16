@@ -97,10 +97,16 @@ services:
       - TZ=Europe/London
     volumes:
       - /volume2/FastSSD/docker/readarr/config:/config
-      # This is where Readarr moves completed files to:
-      - /volume1/SlowHDD/books/Downloads:/audiobooks 
-      # This is where your download client puts raw files:
-      - /volume1/SlowHDD/downloads/books:/downloads 
+      
+      # STORAGE: Just map the parent "Books" folder. 
+      # Readarr will create folders inside this (e.g., /books/Stephen King).
+      - /volume1/SlowHDD/books:/books
+      
+      # DOWNLOADS: This MUST match your qBittorrent mapping exactly.
+      # Earlier you showed qBit uses: /volume1/SlowHDD/downloads/downloads
+      # If you map a specific subfolder "/books" here, Readarr might not find the files.
+      - /volume1/SlowHDD/downloads/downloads:/downloads
+      
     ports:
       - 8787:8787
     restart: unless-stopped
