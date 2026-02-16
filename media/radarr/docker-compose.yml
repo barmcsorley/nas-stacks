@@ -89,7 +89,7 @@ services:
       - 6246:6246
       
   readarr:
-    image: lscr.io/linuxserver/readarr:develop
+    image: ghcr.io/hotio/readarr:latest
     container_name: readarr
     environment:
       - PUID=1000
