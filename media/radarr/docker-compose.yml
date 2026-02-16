@@ -100,7 +100,7 @@ services:
       
       # STORAGE: Just map the parent "Books" folder. 
       # Readarr will create folders inside this (e.g., /books/Stephen King).
-      - /volume1/SlowHDD/books:/books
+      - /volume1/SlowHDD/books/readarrstaging:/books
       
       # DOWNLOADS: This MUST match your qBittorrent mapping exactly.
       # Earlier you showed qBit uses: /volume1/SlowHDD/downloads/downloads
