@@ -87,3 +87,20 @@ services:
     restart: unless-stopped
     ports:
       - 6246:6246
+      
+readarr-audio:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr-audio
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /volume2/FastSSD/docker/readarr/config:/config
+      # This is where Readarr moves completed files to:
+      - /volume1/SlowHDD/books/Downloads:/audiobooks 
+      # This is where your download client puts raw files:
+      - /volume1/SlowHDD/downloads/books:/downloads 
+    ports:
+      - 8787:8787
+    restart: unless-stopped
