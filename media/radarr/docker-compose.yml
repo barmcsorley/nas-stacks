@@ -89,7 +89,7 @@ services:
       - 6246:6246
       
   readarr:
-    image: lscr.io/linuxserver/readarr:nightly-0.4.19.2811-ls400
+    image: lscr.io/linuxserver/readarr:nightly-0.4.19.2811-ls400@sha256:4f291128d1a5538be73c2a30473d7cdd0820e223dc8b8533b0cbc5659000dcbe
     container_name: readarr
     environment:
       - PUID=1000
