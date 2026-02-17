@@ -1,6 +1,6 @@
 services:
   mariadb:
-    image: mariadb:12.1-noble@sha256:f54db0cb3ccfe9431aba6d08c65a1763c499789b116b4cb651dd7fcf325965b3
+    image: mariadb:12.2-noble@sha256:b1cb255a9939d28a1856815f0de6046c20c28c21b92a9f2696bc782b247a47ee
     env_file:
       - /volume2/FastSSD/docker/booklore/.env
     container_name: BookLore-DB
