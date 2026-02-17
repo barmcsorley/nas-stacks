@@ -129,7 +129,7 @@ services:
       
       # LIBRARY: Map the parent folder so LL can see Calibre AND Audiobooks
       # You can point LL to /books/calibreweblib to check what you already own
-      - /volume1/SlowHDD/books:/books
+      # - /volume1/SlowHDD/books:/books
     ports:
       - 5299:5299
     restart: unless-stopped
