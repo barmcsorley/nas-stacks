@@ -118,7 +118,7 @@ services:
       - PGID=1000  # Note: Check if CWA uses 100 or 1000. Matching CWA is safer for permissions.
       - TZ=Europe/London
       # Optional: Installs tools to let LL talk directly to Calibre database if needed later
-      - DOCKER_MODS=linuxserver/mods:universal-calibre
+      # - DOCKER_MODS=linuxserver/mods:universal-calibre
     volumes:
       # CONFIG: Store on your FastSSD
       - /volume2/FastSSD/docker/lazylibrarian/config:/config
