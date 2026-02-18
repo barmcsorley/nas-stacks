@@ -12,7 +12,7 @@ services:
       - no-new-privileges:true
     volumes:
       - /volume1/SlowHDD/tvseries:/tv:rw #If you want, you can change the following line /volume1/docker/sonarr/tv with the path Location of your own Movie library.
-      - /volume1/SlowHDD/downloads/downloads:/downloads:rw #If you want, you can change the following line /volume1/docker/sonarr/downloads with the path Location of your Download folder.
+      - /volume1/SlowHDD/downloads:/downloads:rw #If you want, you can change the following line /volume1/docker/sonarr/downloads with the path Location of your Download folder.
       - /volume2/FastSSD/docker/sonarr/config:/config:rw 
     environment:
       - PUID=1000
