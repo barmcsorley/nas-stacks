@@ -32,7 +32,7 @@ services:
   # SERVICE 2: Calibre Desktop (The "Gardener")
   # -------------------------------------------------------
   calibre:
-    image: lscr.io/linuxserver/calibre:latest@sha256:e28679665f23d0f4c65f87b94aedba324e8355051643ca85b1dea402e02a1602
+    image: lscr.io/linuxserver/calibre:latest@sha256:761e63aa102219f6332fa7d000ce066dc4761081fb521836aeaad9cb4cfcdcae
     container_name: Calibre-Desktop
     environment:
       - PUID=1000
