@@ -9,12 +9,13 @@ services:
     security_opt:
       - no-new-privileges:true
     ports:
-      - 3445:3000
+      - 3445:3000 # Map your host port to the HTTP container port
       - 3446:3001
     volumes:
       - /volume2/FastSSD/docker/libreoffice:/config:rw
     environment:
-     TZ: Europe/Dublin
-     PUID: 1000
-     PGID: 10
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - CUSTOM_PORT=3000 # Forces the web UI to stay on HTTP
     restart: on-failure:5
