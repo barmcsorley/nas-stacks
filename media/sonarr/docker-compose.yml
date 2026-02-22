@@ -4,7 +4,6 @@ services:
     env_file:
       - /volume2/FastSSD/docker/sonarr/.env
     container_name: Sonarr
-    network_mode: host
     healthcheck:
      test: curl -f http://localhost:8989/ || exit 1
     restart: always
