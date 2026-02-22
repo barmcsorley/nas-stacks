@@ -27,6 +27,6 @@ services:
     networks:
       - web_proxy
 
-    networks:
-      web_proxy:
-        external: true
+  networks:
+    web_proxy:
+      external: true
