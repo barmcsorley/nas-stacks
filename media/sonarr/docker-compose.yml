@@ -19,3 +19,9 @@ services:
       - TZ=Europe/Dublin
     ports:
       - 8989:8989
+    networks:
+      - web_proxy
+
+networks:
+  web_proxy:
+    external: true
