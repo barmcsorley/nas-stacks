@@ -11,6 +11,6 @@ services:
 
 networks:
   web_proxy:
-  external: true
+    external: true
     # DELETED: environment section
     # (The container will now find TUNNEL_TOKEN automatically from the env_file)
