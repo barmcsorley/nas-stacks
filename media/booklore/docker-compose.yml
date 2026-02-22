@@ -49,6 +49,3 @@ services:
       - /volume1/SlowHDD/books:/books:ro
       - /volume2/FastSSD/docker/booklore/bookdrop:/bookdrop:rw
     restart: on-failure:5
-
-volumes:
-  booklore_db_data:
