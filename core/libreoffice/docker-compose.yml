@@ -18,4 +18,7 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - CUSTOM_PORT=3000 # Forces the web UI to stay on HTTP
+      # ADD THESE TWO LINES:
+      - KASMVNC_AUTH=none # Cloudflare Access handles your auth; this stops a double-login loop
+      - ORIGIN_ALLOW_LIST=office.mcsorley.org.uk # Explicitly allows the socket to open for this domain
     restart: on-failure:5
