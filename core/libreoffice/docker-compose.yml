@@ -24,3 +24,9 @@ services:
       - ORIGIN_ALLOW_LIST=https://office.mcsorley.org.uk # Explicitly allows the socket to open for this domain
       - SUBFOLDER=/ # Explicitly defines the root path for the WebSocket
     restart: on-failure:5
+    networks:
+      - web_proxy
+
+    networks:
+      web_proxy:
+      external: true
