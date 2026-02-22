@@ -49,6 +49,11 @@ services:
       - /volume1/SlowHDD/books:/books:ro
       - /volume2/FastSSD/docker/booklore/bookdrop:/bookdrop:rw
     restart: on-failure:5
+    networks:
+      - web_proxy
 
+networks:
+  web_proxy:
+    external: true
 volumes:
   booklore_db_data:
