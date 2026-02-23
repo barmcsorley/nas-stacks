@@ -1,0 +1,28 @@
+services:
+  onlyoffice:
+    container_name: OnlyOffice
+    image: onlyoffice/documentserver:latest@sha256:d5930b53448b1158652d3791bd2938ba56c425331b5b364f49cd02579d5b4b0402e
+    restart: unless-stopped
+    env_file:
+      - /volume2/FastSSD/docker/onlyoffice/.env
+    environment:
+      - TZ=Europe/London
+      - JWT_ENABLED=true
+      # JWT_SECRET will be pulled from your .env file
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    ports:
+      - 8467:80
+    volumes:
+      - /volume2/FastSSD/docker/onlyoffice/data:/var/www/onlyoffice/Data:rw
+      - /volume2/FastSSD/docker/onlyoffice/logs:/var/log/onlyoffice:rw
+      - /volume2/FastSSD/docker/onlyoffice/lib:/var/lib/onlyoffice:rw
+    networks:
+      - web_proxy
+
+networks:
+  web_proxy:
+    external: true
