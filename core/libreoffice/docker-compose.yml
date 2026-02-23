@@ -21,7 +21,7 @@ services:
       # ADD THESE TWO LINES:
       - KASMVNC_AUTH=none # Cloudflare Access handles your auth; this stops a double-login loop
       # Note the lack of trailing slash and exact protocol
-      - ORIGIN_ALLOW_LIST=https://office.mcsorley.org.uk # Explicitly allows the socket to open for this domain
+      - ORIGIN_ALLOW_LIST=office.mcsorley.org.uk # Explicitly allows the socket to open for this domain
       - SUBFOLDER=/ # Explicitly defines the root path for the WebSocket
     restart: on-failure:5
     networks:
