@@ -4,7 +4,7 @@ services:
     image: onlyoffice/documentserver:latest@sha256:d5930b53448b1158652d3791bd2938ba56c425331b5b364f49cd02579d5b4b0402e
     restart: unless-stopped
     env_file:
-      - /volume2/FastSSD/docker/onlyoffice/.env
+      - .env
     environment:
       - TZ=Europe/London
       - JWT_ENABLED=true
