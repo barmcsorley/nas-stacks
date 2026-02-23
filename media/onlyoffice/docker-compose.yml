@@ -1,7 +1,7 @@
 services:
   onlyoffice:
     container_name: OnlyOffice
-    image: onlyoffice/documentserver:latest@sha256:d5930b53448b1158652d3791bd2938ba56c425331b5b364f49cd02579d5b4b0402e
+    image: onlyoffice/documentserver:latest@sha256:fd00acbbbde3d8b1ead9b933aafa7c2df77e62c48b1b171886e6bef343c13882
     restart: unless-stopped
     env_file:
       - /volume2/FastSSD/docker/onlyoffice/.env
