@@ -6,7 +6,7 @@ services:
       - web_proxy
     restart: unless-stopped
     # Network mode must be set to host for MA to work correctly
-    network_mode: host
+    # network_mode: host
     volumes:
       - /volume2/FastSSD/docker/music-assistant-server/data:/data/
     # privileged caps (and security-opt) needed to mount smb folders within the container
