@@ -42,7 +42,7 @@ services:
       - DISPLAY_HEIGHT=1080
       - KASMVNC_AUTH=none
       # Use the full URL with the wildcard to cover the websocket path
-      - ORIGIN_ALLOW_LIST=https://calibre.mcsorley.org.uk
+      - ORIGIN_ALLOW_LIST=calibre.mcsorley.org.uk
     volumes:
       - /volume2/FastSSD/docker/calibre/config:/config
       # Mounts the SAME library as CWA (Protected by the Entrypoint Guard)
