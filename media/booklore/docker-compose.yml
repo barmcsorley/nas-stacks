@@ -4,6 +4,8 @@ services:
     env_file:
       - /volume2/FastSSD/docker/booklore/.env
     container_name: BookLore-DB
+    networks:
+      - web_proxy # Join the same network so BookLore can find it
     security_opt:
       - no-new-privileges:true
     hostname: booklore-db
