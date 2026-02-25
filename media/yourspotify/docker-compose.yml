@@ -1,6 +1,6 @@
 services:
   your_spotify_server:
-    image: lscr.io/linuxserver/your_spotify:1.17.0@sha256:40cccd55f7635d08b0f594a43ee432b51a84759623ea99bbec3fe9a524f4eb1b
+    image: lscr.io/linuxserver/your_spotify:1.18.0@sha256:24e2e5f7054bf9cac8c1a134de099eeca35f3af1eace49e31209033965e22d89
     container_name: your_spotify
     environment:
       - PUID=1000
