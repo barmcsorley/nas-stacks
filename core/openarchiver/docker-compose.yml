@@ -13,13 +13,8 @@ services:
     environment:
       - NODE_ENV=production
       - STORAGE_TYPE=local
-      # Redis Connection
       - REDIS_HOST=valkey
       - REDIS_PORT=6379
-      # DELETED: REDIS_PASSWORD, POSTGRES_*, DATABASE_URL, SECRETS...
-      # (All loaded directly from the env_file now)
-      
-      # Internal Services
       - MEILI_HOST=http://meilisearch:7700
       - TIKA_URL=http://tika:9998
       - STORAGE_LOCAL_ROOT_PATH=/var/data/open-archiver
@@ -45,14 +40,12 @@ services:
     security_opt:
       - no-new-privileges:true
     healthcheck:
-      # FIX: Hardcoded values because healthcheck runs on host sometimes or can't see env vars easily
       test: ["CMD", "pg_isready", "-q", "-d", "openarchiver", "-U", "openuser"]
       timeout: 45s
       interval: 10s
       retries: 10
-    # DELETED: environment section (Loaded from env_file)
     volumes:
-       - ./db:/var/lib/postgresql/data
+       - /volume2/FastSSD/docker/openarchiver/db:/var/lib/postgresql/data
     restart: on-failure:5
 
   valkey:
@@ -62,13 +55,9 @@ services:
     container_name: OpenArchiver-REDIS
     healthcheck:
      test: ["CMD-SHELL", "redis-cli ping || exit 1"]
-    
-    # FIX: Use Shell execution so the CONTAINER injects the password variable, not the Runner
-    # We use 'sh -c' and "$REDIS_PASS" (with quotes)
     command: sh -c "valkey-server --requirepass \"$REDIS_PASS\""
-    
     volumes:
-      - ./redis:/data
+      - /volume2/FastSSD/docker/openarchiver/redis:/data
     restart: on-failure:5
 
   meilisearch:
@@ -81,9 +70,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    # DELETED: environment section (MEILI_MASTER_KEY loaded from env_file)
     volumes:
-      - ./meili:/meili_data
+      - /volume2/FastSSD/docker/openarchiver/meili:/meili_data
     restart: on-failure:5
 
   tika:
