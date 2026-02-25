@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     volumes:
       - /volume2/FastSSD/docker/music-archiver:/app/data
-      - ./scripts:/app/scripts
+      - /volume2/FastSSD/docker/music-archiver/scripts:/app/scripts
     env_file:
       - .env
     environment:
