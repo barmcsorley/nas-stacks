@@ -22,7 +22,7 @@ services:
       - /volume2/FastSSD/docker/yourspotify/config:/config
 
   mongo:
-    image: mongo:4.4
+    image: mongo:4.4@sha256:4be76f674fc4b27859816811b8baa3c51830eb1dbf4ca81a51e26b79edd662ef
     container_name: your_spotify_db
     restart: unless-stopped
     volumes:
