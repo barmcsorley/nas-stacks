@@ -22,15 +22,53 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 2  # CRITICAL: Required to detect changed files
 
-      - name: Update All Containers
+      - name: Determine Stacks to Update
+        id: filter
         run: |
-          echo "🚀 Scanning for docker-compose files..."
+          # Initialize an empty list
+          STACKS=""
           
-          # Loop through every docker-compose file found in the repo
-          find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "👉 Manual Trigger detected: Updating ALL stacks."
+            STACKS=$(find . -name "docker-compose.y*ml")
+          else
+            echo "👉 Push detected: analyzing changes..."
+            # Get list of changed files in this commit
+            CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
+            
+            # Extract unique directories that contain a docker-compose file
+            # We filter the changed files to only include those inside stack folders
+            STACKS=$(echo "$CHANGED_FILES" | grep "docker-compose" | xargs -L1 dirname | sort -u | xargs -I {} find {} -name "docker-compose.y*ml")
+            
+            if [ -z "$STACKS" ]; then
+               echo "⚠️ No docker-compose files were modified. Nothing to update."
+            else
+               echo "👉 Detected changes in the following stacks:"
+               echo "$STACKS"
+            fi
+          fi
+          
+          # Save the list to the GITHUB_ENV so the next step can read it
+          # We use a delimiter because the list has multiple lines
+          {
+            echo "STACK_LIST<<EOF"
+            echo "$STACKS"
+            echo "EOF"
+          } >> $GITHUB_ENV
+
+      - name: Deploy Stacks
+        if: env.STACK_LIST != ''
+        run: |
+          echo "🚀 Starting Deployment..."
+          
+          # Loop through the list of stacks we identified in the previous step
+          echo "$STACK_LIST" | while IFS= read -r file; do
+            [ -z "$file" ] && continue # Skip empty lines
+            
             dir=$(dirname "$file")
-            # Extract just the folder name (e.g. "radarr")
             stack_name=$(basename "$dir")
             
             echo "---------------------------------------------------"
@@ -40,38 +78,33 @@ jobs:
             cd "$dir"
             
             # 1. SECRET INJECTION
-            # Look for the .env file in the mapped volume path on the NAS
             TARGET_ENV="/volume2/FastSSD/docker/$stack_name/.env"
             
-            echo "   🔍 Debug: Checking for secrets at $TARGET_ENV"
-
             if [ -f "$TARGET_ENV" ]; then
                 echo "   🔑 Found secrets on NAS! Injecting .env file..."
                 cp "$TARGET_ENV" ./.env
             else
-                echo "   ⚠️ No .env file found at $TARGET_ENV."
                 echo "   🛡️ Creating an empty .env file to satisfy compose requirements."
                 touch ./.env
             fi
             
-            # 2. STOP EXISTING CONTAINERS (The Sledgehammer Fix)
-            # Bring down the old stack FIRST to prevent Docker from renaming it to avoid collisions.
-            echo "   🛑 Stopping old containers to prevent naming conflicts..."
+            # 2. SLEDGEHAMMER (Stop First)
+            echo "   🛑 Stopping old containers..."
             docker compose down --remove-orphans
             
-            # 3. PULL NEW IMAGES
+            # 3. PULL
             echo "   ⬇️ Pulling latest images..."
             docker compose pull
 
-            # 4. START NEW CONTAINERS
+            # 4. START
             echo "   🚀 Starting new containers..."
             if ! docker compose up -d --remove-orphans; then
-              echo "   ❌ ERROR: Failed to start containers for $stack_name"
+              echo "   ❌ ERROR: Failed to start $stack_name"
             else
               echo "   ✅ Successfully deployed $stack_name"
             fi
             
-            # Go back to root for the next loop
+            # Go back to root
             cd - > /dev/null
           done
 
