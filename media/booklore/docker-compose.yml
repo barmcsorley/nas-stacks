@@ -23,7 +23,7 @@ services:
     restart: on-failure:5
     
   booklore:
-    image: ghcr.io/booklore-app/booklore:latest@sha256:44a39097fcf69e7373b51df0459da052640d07459fb02b429f2c47cceaa32485
+    image: ghcr.io/booklore-app/booklore:latest@sha256:e5c51133c0c50e97004bf711a34521c698e4b27b6847e54fe304c08ff4aa8ee1
     env_file:
       - /volume2/FastSSD/docker/booklore/.env
     container_name: BookLore
