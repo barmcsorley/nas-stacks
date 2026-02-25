@@ -4,7 +4,7 @@ on:
   # 1. Manual Trigger
   workflow_dispatch:
   
-  # 2. Automatic Trigger (Must be indented under 'on')
+  # 2. Automatic Trigger
   push:
     branches:
       - main
@@ -12,7 +12,6 @@ on:
       - '**/docker-compose.yml'
       - '**/docker-compose.yaml'
 
-# 3. Concurrency (Must be a top-level key, NOT inside 'on')
 concurrency:
   group: ${{ github.ref }}
   cancel-in-progress: true
@@ -31,7 +30,7 @@ jobs:
           # Loop through every docker-compose file found in the repo
           find . -name "docker-compose.y*ml" -print0 | while IFS= read -r -d '' file; do
             dir=$(dirname "$file")
-            # Extract just the folder name (e.g. "plextraktsync")
+            # Extract just the folder name (e.g. "radarr")
             stack_name=$(basename "$dir")
             
             echo "---------------------------------------------------"
@@ -40,8 +39,8 @@ jobs:
             
             cd "$dir"
             
-            # 1. SECRET INJECTION (Corrected Path)
-            # We look for the .env file in the ACTUAL volume path we verified with docker inspect
+            # 1. SECRET INJECTION
+            # Look for the .env file in the mapped volume path on the NAS
             TARGET_ENV="/volume2/FastSSD/docker/$stack_name/.env"
             
             echo "   🔍 Debug: Checking for secrets at $TARGET_ENV"
@@ -49,24 +48,27 @@ jobs:
             if [ -f "$TARGET_ENV" ]; then
                 echo "   🔑 Found secrets on NAS! Injecting .env file..."
                 cp "$TARGET_ENV" ./.env
-                # Tell Docker to use the local .env we just created
-                CMD="docker compose --env-file .env"
             else
-                echo "   ⚠️ No .env file found at $TARGET_ENV. Proceeding without secrets."
-                # List the parent folder to debug if it's missing or named differently
-                ls -la "/volume2/FastSSD/docker/$stack_name/" || echo "   ❌ Folder does not exist on NAS"
-                CMD="docker compose"
+                echo "   ⚠️ No .env file found at $TARGET_ENV."
+                echo "   🛡️ Creating an empty .env file to satisfy compose requirements."
+                touch ./.env
             fi
             
-            # 2. Pull new images
+            # 2. STOP EXISTING CONTAINERS (The Sledgehammer Fix)
+            # Bring down the old stack FIRST to prevent Docker from renaming it to avoid collisions.
+            echo "   🛑 Stopping old containers to prevent naming conflicts..."
+            docker compose down --remove-orphans
+            
+            # 3. PULL NEW IMAGES
+            echo "   ⬇️ Pulling latest images..."
             docker compose pull
 
-            # 3. Conflict Handling & Deployment
-            # If 'up' fails, we assume it's a conflict, remove the old container, and retry.
-            if ! $CMD up -d --remove-orphans; then
-              echo "   ⚠️ Conflict detected! Force recreating..."
-              $CMD down --remove-orphans
-              $CMD up -d
+            # 4. START NEW CONTAINERS
+            echo "   🚀 Starting new containers..."
+            if ! docker compose up -d --remove-orphans; then
+              echo "   ❌ ERROR: Failed to start containers for $stack_name"
+            else
+              echo "   ✅ Successfully deployed $stack_name"
             fi
             
             # Go back to root for the next loop
