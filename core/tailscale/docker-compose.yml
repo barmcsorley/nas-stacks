@@ -22,3 +22,13 @@ services:
       - NET_ADMIN
       - NET_RAW
     restart: unless-stopped
+
+    environment:
+      - TS_ENABLE_HEALTH_CHECK=true      # Turns on the internal health server
+      - TS_LOCAL_ADDR_PORT=[::]:9002    # Sets the health port to 9002
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:9002/healthz"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
