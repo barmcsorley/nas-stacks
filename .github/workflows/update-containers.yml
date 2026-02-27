@@ -53,8 +53,11 @@ jobs:
       - name: Notify Success
         if: success()
         run: |
+          # Clean up the STACK_LIST for display
+          CLEAN_STACKS=$(echo "$STACK_LIST" | xargs -I {} basename $(dirname {}) | tr '\n' ',' | sed 's/,$//')
+          
           curl -H "Content-Type: application/json" \
-               -d "{\"content\": \"✅ **NAS Update Successful**\n**Environment:** UGreen 2800DXP\n**Status:** Deployment complete.\"}" \
+               -d "{\"content\": \"✅ **NAS Update Successful**\n**Stacks:** \`${CLEAN_STACKS}\` \n**Environment:** UGreen 2800DXP\n**Status:** Healthy and Synchronised.\"}" \
                ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       - name: Notify Failure
