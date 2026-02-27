@@ -4,10 +4,12 @@ services:
     container_name: uptime-kuma
     restart: unless-stopped
     ports:
-      - "3001:3001"
+      - 3001:3001
     volumes:
-      - /volume2/FastSSD/docker/uptime-kuma:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock:ro  # Mount Docker socket as read-only
-      - ./data:/app/data
+      # 1. Point this EXACTLY to where your old data was [cite: 2025-12-21]
+      - /volume2/FastSSD/docker/uptime-kuma:/app/data 
+      
+      # 2. The Docker Socket for container monitoring
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     env_file:
       - /volume2/FastSSD/docker/uptime-kuma/.env
