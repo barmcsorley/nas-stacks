@@ -12,23 +12,18 @@ on:
       - '**/docker-compose.yml'
       - '**/docker-compose.yaml'
 
-# concurrency:
-  # group: ${{ github.ref }}
-  # cancel-in-progress: true # commenting out as causing PR's to cancel when running a few together
-
 jobs:
   deploy:
     runs-on: [self-hosted, nas]
     steps:
       - name: Checkout Code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 2  # CRITICAL: Required to detect changed files
+          fetch-depth: 2  # Required to detect changed files
 
       - name: Determine Stacks to Update
         id: filter
         run: |
-          # Initialize an empty list
           STACKS=""
           
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
@@ -36,11 +31,7 @@ jobs:
             STACKS=$(find . -name "docker-compose.y*ml")
           else
             echo "👉 Push detected: analyzing changes..."
-            # Get list of changed files in this commit
             CHANGED_FILES=$(git diff --name-only HEAD^ HEAD)
-            
-            # Extract unique directories that contain a docker-compose file
-            # We filter the changed files to only include those inside stack folders
             STACKS=$(echo "$CHANGED_FILES" | grep "docker-compose" | xargs -L1 dirname | sort -u | xargs -I {} find {} -name "docker-compose.y*ml")
             
             if [ -z "$STACKS" ]; then
@@ -51,8 +42,6 @@ jobs:
             fi
           fi
           
-          # Save the list to the GITHUB_ENV so the next step can read it
-          # We use a delimiter because the list has multiple lines
           {
             echo "STACK_LIST<<EOF"
             echo "$STACKS"
@@ -64,9 +53,8 @@ jobs:
         run: |
           echo "🚀 Starting Deployment..."
           
-          # Loop through the list of stacks we identified in the previous step
           echo "$STACK_LIST" | while IFS= read -r file; do
-            [ -z "$file" ] && continue # Skip empty lines
+            [ -z "$file" ] && continue
             
             dir=$(dirname "$file")
             stack_name=$(basename "$dir")
@@ -77,7 +65,6 @@ jobs:
             
             cd "$dir"
             
-            # 1. SECRET INJECTION
             TARGET_ENV="/volume2/FastSSD/docker/$stack_name/.env"
             
             if [ -f "$TARGET_ENV" ]; then
@@ -88,15 +75,12 @@ jobs:
                 touch ./.env
             fi
             
-            # 2. SLEDGEHAMMER (Stop First)
             echo "   🛑 Stopping old containers..."
             docker compose down --remove-orphans
             
-            # 3. PULL
             echo "   ⬇️ Pulling latest images..."
             docker compose pull --quiet
 
-            # 4. START
             echo "   🚀 Starting new containers..."
             if ! docker compose up -d --remove-orphans; then
               echo "   ❌ ERROR: Failed to start $stack_name"
@@ -104,16 +88,15 @@ jobs:
               echo "   ✅ Successfully deployed $stack_name"
             fi
             
-            # Go back to root
             cd - > /dev/null
           done
 
-- name: Cleanup
+      - name: Cleanup
         run: docker image prune -f
 
       - name: Notify Success
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
-               -d "{\"content\": \"✅ **NAS Update Successful**\n**Environment:** UGreen 2800DXP\"}" \
+               -d "{\"content\": \"✅ **NAS Update Successful**\n**Environment:** UGreen 2800DXP\n**Status:** All containers synchronised with main branch.\"}" \
                ${{ secrets.DISCORD_WEBHOOK_URL }}
