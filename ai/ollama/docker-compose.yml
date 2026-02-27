@@ -9,6 +9,12 @@ services:
       - /volume2/FastSSD/docker/ollama/models:/root/.ollama
     networks:
       - deepseek-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:11434/api/tags"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main@sha256:ea750f19fc2a7ca0cb221bc512b8c2c470a01616b89ed98cb77d9ab0d5f24109
@@ -20,14 +26,19 @@ services:
       - /volume2/FastSSD/docker/ollama/.env
     environment:
       - OLLAMA_BASE_URL=http://ollama:11434
-      # We removed the conflicting secret variables from here
-      # so they will be correctly loaded from the env_file above.
     volumes:
       - /volume2/FastSSD/docker/open-webui/data:/app/backend/data
     depends_on:
-      - ollama
+      ollama:
+        condition: service_healthy # Only starts UI once Ollama is confirmed healthy
     networks:
       - deepseek-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
 
 networks:
   deepseek-net:
