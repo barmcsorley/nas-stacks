@@ -61,7 +61,7 @@ services:
     restart: on-failure:5
 
   meilisearch:
-    image: getmeili/meilisearch:v1.35.0@sha256:348ba1c1f61101130304370a9522cc5405e6906b64a426dc2fcd5c428a516a98
+    image: getmeili/meilisearch:v1.36.0@sha256:203a0854738be101bfdada825ac3cbf95e5681bc849757b6bc199e4cfae98faa
     env_file:
       - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-MEILI
