@@ -94,7 +94,7 @@ jobs:
             
             # 3. PULL
             echo "   ⬇️ Pulling latest images..."
-            docker compose pull
+            docker compose pull --quiet
 
             # 4. START
             echo "   🚀 Starting new containers..."
