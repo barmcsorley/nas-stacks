@@ -11,6 +11,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends chocolate-doom && \
     rm -rf /var/lib/apt/lists/*
 WORKDIR /data
-
+USER 1000:1000
 # Default entrypoint
 ENTRYPOINT ["chocolate-server"]
