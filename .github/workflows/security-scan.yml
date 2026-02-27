@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6 # Updated to latest stable node20 version
 
       - name: Run Trivy Vulnerability Scanner (IaC)
-        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # 0.28.0 # Pinned to stable release instead of @master
+        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 # 0.34.1 # Pinned to stable release instead of @master
         with:
           scan-type: 'config' # Changed from 'fs' to scan your docker-compose files
           hide-progress: true
