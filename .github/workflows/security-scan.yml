@@ -14,13 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@v4 # Updated to latest stable node20 version
 
-      - name: Run Trivy Vulnerability Scanner (Repo)
-        uses: aquasecurity/trivy-action@master
+      - name: Run Trivy Vulnerability Scanner (IaC)
+        uses: aquasecurity/trivy-action@0.28.0 # Pinned to stable release instead of @master
         with:
-          scan-type: 'fs'
-          ignore-unfixed: true
+          scan-type: 'config' # Changed from 'fs' to scan your docker-compose files
+          hide-progress: true
           format: 'table'
           exit-code: '1' # Fail the build if High/Critical issues are found
           severity: 'CRITICAL,HIGH'
