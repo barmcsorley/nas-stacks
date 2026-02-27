@@ -49,7 +49,7 @@ services:
     restart: on-failure:5
 
   valkey:
-    image: valkey/valkey:9-alpine@sha256:c106a0c03bcb23cbdf9febe693114cb7800646b11ca8b303aee7409de005faa8
+    image: valkey/valkey:9-alpine@sha256:ad4541b28b017bf4cd83ee057c51aafb21ea32e898e3f3b8b75e268650f2ac20
     env_file:
       - /volume2/FastSSD/docker/openarchiver/.env
     container_name: OpenArchiver-REDIS
