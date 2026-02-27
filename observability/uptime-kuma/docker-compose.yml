@@ -7,6 +7,7 @@ services:
       - "3001:3001"
     volumes:
       - /volume2/FastSSD/docker/uptime-kuma:/app/data
-      - /var/run/docker.sock:/var/run/docker.sock # Optional: Allows monitoring of other Docker containers directly
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # Mount Docker socket as read-only
+      - ./data:/app/data
     env_file:
       - /volume2/FastSSD/docker/uptime-kuma/.env
