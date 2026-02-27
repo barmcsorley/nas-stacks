@@ -110,3 +110,9 @@ jobs:
 
       - name: Cleanup
         run: docker image prune -f
+      - name: Notify Success
+          if: success()
+          run: |
+            curl -H "Content-Type: application/json" \
+                 -d "{\"content\": \"✅ **NAS Update Successful**\n**Stacks:** ${{ steps.analyze_diff.outputs.changed_stacks }}\n**Environment:** UGreen 2800DXP\"}" \
+                 ${{ secrets.DISCORD_WEBHOOK_URL }}
