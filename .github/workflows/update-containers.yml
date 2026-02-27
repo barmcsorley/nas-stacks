@@ -12,8 +12,8 @@ on:
       - '**/docker-compose.yml'
       - '**/docker-compose.yaml'
 
-concurrency:
-  group: ${{ github.ref }}
+# concurrency:
+  # group: ${{ github.ref }}
   # cancel-in-progress: true # commenting out as causing PR's to cancel when running a few together
 
 jobs:
