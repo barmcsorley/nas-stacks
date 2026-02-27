@@ -8,9 +8,8 @@ ENV PATH="/usr/games:${PATH}"
 
 # Install the game and clean up apt cache to keep image small
 RUN apt-get update && \
-    apt-get install -y chocolate-doom && \
+    apt-get install -y --no-install-recommends chocolate-doom && \
     rm -rf /var/lib/apt/lists/*
-
 WORKDIR /data
 
 # Default entrypoint
