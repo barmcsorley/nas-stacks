@@ -22,3 +22,18 @@ services:
       TZ: Europe/Dublin
       DOCKER_MODS: ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     restart: on-failure:5
+
+  qbittorrent-mam:
+    container_name: qBittorrent-MAM
+    image: ghcr.io/linuxserver/qbittorrent:latest
+    network_mode: host
+    environment:
+      - WEBUI_PORT=9867
+      - TORRENTING_PORT=57743 # Unique port for MAM traffic
+      - PUID=1000
+      - PGID=10
+      - TZ=Europe/Dublin
+    volumes:
+      - /volume2/FastSSD/docker/qbittorrent-mam/config:/config:rw
+      - /volume1/SlowHDD/downloads/books:/downloads:rw
+    restart: on-failure:5
