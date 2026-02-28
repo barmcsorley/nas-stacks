@@ -33,6 +33,7 @@ services:
       - PUID=1000
       - PGID=10
       - TZ=Europe/Dublin
+      - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
       - /volume2/FastSSD/docker/qbittorrent-mam/config:/config:rw
       - /volume1/SlowHDD/downloads/books:/downloads:rw
