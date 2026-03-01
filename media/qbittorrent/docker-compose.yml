@@ -25,7 +25,7 @@ services:
 
   qbittorrent-mam:
     container_name: qBittorrent-MAM
-    image: ghcr.io/linuxserver/qbittorrent:latest
+    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618
     network_mode: host
     environment:
       - WEBUI_PORT=9867
