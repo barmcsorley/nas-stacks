@@ -1,6 +1,6 @@
 services:
   tdarr:
-    image: ghcr.io/haveagitgat/tdarr:2.58.02@sha256:20a5656c4af4854e1877046294f77113f949d27e35940a9a65f231423d063207
+    image: ghcr.io/haveagitgat/tdarr:2.59.01@sha256:95ee0aa8817c2479fc8638f9af769bd65be005ad0230f49e7f0c4c1e3eff3c55
     
     # 1. Loads all config (IPs, Ports, Drivers, PUID) from the file
     env_file:
