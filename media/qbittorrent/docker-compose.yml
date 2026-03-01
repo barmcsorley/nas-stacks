@@ -1,7 +1,7 @@
 services:
   qbittorrent-vue:
     container_name: qBittorrent-VUE
-    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618
+    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:3ee43a4d08ce4a0108e4c8150f570544a8c4a4a11e2ca95b86d46006547f80d5
     env_file:
       - /volume2/FastSSD/docker/qbittorrent/.env
     healthcheck:
@@ -25,7 +25,7 @@ services:
 
   qbittorrent-mam:
     container_name: qBittorrent-MAM
-    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:065792d2b11f0facff340210fc1cf13623b029a94ecdf08b02d06d922205f618
+    image: ghcr.io/linuxserver/qbittorrent:latest@sha256:3ee43a4d08ce4a0108e4c8150f570544a8c4a4a11e2ca95b86d46006547f80d5
     network_mode: host
     environment:
       - WEBUI_PORT=9867
