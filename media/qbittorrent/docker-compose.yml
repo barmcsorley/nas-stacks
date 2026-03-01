@@ -36,7 +36,7 @@ services:
       - DOCKER_MODS=ghcr.io/vuetorrent/vuetorrent-lsio-mod:latest
     volumes:
       - /volume2/FastSSD/docker/qbittorrent-mam/config:/config:rw
-      - /volume1/SlowHDD/downloads/books:/downloads:rw
+      - /volume1/SlowHDD/downloads:/downloads:rw
     entrypoint: >
         /bin/sh -c "
         echo 'Waiting for NAS volumes...';
