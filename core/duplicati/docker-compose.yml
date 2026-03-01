@@ -1,6 +1,6 @@
 services:
   duplicati:
-    image: ghcr.io/linuxserver/duplicati:latest@sha256:479af9d456718d8366ff4fc53936589978d20c4c7c67e0be5c250947836d93d3
+    image: ghcr.io/linuxserver/duplicati:latest@sha256:3f41c1ce0356b4c55b7447ff29f1878f85b7cb3b92fbd8628a5e7f61a434a5e2
     env_file:
       - /volume2/FastSSD/docker/duplicati/.env
     container_name: duplicati
