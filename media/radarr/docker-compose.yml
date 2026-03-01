@@ -111,7 +111,7 @@ services:
       # DOWNLOADS: This MUST match your qBittorrent mapping exactly.
       # Earlier you showed qBit uses: /volume1/SlowHDD/downloads/downloads
       # If you map a specific subfolder "/books" here, Readarr might not find the files.
-      - /volume1/SlowHDD/downloads:/downloads      
+      - /volume1/SlowHDD/downloads/bookdump:/downloads      
     ports:
       - 8787:8787
     restart: unless-stopped
@@ -131,7 +131,7 @@ services:
       
       # DOWNLOADS: Must match qBittorrent parent path exactly
       # LL will send downloads to /downloads/books
-      - /volume1/SlowHDD/downloads:/downloads
+      - /volume1/SlowHDD/downloads/bookdump:/downloads
       
       # LIBRARY: Map the parent folder so LL can see Calibre AND Audiobooks
       # You can point LL to /books/calibreweblib to check what you already own
