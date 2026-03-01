@@ -37,4 +37,12 @@ services:
     volumes:
       - /volume2/FastSSD/docker/qbittorrent-mam/config:/config:rw
       - /volume1/SlowHDD/downloads/books:/downloads:rw
+    entrypoint: >
+        /bin/sh -c "
+        echo 'Waiting for NAS volumes...';
+        while [ ! -d /downloads/books ]; do
+          sleep 5;
+        done;
+        echo 'Volumes found! Starting qBittorrent...';
+        exec /init"      
     restart: on-failure:5
