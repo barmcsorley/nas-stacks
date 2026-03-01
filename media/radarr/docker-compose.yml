@@ -117,7 +117,7 @@ services:
     restart: unless-stopped
 
   lazylibrarian:
-    image: lscr.io/linuxserver/lazylibrarian:latest@sha256:0c9191435011a0971feab55c55d40635fe212029ab45314b816f339629eab197
+    image: lscr.io/linuxserver/lazylibrarian:latest@sha256:f345624abd8d235830daad8c524073ef51b580b0792cd8fc906da7e7b35e965b
     container_name: lazylibrarian
     environment:
       - PUID=1000
