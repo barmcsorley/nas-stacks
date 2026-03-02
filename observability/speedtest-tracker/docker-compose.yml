@@ -28,7 +28,7 @@ services:
 
   # NEW SERVICE 👇
   apprise:
-    image: caronc/apprise:latest@sha256:e0a2b6a4bfeac6ccc0a4bf33f0ffb1266aed97da665ceb42aacf75c2434e416d
+    image: caronc/apprise:latest@sha256:6a59bdd4ee8d5a71da2c50f9014befcebbb8acc48499c3d7910b46dec0d15abd
     container_name: apprise
     restart: unless-stopped
     ports:
